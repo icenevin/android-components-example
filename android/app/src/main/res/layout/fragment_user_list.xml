@@ -1,0 +1,151 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="viewModel"
+            type="com.example.components.architecture.nvice.ui.user.UserViewModel" />
+
+    </data>
+
+    <android.support.design.widget.CoordinatorLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/white_300"
+        tools:context="com.example.components.architecture.nvice.ui.user.UserFragment">
+
+        <android.support.design.widget.AppBarLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <include layout="@layout/toolbar_default" />
+
+            <android.support.constraint.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/white_100"
+                android:elevation="@dimen/dp_4"
+                android:padding="@dimen/dp_8"
+                app:layout_scrollFlags="enterAlways">
+
+                <android.support.v7.widget.AppCompatImageView
+                    android:id="@+id/btnFilter"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical|end"
+                    android:background="?selectableItemBackgroundBorderless"
+                    android:cropToPadding="false"
+                    android:src="@drawable/ic_filter_list_black_24dp"
+                    android:tint="@color/black_600"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <android.support.v7.widget.RecyclerView
+                    android:id="@+id/rvUserStatusFilters"
+                    android:layout_width="0dp"
+                    android:layout_height="@dimen/sp_36"
+                    android:layout_marginStart="8dp"
+                    android:layout_marginEnd="8dp"
+                    android:orientation="horizontal"
+                    app:layout_constraintEnd_toStartOf="@+id/btnFilter"
+                    app:layout_constraintStart_toStartOf="parent"/>
+
+                <android.support.design.chip.ChipGroup
+                    android:id="@+id/cgUserFilters"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toStartOf="@+id/btnFilter"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    android:visibility="gone">
+
+                    <android.support.design.chip.Chip
+                        android:id="@+id/cFilterPermanent"
+                        style="@style/Widget.MaterialComponents.Chip.Choice"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/chip_user_list_filter_permanent"
+                        android:textColor="@color/chip_user_filter_text_color"
+                        app:chipBackgroundColor="@color/chip_user_filter_background_color"
+                        app:rippleColor="@color/primary" />
+
+                    <android.support.design.chip.Chip
+                        android:id="@+id/cFilterTemporary"
+                        style="@style/Widget.MaterialComponents.Chip.Choice"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/chip_user_list_filter_temporary"
+                        android:textColor="@color/chip_user_filter_text_color"
+                        app:chipBackgroundColor="@color/chip_user_filter_background_color"
+                        app:rippleColor="@color/primary" />
+
+                    <android.support.design.chip.Chip
+                        android:id="@+id/cFilterUnknown"
+                        style="@style/Widget.MaterialComponents.Chip.Choice"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/chip_user_list_filter_unknown"
+                        android:textColor="@color/chip_user_filter_text_color"
+                        app:chipBackgroundColor="@color/chip_user_filter_background_color"
+                        app:rippleColor="@color/primary" />
+                </android.support.design.chip.ChipGroup>
+
+            </android.support.constraint.ConstraintLayout>
+        </android.support.design.widget.AppBarLayout>
+
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            app:layout_behavior="@string/appbar_scrolling_view_behavior">
+
+            <LinearLayout
+                android:id="@+id/vListStatus"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginBottom="@dimen/dp_32"
+                android:gravity="center"
+                android:orientation="vertical">
+
+                <android.support.v7.widget.AppCompatImageView
+                    android:id="@+id/ivListStatusIcon"
+                    android:layout_width="@dimen/dp_128"
+                    android:layout_height="@dimen/dp_128"
+                    android:src="@drawable/ic_person_black_24dp"
+                    android:tint="@color/white_400" />
+
+                <TextView
+                    android:id="@+id/tvListStatusText"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/txt_user_list_empty"
+                    android:textColor="@color/black_500" />
+            </LinearLayout>
+
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/rvUserList"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:clipToPadding="false"
+                android:paddingTop="@dimen/dp_4"
+                android:paddingBottom="@dimen/dp_48" />
+        </FrameLayout>
+
+        <android.support.design.widget.FloatingActionButton
+            android:id="@+id/btnAddUser"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="end|bottom"
+            android:layout_margin="@dimen/dp_16"
+            android:src="@drawable/ic_add_black_24dp"
+            android:tint="@color/white"
+            app:backgroundTint="@color/primary"
+            app:layout_anchor="@id/rvUserList"
+            app:layout_anchorGravity="bottom|right|end" />
+    </android.support.design.widget.CoordinatorLayout>
+</layout>

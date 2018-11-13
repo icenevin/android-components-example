@@ -1,0 +1,34 @@
+<resources>
+    <string name="app_name">AndroidArchitectureComponents</string>
+
+    <string name="preference_settings">preference_settings</string>
+    <string name="cache_app_settings">cache_app_settings</string>
+
+    <string name="ipsum">Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+        Mauris sed augue quis tellus eleifend condimentum non id augue.
+        Proin at feugiat magna, at dignissim purus.
+        Vestibulum finibus dolor et mauris fermentum, ut fringilla lorem commodo.
+        Sed augue dui, convallis at porta et, luctus vel tellus.
+        Phasellus fermentum eros quis ante pellentesque egestas.
+        Proin eleifend, leo eu euismod bibendum, felis arcu dictum elit, vitae pellentesque enim leo at velit.
+        Fusce bibendum posuere diam vestibulum viverra.
+        Praesent vitae eros viverra, consectetur nisi at, lacinia dolor.
+        Phasellus ac egestas urna. Duis vel massa nunc.
+        Nulla erat est, ultrices id dignissim non, suscipit ac lorem.
+        Aliquam nunc nisl, viverra ut egestas in, aliquam at lectus.
+        Phasellus faucibus vitae purus ac eleifend.
+        Praesent pretium sodales sem, vel condimentum neque posuere quis.
+        Aenean sagittis diam a tellus sollicitudin faucibus.
+        Duis aliquam, est eget aliquam suscipit, urna ligula ultrices metus, a consequat sapien est eget elit.
+        Aliquam ligula felis, bibendum eu tristique vitae, tempor ut sem. Phasellus et convallis sem, id ullamcorper libero.
+        Nulla consequat molestie massa, ac tincidunt arcu.
+        Curabitur sollicitudin urna turpis, eu molestie magna sollicitudin quis.</string>
+
+    <string name="item_user_id_text">ID: %1$s</string>
+
+    <string name="chip_user_list_filter_permanent">Permanent</string>
+    <string name="chip_user_list_filter_temporary">Temporary</string>
+    <string name="chip_user_list_filter_unknown">Unknown</string>
+    <string name="txt_user_list_empty">No user found</string>
+    <string name="txt_user_filters_header_title">Filters</string>
+</resources>
