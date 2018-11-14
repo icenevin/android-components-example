@@ -5,7 +5,6 @@ import com.example.components.architecture.nvice.R
 import com.example.components.architecture.nvice.model.AppSettings
 import com.google.gson.Gson
 
-
 class AppSettingsPreference(var context: Context?) {
 
     private var sharedPreferences = context?.getSharedPreferences(
@@ -13,27 +12,27 @@ class AppSettingsPreference(var context: Context?) {
 
     private var appSettings: AppSettings? = Gson().fromJson(sharedPreferences?.getString(context?.getString(R.string.cache_app_settings), null), AppSettings::class.java)
 
-    fun getSettings(): AppSettings? {
-        return appSettings?.let { it } ?: AppSettings()
+    fun get(): AppSettings? {
+        return appSettings?.copy()?.let { it } ?: AppSettings()
     }
 
-    fun setSettings(appSettings: AppSettings?) {
+    fun set(appSettings: AppSettings?) {
         this.appSettings = appSettings?.copy()
         with(sharedPreferences?.edit()) {
-            this!!.putString(context?.getString(R.string.cache_app_settings), Gson().toJson(appSettings))
-            apply()
+            this?.putString(context?.getString(R.string.cache_app_settings), Gson().toJson(appSettings))
+            this?.apply()
         }
     }
 
-    fun clearSettings() {
+    fun clear() {
         appSettings = null
         with(sharedPreferences?.edit()) {
-            this!!.putString(context?.getString(R.string.cache_app_settings), null)
-            apply()
+            this?.putString(context?.getString(R.string.cache_app_settings), null)
+            this?.apply()
         }
     }
 
-    fun hasSettings(): Boolean {
+    fun has(): Boolean {
         return appSettings != null
     }
 
