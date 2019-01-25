@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/white"
-    tools:context=".ui.user.filter.UserFiltersFragment">
+    tools:context=".ui.user.filters.UserFiltersFragment">
 
     <TextView
         android:id="@+id/tvUserFilterHeaderTitle"
@@ -21,6 +21,8 @@
     <android.support.v7.widget.RecyclerView
         android:id="@+id/tvUserFilterList"
         android:layout_width="match_parent"
+        android:overScrollMode="never"
+        android:requiresFadingEdge="horizontal"
         android:layout_height="0dp"
         android:layout_marginTop="@dimen/dp_8"
         android:nestedScrollingEnabled="false"

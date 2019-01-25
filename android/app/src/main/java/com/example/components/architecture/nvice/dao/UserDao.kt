@@ -33,6 +33,9 @@ interface UserDao {
     @Query("SELECT COUNT(*) FROM user")
     fun count(): Int
 
+    @Query("SELECT MAX(id) FROM user")
+    fun selectLatestId(): Int
+
     @Insert
     fun insertList(list: MutableList<User>)
 

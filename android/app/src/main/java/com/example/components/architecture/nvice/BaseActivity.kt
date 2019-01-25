@@ -2,6 +2,8 @@ package com.example.components.architecture.nvice
 
 import android.annotation.SuppressLint
 import android.content.Context
+import android.os.Bundle
+import android.os.PersistableBundle
 import android.support.v4.app.Fragment
 import dagger.android.AndroidInjector
 import dagger.android.DispatchingAndroidInjector
@@ -13,6 +15,10 @@ open class BaseActivity : DaggerAppCompatActivity() {
 
     @Inject
     lateinit var dispatchingFragmentInjector: DispatchingAndroidInjector<Fragment>
+
+    override fun onCreate(savedInstanceState: Bundle?, persistentState: PersistableBundle?) {
+        super.onCreate(savedInstanceState, persistentState)
+    }
 
     override fun supportFragmentInjector(): AndroidInjector<Fragment> {
         return dispatchingFragmentInjector

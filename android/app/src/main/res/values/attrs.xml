@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <declare-styleable name="UserDetailsInfoView">
+        <attr name="info_icon" format="reference" />
+        <attr name="info_iconTint" format="reference" />
+        <attr name="info_iconPadding" format="dimension" />
+        <attr name="info_iconHeight" format="dimension" />
+        <attr name="info_iconWidth" format="dimension" />
+        <attr name="info_label" format="string" />
+    </declare-styleable>
+
+    <declare-styleable name="UserCreateInputField">
+        <attr name="field_icon" format="reference" />
+        <attr name="field_iconTint" format="reference" />
+        <attr name="field_iconPadding" format="dimension" />
+        <attr name="field_iconHeight" format="dimension" />
+        <attr name="field_iconWidth" format="dimension" />
+        <attr name="field_showIcon" format="boolean" />
+        <attr name="field_hint" format="string" />
+        <attr name="field_text" format="string" />
+    </declare-styleable>
+
+    <declare-styleable name="UserCreateSpinner">
+        <attr name="spinner_icon" format="reference" />
+        <attr name="spinner_iconTint" format="reference" />
+        <attr name="spinner_iconPadding" format="dimension" />
+        <attr name="spinner_iconHeight" format="dimension" />
+        <attr name="spinner_iconWidth" format="dimension" />
+        <attr name="spinner_showIcon" format="boolean" />
+        <attr name="spinner_fullWidth" format="boolean" />
+    </declare-styleable>
+</resources>

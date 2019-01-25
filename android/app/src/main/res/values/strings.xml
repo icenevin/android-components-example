@@ -4,7 +4,7 @@
     <string name="preference_settings">preference_settings</string>
     <string name="cache_app_settings">cache_app_settings</string>
 
-    <string name="ipsum">Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+    <string name="ipsum">\tLorem ipsum dolor sit amet, consectetur adipiscing elit.
         Mauris sed augue quis tellus eleifend condimentum non id augue.
         Proin at feugiat magna, at dignissim purus.
         Vestibulum finibus dolor et mauris fermentum, ut fringilla lorem commodo.
@@ -31,4 +31,9 @@
     <string name="chip_user_list_filter_unknown">Unknown</string>
     <string name="txt_user_list_empty">No user found</string>
     <string name="txt_user_filters_header_title">Filters</string>
+
+    <string name="toolbar_search_user_hint">Search Staff</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>

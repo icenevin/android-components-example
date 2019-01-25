@@ -8,6 +8,8 @@ import com.example.components.architecture.nvice.data.datasource.DataSourceFacto
 import com.example.components.architecture.nvice.model.User
 import com.example.components.architecture.nvice.scheduler.DefaultScheduler
 import com.example.components.architecture.nvice.ui.user.UserDataSourceFactory
+import com.example.components.architecture.nvice.util.RegexUtil
+import java.util.*
 import javax.inject.Inject
 import javax.inject.Singleton
 
@@ -44,12 +46,19 @@ class UserRepository @Inject constructor(
         result.value?.dataSource?.invalidate()
     }
 
+    fun getLatestUserId() =  userDao.selectLatestId()
+
     fun addUser(user: User) = DefaultScheduler.AsyncScheduler.execute { userDao.insert(user) }
 
     fun deleteUser(user: User) = DefaultScheduler.AsyncScheduler.execute { userDao.delete(user) }
 
     fun toggleSort() {
         userDataSourceFactory.setDescendingOrder(userDataSourceFactory.queryOrderSortType == DataSourceFactory.SortType.ASC)
+        result.value?.dataSource?.invalidate()
+    }
+
+    fun searchUser(queue: String) {
+        userDataSourceFactory.searchByREGEX(queue)
         result.value?.dataSource?.invalidate()
     }
 }

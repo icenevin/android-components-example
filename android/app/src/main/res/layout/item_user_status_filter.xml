@@ -5,15 +5,19 @@
     <data>
 
         <variable
-            name="viewmodel"
-            type="com.example.components.architecture.nvice.ui.user.UserViewModel" />
+            name="userStatus"
+            type="com.example.components.architecture.nvice.model.UserStatus" />
     </data>
 
     <android.support.design.chip.Chip
+        android:id="@+id/cFilterTitle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@{viewmodel.title}"
+        android:layout_margin="@dimen/dp_2"
+        android:checkable="true"
+        android:text="@{userStatus.name}"
         android:textColor="@color/chip_user_filter_text_color"
+        app:checkedIconVisible="false"
         app:chipBackgroundColor="@color/chip_user_filter_background_color"
         app:rippleColor="@color/primary" />
 </layout>

@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:gravity="center"
+    android:orientation="horizontal"
+    android:padding="@dimen/dp_4">
+
+    <android.support.v7.widget.AppCompatImageView
+        android:id="@+id/ivIcon"
+        android:layout_width="@dimen/dp_24"
+        android:layout_height="@dimen/dp_24"
+        android:src="@drawable/ic_person_black_24dp"
+        android:tint="@color/black_600" />
+
+    <EditText
+        android:id="@+id/edtInputField"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:minHeight="@dimen/dp_56"
+        android:layout_marginStart="@dimen/dp_8"
+        android:hint="Type Something"
+        android:backgroundTint="@color/white_600"
+        android:textColorHint="@color/white_500"
+        android:textSize="@dimen/text_body2" />
+</LinearLayout>

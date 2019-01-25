@@ -5,6 +5,7 @@ import android.arch.persistence.db.SimpleSQLiteQuery
 import com.example.components.architecture.nvice.dao.UserDao
 import com.example.components.architecture.nvice.data.datasource.DataSourceFactory
 import com.example.components.architecture.nvice.model.User
+import com.example.components.architecture.nvice.util.RegexUtil
 import timber.log.Timber
 import javax.inject.Inject
 import kotlin.collections.HashMap
@@ -27,15 +28,26 @@ class UserDataSourceFactory @Inject constructor(private val dao: UserDao) : Data
         queryConditions.clear()
         if (!this.statusList.isEmpty()) {
             queryConditions[UserDataSourceRequest.SEARCH_BY_STATUS] = "user.status IN ${statusList.toString().replace("[", "(").replace("]", ")")}"
-            UserDataSourceRequest.SEARCH_BY_STATUS
         } else {
             queryConditions.remove(UserDataSourceRequest.SEARCH_BY_STATUS)
-            UserDataSourceRequest.DEFAULT
         }
     }
 
     fun orderBy(value: String) {
         queryOrderBy = value
+    }
+
+    fun orderBy(value: String, desc: Boolean) {
+        orderBy(value)
+        setDescendingOrder(desc)
+    }
+
+    fun searchByREGEX(regex: String){
+        if (regex.isNotEmpty()) {
+            queryConditions[UserDataSourceRequest.SEARCH_BY_REGEX] = "lower(user.first_name || ' ' || user.last_name || ' ' || user.id) REGEXP '${RegexUtil.generate(regex).toLowerCase()}'"
+        } else {
+            queryConditions.remove(UserDataSourceRequest.SEARCH_BY_REGEX)
+        }
     }
 
     fun setDescendingOrder(desc: Boolean) {
@@ -58,5 +70,6 @@ enum class UserDataSourceRequest {
     DEFAULT,
     SEARCH_BY_STATUS,
     SEARCH_BY_NAME,
-    SEARCH_BY_ID
+    SEARCH_BY_ID,
+    SEARCH_BY_REGEX
 }

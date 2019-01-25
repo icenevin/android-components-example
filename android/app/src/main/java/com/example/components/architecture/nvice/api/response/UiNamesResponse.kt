@@ -7,5 +7,8 @@ data class UiNamesResponse(
         val name: String,
 
         @SerializedName("surname")
-        val surname: String
+        val surname: String,
+
+        @SerializedName("photo")
+        val photo: String
 )

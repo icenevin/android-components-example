@@ -4,34 +4,38 @@ import android.arch.persistence.room.ColumnInfo
 import android.arch.persistence.room.Entity
 import android.arch.persistence.room.PrimaryKey
 import android.support.v7.util.DiffUtil
-import com.example.components.architecture.nvice.util.random
 import com.google.gson.annotations.SerializedName
-import org.threeten.bp.LocalDate
-import org.threeten.bp.format.DateTimeFormatter
+import org.parceler.Parcel
 
-
+@Parcel
 @Entity
 data class User(
         @field:SerializedName("uid")
-        @PrimaryKey var id: Int? = null,
+        @PrimaryKey public var id: Int? = null,
+
+        @field:SerializedName("staffId")
+        public var staffId: String? = "",
 
         @field:SerializedName("firstName")
         @ColumnInfo(name = "first_name")
-        var firstName: String? = "",
+        public var firstName: String? = "",
 
         @field:SerializedName("lastName")
         @ColumnInfo(name = "last_name")
-        var lastName: String? = "",
+        public var lastName: String? = "",
 
         @field:SerializedName("imageProfileUrl")
         @ColumnInfo(name = "avatar_url")
-        var avatar: String? = "",
+        public var avatar: String? = null,
 
         @field:SerializedName("status")
         @ColumnInfo(name = "status")
-        var status: UserStatus? = UserStatus.UNDEFINED
-) {
-    fun getWorkerID() = LocalDate.now().format(DateTimeFormatter.ofPattern("ddMMyyyy")) + (10000 + id!!)
+        public var status: UserStatus? = UserStatus.UNDEFINED,
+
+        @field:SerializedName("position")
+        @ColumnInfo(name= "position")
+        public var position: UserPosition? = UserPosition.UNDEFINED
+        ) {
 
     companion object {
         var DIFF_CALLBACK: DiffUtil.ItemCallback<User> = object : DiffUtil.ItemCallback<User>() {
@@ -43,23 +47,5 @@ data class User(
                 return oldItem == newItem
             }
         }
-    }
-}
-
-enum class UserStatus constructor(val id: Int?) {
-    @SerializedName("0")
-    PERMANENT(0),
-
-    @SerializedName("1")
-    TEMPORARY(1),
-
-    @SerializedName("2")
-    UNDEFINED(2);
-
-    fun getValue(): Int? = id
-
-    companion object {
-        fun from(id: Int?): UserStatus = requireNotNull(values().find { it.id == id })
-        fun random(): UserStatus = from((0..2).random())
     }
 }

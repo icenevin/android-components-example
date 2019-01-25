@@ -3,14 +3,6 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
 
-    <data>
-
-        <variable
-            name="viewModel"
-            type="com.example.components.architecture.nvice.ui.user.UserViewModel" />
-
-    </data>
-
     <android.support.design.widget.CoordinatorLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -21,7 +13,10 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
-            <include layout="@layout/toolbar_default" />
+            <android.support.v7.widget.Toolbar
+                android:id="@+id/toolbar"
+                style="@style/AppToolbar"
+                app:layout_scrollFlags="scroll|enterAlways" />
 
             <android.support.constraint.ConstraintLayout
                 android:layout_width="match_parent"
@@ -51,49 +46,10 @@
                     android:layout_marginStart="8dp"
                     android:layout_marginEnd="8dp"
                     android:orientation="horizontal"
+                    android:overScrollMode="never"
+                    android:requiresFadingEdge="horizontal"
                     app:layout_constraintEnd_toStartOf="@+id/btnFilter"
-                    app:layout_constraintStart_toStartOf="parent"/>
-
-                <android.support.design.chip.ChipGroup
-                    android:id="@+id/cgUserFilters"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toStartOf="@+id/btnFilter"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent"
-                    android:visibility="gone">
-
-                    <android.support.design.chip.Chip
-                        android:id="@+id/cFilterPermanent"
-                        style="@style/Widget.MaterialComponents.Chip.Choice"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="@string/chip_user_list_filter_permanent"
-                        android:textColor="@color/chip_user_filter_text_color"
-                        app:chipBackgroundColor="@color/chip_user_filter_background_color"
-                        app:rippleColor="@color/primary" />
-
-                    <android.support.design.chip.Chip
-                        android:id="@+id/cFilterTemporary"
-                        style="@style/Widget.MaterialComponents.Chip.Choice"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="@string/chip_user_list_filter_temporary"
-                        android:textColor="@color/chip_user_filter_text_color"
-                        app:chipBackgroundColor="@color/chip_user_filter_background_color"
-                        app:rippleColor="@color/primary" />
-
-                    <android.support.design.chip.Chip
-                        android:id="@+id/cFilterUnknown"
-                        style="@style/Widget.MaterialComponents.Chip.Choice"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="@string/chip_user_list_filter_unknown"
-                        android:textColor="@color/chip_user_filter_text_color"
-                        app:chipBackgroundColor="@color/chip_user_filter_background_color"
-                        app:rippleColor="@color/primary" />
-                </android.support.design.chip.ChipGroup>
+                    app:layout_constraintStart_toStartOf="parent" />
 
             </android.support.constraint.ConstraintLayout>
         </android.support.design.widget.AppBarLayout>

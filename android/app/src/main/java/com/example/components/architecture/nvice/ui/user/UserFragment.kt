@@ -1,6 +1,7 @@
 package com.example.components.architecture.nvice.ui.user
 
 
+import android.app.ActivityOptions
 import android.arch.lifecycle.*
 import android.os.Bundle
 
@@ -14,10 +15,18 @@ import dagger.android.support.DaggerFragment
 import kotlinx.android.synthetic.main.fragment_user_list.*
 import javax.inject.Inject
 import android.arch.paging.PagedList
-import android.support.design.widget.BottomSheetBehavior
-import android.support.v4.app.Fragment
+import android.content.Intent
+import android.support.v7.app.AppCompatActivity
+import android.support.v7.widget.Toolbar
 import android.support.v7.widget.helper.ItemTouchHelper
 import android.view.*
+import android.support.v7.widget.SearchView
+import android.view.ViewGroup
+import com.example.components.architecture.nvice.ui.user.create.UserCreateActivity
+import com.example.components.architecture.nvice.ui.user.details.UserDetailsActivity
+import kotlinx.android.synthetic.main.item_user.*
+import kotlinx.android.synthetic.main.item_user.view.*
+import org.parceler.Parcels
 
 
 class UserFragment : DaggerFragment() {
@@ -27,12 +36,7 @@ class UserFragment : DaggerFragment() {
 
     private lateinit var viewModel: UserViewModel
     private lateinit var userPagedListAdapter: UserPagedListAdapter
-
-
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
-                              savedInstanceState: Bundle?): View? {
-        return inflater.inflate(R.layout.fragment_user_list, container, false)
-    }
+    private lateinit var userStatusListAdapter: UserStatusListAdapter
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -40,18 +44,34 @@ class UserFragment : DaggerFragment() {
                 .get(UserViewModel::class.java)
 
         userPagedListAdapter = UserPagedListAdapter(context!!)
+        userStatusListAdapter = UserStatusListAdapter()
+    }
+
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
+                              savedInstanceState: Bundle?): View? {
+        setHasOptionsMenu(true)
+        return inflater.inflate(R.layout.fragment_user_list, container, false)
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
+        initToolbar()
         initView()
         initObserver()
         initEvent()
     }
 
+    private fun initToolbar() {
+        (activity as AppCompatActivity).setSupportActionBar(toolbar as Toolbar)
+        (activity as AppCompatActivity).supportActionBar?.setDisplayShowTitleEnabled(false)
+    }
+
     private fun initView() {
         rvUserList.layoutManager = LinearLayoutManager(context)
         rvUserList.adapter = userPagedListAdapter
+
+        rvUserStatusFilters.layoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
+        rvUserStatusFilters.adapter = userStatusListAdapter
     }
 
     private fun initObserver() {
@@ -63,16 +83,15 @@ class UserFragment : DaggerFragment() {
         })
 
         viewModel.getUserStatus().observe(this, Observer { statusList ->
-            statusList?.let{
-
+            statusList?.let {
+                userStatusListAdapter.submitList(it)
             }
         })
     }
 
     private fun initEvent() {
-        initAdapter()
-        initFilters()
-        initItemTouchHelper()
+        initUsersAdapterEvent()
+        initUserStatusFiltersAdapterEvent()
 
         rvUserList.addOnScrollListener(object : RecyclerView.OnScrollListener() {
             override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
@@ -96,13 +115,16 @@ class UserFragment : DaggerFragment() {
         }
 
         btnAddUser.setOnClickListener {
-            viewModel.addUserForTest()
+            startActivity(Intent(context, UserCreateActivity::class.java))
+//            viewModel.addUserForTest()
         }
     }
 
-    private fun initAdapter() {
-        userPagedListAdapter.setOnClickListener { user ->
-            navToUserDetails(user)
+    private fun initUsersAdapterEvent() {
+        initItemTouchHelper()
+
+        userPagedListAdapter.setOnClickListener { v, user ->
+            navToUserDetails(v.ivUserAvatar, user)
         }
 
         userPagedListAdapter.setOnDeleteUserListener { user ->
@@ -114,17 +136,11 @@ class UserFragment : DaggerFragment() {
         }
     }
 
-    private fun initFilters() {
-        cFilterPermanent.setOnCheckedChangeListener { _, isChecked ->
-            handleFilter(isChecked, UserStatus.PERMANENT)
-        }
-
-        cFilterTemporary.setOnCheckedChangeListener { _, isChecked ->
-            handleFilter(isChecked, UserStatus.TEMPORARY)
-        }
-
-        cFilterUnknown.setOnCheckedChangeListener { _, isChecked ->
-            handleFilter(isChecked, UserStatus.UNDEFINED)
+    private fun initUserStatusFiltersAdapterEvent() {
+        userStatusListAdapter.onCheckedChangeListener = object : UserStatusListAdapter.OnCheckedChangeListener {
+            override fun onCheckedChangeListener(isChecked: Boolean, userStatus: UserStatus) {
+                handleFilter(isChecked, userStatus)
+            }
         }
     }
 
@@ -132,8 +148,8 @@ class UserFragment : DaggerFragment() {
         ItemTouchHelper(UserItemTouchHelperCallback(userPagedListAdapter)).attachToRecyclerView(rvUserList)
     }
 
-    private fun handleFilter(condition: Boolean, status: UserStatus) {
-        if (condition)
+    private fun handleFilter(isChecked: Boolean, status: UserStatus) {
+        if (isChecked)
             viewModel.addStatusFilter(status)
         else
             viewModel.removeStatusFilter(status)
@@ -143,7 +159,34 @@ class UserFragment : DaggerFragment() {
         vListStatus.visibility = if (list.size == 0) View.VISIBLE else View.GONE
     }
 
-    private fun navToUserDetails(user: User) {
-        // navigate to UserDetails Fragment
+    private fun navToUserDetails(view: View, user: User) {
+        val intent = Intent(context, UserDetailsActivity::class.java)
+        intent.putExtra("user", Parcels.wrap(user))
+        val options = ActivityOptions
+                .makeSceneTransitionAnimation(activity, view, "transitionUserAvatar")
+        activity?.startActivity(intent, options.toBundle())
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu?, inflater: MenuInflater?) {
+        super.onCreateOptionsMenu(menu, inflater)
+        inflater?.inflate(R.menu.menu_user_list, menu)
+    }
+
+    override fun onPrepareOptionsMenu(menu: Menu?) {
+        super.onPrepareOptionsMenu(menu)
+        val mSearchMenuItem = menu?.findItem(R.id.action_search)
+        val searchView = mSearchMenuItem?.actionView as SearchView
+        searchView.queryHint = resources.getString(R.string.toolbar_search_user_hint)
+        searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
+
+            override fun onQueryTextChange(query: String?): Boolean {
+                viewModel.searchUser(query?.let { it } ?: "")
+                return false
+            }
+
+            override fun onQueryTextSubmit(query: String?): Boolean {
+                return false
+            }
+        })
     }
 }

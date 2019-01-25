@@ -2,7 +2,10 @@
 <resources>
 
     <!--default spacing-->
+    <dimen name="dp_1">1dp</dimen>
+    <dimen name="dp_2">2dp</dimen>
     <dimen name="dp_4">4dp</dimen>
+    <dimen name="dp_6">6dp</dimen>
     <dimen name="dp_8">8dp</dimen>
     <dimen name="dp_12">12dp</dimen>
     <dimen name="dp_16">16dp</dimen>
@@ -27,6 +30,7 @@
     <dimen name="dp_92">92dp</dimen>
     <dimen name="dp_96">96dp</dimen>
     <dimen name="dp_128">128dp</dimen>
+    <dimen name="dp_192">192dp</dimen>
     <dimen name="dp_256">256dp</dimen>
     <dimen name="dp_512">512dp</dimen>
     <dimen name="dp_1024">1024dp</dimen>

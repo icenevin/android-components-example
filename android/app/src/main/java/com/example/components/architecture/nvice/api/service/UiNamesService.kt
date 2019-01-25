@@ -12,6 +12,7 @@ interface UiNamesService {
 
     @GET("api/")
     fun getUserInCountry(
+            @Query("ext") extended: String,
             @Query("region") country: String
     ) : Call<UiNamesResponse>
 }

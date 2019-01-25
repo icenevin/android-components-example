@@ -4,8 +4,8 @@ package com.example.components.architecture.nvice.ui.user
 import android.arch.lifecycle.ViewModel
 import com.example.components.architecture.nvice.di.ViewModelKey
 import com.example.components.architecture.nvice.di.scope.java.FragmentScope
-import com.example.components.architecture.nvice.ui.user.filter.UserFiltersFragment
-import com.example.components.architecture.nvice.ui.user.filter.UserFiltersViewModel
+import com.example.components.architecture.nvice.ui.user.filters.UserFiltersFragment
+import com.example.components.architecture.nvice.ui.user.filters.UserFiltersViewModel
 import dagger.Binds
 import dagger.Module
 import dagger.android.ContributesAndroidInjector

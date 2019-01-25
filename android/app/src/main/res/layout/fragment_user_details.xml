@@ -1,0 +1,194 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:bind="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="viewModel"
+            type="com.example.components.architecture.nvice.ui.user.details.UserDetailsViewModel" />
+    </data>
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@android:color/transparent"
+        android:transitionGroup="false"
+        tools:context=".ui.user.details.UserDetailsFragment">
+
+        <View
+            android:id="@+id/vBackground"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+
+        <android.support.constraint.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <android.support.v7.widget.AppCompatImageView
+                android:id="@+id/ivUserCover"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                app:layout_constraintDimensionRatio="16:9"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+        </android.support.constraint.ConstraintLayout>
+
+        <android.support.v4.widget.NestedScrollView
+            android:id="@+id/svContent"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:fillViewport="true"
+            android:overScrollMode="never">
+
+            <android.support.constraint.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:transitionGroup="false">
+
+                <ImageView
+                    android:id="@+id/ivAvatar"
+                    android:layout_width="@dimen/dp_128"
+                    android:layout_height="@dimen/dp_128"
+                    android:layout_marginTop="@dimen/dp_128"
+                    android:background="@drawable/bg_user_avatar"
+                    android:elevation="@dimen/dp_4"
+                    android:transitionName="transitionUserAvatar"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    bind:userAvatar="@{viewModel.user}" />
+
+                <LinearLayout
+                    android:id="@+id/vContents"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginTop="@dimen/dp_192"
+                    android:background="@drawable/bg_corner_rd_16_top_only"
+                    android:gravity="center_horizontal"
+                    android:orientation="vertical"
+                    android:padding="@dimen/dp_16"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent">
+
+                    <LinearLayout
+                        android:id="@+id/vHeaderInfo"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/dp_64"
+                        android:gravity="center_horizontal"
+                        android:orientation="vertical"
+                        android:paddingBottom="@dimen/dp_16">
+
+                        <TextView
+                            android:id="@+id/tvName"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@{viewModel.getFullName()}"
+                            android:textColor="@color/black_700"
+                            android:textSize="@dimen/text_header6" />
+
+                        <TextView
+                            android:id="@+id/tvPosition"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@{viewModel.getPosition()}"
+                            android:textSize="@dimen/text_body1" />
+                    </LinearLayout>
+
+                    <include layout="@layout/view_separator_default" />
+
+                    <LinearLayout
+                        android:id="@+id/vInfo"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:minHeight="@dimen/dp_128"
+                        android:orientation="vertical">
+
+                        <com.example.components.architecture.nvice.ui.user.details.UserDetailsInfoView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            app:info_icon="@drawable/ic_person_black_24dp"
+                            app:info_label="@{@string/item_user_id_text(viewModel.user.staffId)}" />
+
+                        <com.example.components.architecture.nvice.ui.user.details.UserDetailsInfoView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            app:info_icon="@drawable/ic_work_black_24dp"
+                            app:info_label="@{viewModel.user.position.positionName}" />
+
+                        <com.example.components.architecture.nvice.ui.user.details.UserDetailsInfoView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            app:info_icon="@drawable/ic_date_range_black_24dp"
+                            app:info_label="dd MMM YYYY" />
+
+                        <com.example.components.architecture.nvice.ui.user.details.UserDetailsInfoView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            app:info_icon="@drawable/ic_circle_black"
+                            app:info_iconPadding="@dimen/dp_6"
+                            app:info_iconTint="@{viewModel.user.status.colorResource}"
+                            app:info_label="@{viewModel.user.status.capitalizedName}" />
+                    </LinearLayout>
+
+                    <include layout="@layout/view_separator_default" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/dp_8"
+                        android:layout_marginBottom="@dimen/dp_8"
+                        android:text="@string/ipsum" />
+
+                    <include layout="@layout/view_separator_default" />
+
+                    <LinearLayout
+                        android:id="@+id/vTeamMember"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/dp_8"
+                        android:minHeight="@dimen/dp_96"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Team Members"
+                            android:textSize="@dimen/text_body2"
+                            android:textStyle="bold" />
+
+                        <android.support.v7.widget.RecyclerView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content" />
+                    </LinearLayout>
+                </LinearLayout>
+            </android.support.constraint.ConstraintLayout>
+        </android.support.v4.widget.NestedScrollView>
+
+        <android.support.design.widget.CoordinatorLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:fitsSystemWindows="true"
+            >
+
+            <android.support.design.widget.AppBarLayout
+                android:id="@+id/appBar"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:fitsSystemWindows="false"
+                android:background="@android:color/transparent"
+                app:elevation="0dp">
+
+                <android.support.v7.widget.Toolbar
+                    android:id="@+id/toolbar"
+                    style="@style/AppToolbar.Transparent" />
+            </android.support.design.widget.AppBarLayout>
+        </android.support.design.widget.CoordinatorLayout>
+    </FrameLayout>
+</layout>

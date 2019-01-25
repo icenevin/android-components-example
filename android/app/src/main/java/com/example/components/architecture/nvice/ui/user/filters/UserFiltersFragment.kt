@@ -1,4 +1,4 @@
-package com.example.components.architecture.nvice.ui.user.filter
+package com.example.components.architecture.nvice.ui.user.filters
 
 import android.arch.lifecycle.ViewModelProvider
 import android.arch.lifecycle.ViewModelProviders
