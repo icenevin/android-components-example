@@ -115,8 +115,8 @@ class UserFragment : DaggerFragment() {
         }
 
         btnAddUser.setOnClickListener {
-            startActivity(Intent(context, UserCreateActivity::class.java))
-//            viewModel.addUserForTest()
+//            startActivity(Intent(context, UserCreateActivity::class.java))
+            viewModel.addUserForTest()
         }
     }
 
