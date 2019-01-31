@@ -32,6 +32,11 @@ enum class UserPosition constructor(val id: Int?, val positionName: String, val 
 
     fun getCapitalizedName(): String = StringUtils.capitalize(this.positionGroup)
 
+    // for spinners
+    override fun toString(): String {
+        return this.positionName
+    }
+
     companion object {
         fun from(id: Int?): UserPosition = requireNotNull(values().find { it.id == id })
         fun random(): UserPosition = values()[(0 until UserPosition.values().size).random()]

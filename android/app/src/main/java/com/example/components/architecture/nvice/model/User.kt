@@ -24,9 +24,13 @@ data class User(
         @ColumnInfo(name = "last_name")
         public var lastName: String? = "",
 
-        @field:SerializedName("imageProfileUrl")
+        @field:SerializedName("avatarProfileUrl")
         @ColumnInfo(name = "avatar_url")
         public var avatar: String? = null,
+
+        @field:SerializedName("coverProfileUrl")
+        @ColumnInfo(name = "cover_url")
+        public var cover: String? = null,
 
         @field:SerializedName("status")
         @ColumnInfo(name = "status")

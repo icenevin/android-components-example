@@ -6,6 +6,8 @@
 
     <data>
 
+        <import type="android.support.v4.graphics.ColorUtils" />
+
         <variable
             name="viewModel"
             type="com.example.components.architecture.nvice.ui.user.details.UserDetailsViewModel" />
@@ -21,7 +23,9 @@
         <View
             android:id="@+id/vBackground"
             android:layout_width="match_parent"
-            android:layout_height="match_parent" />
+            android:layout_height="match_parent"
+            bind:info_backgroundColor="@{viewModel.user.status.colorResource}"
+            bind:info_backgroundColorAlpha="@{100}" />
 
         <android.support.constraint.ConstraintLayout
             android:layout_width="match_parent"
@@ -34,7 +38,8 @@
                 app:layout_constraintDimensionRatio="16:9"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+                app:layout_constraintTop_toTopOf="parent"
+                bind:info_cover="@{viewModel.user.cover}" />
 
         </android.support.constraint.ConstraintLayout>
 
@@ -61,7 +66,8 @@
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
-                    bind:userAvatar="@{viewModel.user}" />
+                    bind:info_avatar="@{viewModel.user.avatar}"
+                    bind:info_avatarErrorColor="@{viewModel.user.status.colorResource}" />
 
                 <LinearLayout
                     android:id="@+id/vContents"
@@ -174,15 +180,14 @@
         <android.support.design.widget.CoordinatorLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:fitsSystemWindows="true"
-            >
+            android:fitsSystemWindows="true">
 
             <android.support.design.widget.AppBarLayout
                 android:id="@+id/appBar"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:fitsSystemWindows="false"
                 android:background="@android:color/transparent"
+                android:fitsSystemWindows="false"
                 app:elevation="0dp">
 
                 <android.support.v7.widget.Toolbar

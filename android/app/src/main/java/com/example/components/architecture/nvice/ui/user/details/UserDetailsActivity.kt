@@ -29,29 +29,47 @@ class UserDetailsActivity : BaseActivity() {
 
     private fun iniTransition() {
         val enterTransitionSet = TransitionSet()
+        val returnTransitionSet = TransitionSet()
 
-        val fade = Fade()
-        fade.excludeTarget(android.R.id.navigationBarBackground, true)
-        fade.addTarget(android.R.id.statusBarBackground)
-        fade.addTarget(R.id.ivUserCover)
-        fade.addTarget(R.id.vBackground)
+        val fadeIn = Fade()
+                .excludeTarget(android.R.id.navigationBarBackground, true)
+                .addTarget(android.R.id.statusBarBackground)
+                .addTarget(R.id.vBackground)
+
+        val fadeCoverIn = Fade()
+                .excludeTarget(android.R.id.navigationBarBackground, true)
+                .addTarget(android.R.id.statusBarBackground)
+                .addTarget(R.id.ivUserCover)
+                .setStartDelay(250)
+
+        val fadeOut = Fade(Fade.MODE_OUT)
+                .excludeTarget(android.R.id.navigationBarBackground, true)
+                .addTarget(android.R.id.statusBarBackground)
+                .addTarget(R.id.vBackground)
+                .addTarget(R.id.ivUserCover)
 
         val slide = Slide(Gravity.TOP)
-        slide.excludeTarget(android.R.id.statusBarBackground, true)
-        slide.excludeTarget(android.R.id.navigationBarBackground, true)
-        slide.addTarget(R.id.appBar)
+                .excludeTarget(android.R.id.statusBarBackground, true)
+                .excludeTarget(android.R.id.navigationBarBackground, true)
+                .addTarget(R.id.appBar)
 
         val explode = Explode()
-        explode.excludeTarget(android.R.id.statusBarBackground, true)
-        explode.excludeTarget(android.R.id.navigationBarBackground, true)
-        explode.excludeTarget(R.id.ivUserCover, true)
-        explode.excludeTarget(R.id.vBackground, true)
-        explode.excludeTarget(R.id.appBar, true)
+                .excludeTarget(android.R.id.statusBarBackground, true)
+                .excludeTarget(android.R.id.navigationBarBackground, true)
+                .excludeTarget(R.id.ivUserCover, true)
+                .excludeTarget(R.id.vBackground, true)
+                .excludeTarget(R.id.appBar, true)
 
-        enterTransitionSet.addTransition(fade)
+        enterTransitionSet.addTransition(fadeIn)
+        enterTransitionSet.addTransition(fadeCoverIn)
         enterTransitionSet.addTransition(slide)
         enterTransitionSet.addTransition(explode)
 
+        returnTransitionSet.addTransition(fadeOut)
+        returnTransitionSet.addTransition(slide)
+        returnTransitionSet.addTransition(explode)
+
         window.enterTransition = enterTransitionSet
+        window.returnTransition = returnTransitionSet
     }
 }

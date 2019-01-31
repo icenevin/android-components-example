@@ -38,7 +38,8 @@
                 app:layout_constraintDimensionRatio="H,1:1"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                bind:item_userAvatar="@{user}" />
+                bind:item_avatarErrorColor="@{user.status.colorResource}"
+                bind:item_avatar="@{user.avatar}" />
 
             <LinearLayout
                 android:layout_width="0dp"

@@ -102,7 +102,7 @@ class UserFragment : DaggerFragment() {
 
             override fun onScrollStateChanged(recyclerView: RecyclerView, newState: Int) {
                 if (newState == RecyclerView.SCROLL_STATE_IDLE) {
-                    DefaultScheduler.postDelayedToMainThread(500) {
+                    DefaultScheduler.postDelayedToMainThread(300) {
                         btnAddUser.show()
                     }
                 }
@@ -115,8 +115,8 @@ class UserFragment : DaggerFragment() {
         }
 
         btnAddUser.setOnClickListener {
-//            startActivity(Intent(context, UserCreateActivity::class.java))
-            viewModel.addUserForTest()
+            startActivity(Intent(context, UserCreateActivity::class.java))
+//            viewModel.addUserForTest()
         }
     }
 

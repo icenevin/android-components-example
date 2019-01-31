@@ -1,6 +1,7 @@
 package com.example.components.architecture.nvice.ui.user.details
 
 import android.content.Context
+import android.content.res.Resources
 import android.databinding.BindingAdapter
 import android.support.annotation.ColorRes
 import android.support.v4.content.ContextCompat
@@ -41,6 +42,10 @@ class UserDetailsInfoView @JvmOverloads constructor(
     }
 
     fun setIconTint(@ColorRes color: Int) {
-        DrawableCompat.setTint(DrawableCompat.wrap(ivIcon.drawable).mutate(), ContextCompat.getColor(context, color))
+        try {
+            DrawableCompat.setTint(DrawableCompat.wrap(ivIcon.drawable).mutate(), ContextCompat.getColor(context, color))
+        } catch (e: Resources.NotFoundException) {
+
+        }
     }
 }

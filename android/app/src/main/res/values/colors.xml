@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="primary">#3F51B5</color>
-    <color name="primary_dark">#303F9F</color>
+    <color name="primary">#555555</color>
+    <color name="primary_dark">#434343</color>
     <color name="primary_transparent">#1e3f51b5</color>
-    <color name="accent">#FF4081</color>
+    <color name="accent">#E53935</color>
 
     <color name="black">#000000</color>
     <color name="black_800">#262626</color>
@@ -19,13 +19,30 @@
     <color name="white_100">#fafafa</color>
     <color name="white">#ffffff</color>
 
-    <color name="blue_light">#BBDEFB</color>
-    <color name="blue">#1E88E5</color>
+    <color name="navy">#3F51B5</color>
+    <color name="navy_dark">#283593</color>
+    <color name="navy_light">#9FA8DA</color>
+
+    <color name="blue">#1976D2</color>
+    <color name="blue_dark">#1565C0</color>
+    <color name="blue_light">#90CAF9</color>
+
+    <color name="red">#D32F2F</color>
+    <color name="red_dark">#B71C1C</color>
+    <color name="red_light">#EF9A9A</color>
+
+    <color name="green">#388E3C</color>
+    <color name="green_dark">#1B5E20</color>
+    <color name="green_light">#81C784</color>
+
+    <color name="user_status_permanent">@color/navy</color>
+    <color name="user_status_temporary">@color/blue</color>
+    <color name="user_status_undefined">@color/black_500</color>
 
     <color name="item_user_name_color">@color/black_800</color>
     <color name="item_user_status_color">@color/black_500</color>
     <color name="item_user_id_color">@color/black_600</color>
     <color name="item_user_delete_color">@color/white_400</color>
     <color name="item_user_background_color">@color/white_100</color>
-    <color name="item_user_avatar_color">@color/white_400</color>
+    <color name="item_user_avatar_color">@color/white_200</color>
 </resources>

@@ -1,7 +1,21 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:bind="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <import type="com.example.components.architecture.nvice.model.UserStatus" />
+
+        <import type="android.view.View" />
+
+        <import type="com.example.components.architecture.nvice.model.UserPosition" />
+
+        <variable
+            name="viewModel"
+            type="com.example.components.architecture.nvice.ui.user.create.UserCreateViewModel" />
+    </data>
 
     <android.support.design.widget.CoordinatorLayout
         android:layout_width="match_parent"
@@ -22,120 +36,145 @@
             android:layout_height="match_parent"
             app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
-            <android.support.v4.widget.NestedScrollView
+            <android.support.v4.widget.SwipeRefreshLayout
                 android:layout_width="match_parent"
-                android:layout_height="match_parent">
+                android:layout_height="wrap_content"
+                android:enable="@{false}"
+                bind:loading="@{viewModel.userDataLoadingStatus}">
 
-                <android.support.constraint.ConstraintLayout
+                <android.support.v4.widget.NestedScrollView
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:background="@color/white">
+                    android:layout_height="match_parent">
 
-                    <ImageView
-                        android:id="@+id/ivAvatar"
-                        android:layout_width="@dimen/dp_92"
-                        android:layout_height="@dimen/dp_92"
-                        android:layout_marginTop="@dimen/dp_48"
-                        android:background="@drawable/bg_user_avatar"
-                        android:backgroundTint="@color/black_600"
-                        android:padding="@dimen/dp_24"
-                        android:src="@drawable/ic_add_a_photo_black_24dp"
-                        android:tint="@color/white"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="parent" />
-
-                    <LinearLayout
+                    <android.support.constraint.ConstraintLayout
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:orientation="vertical"
-                        android:padding="@dimen/dp_16"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@+id/ivAvatar">
+                        android:layout_height="match_parent"
+                        android:background="@color/white">
 
-                        <com.example.components.architecture.nvice.ui.user.create.UserCreateInputField
+                        <ImageView
+                            android:id="@+id/ivAvatar"
+                            android:layout_width="@dimen/dp_92"
+                            android:layout_height="@dimen/dp_92"
+                            android:layout_marginTop="@dimen/dp_48"
+                            android:background="@drawable/ic_user_avatar_add"
+                            android:onClick="@{()-> viewModel.randomAvatar()}"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toTopOf="parent"
+                            bind:field_avatar="@{viewModel.avatar}" />
+
+                        <ImageView
+                            android:layout_width="@dimen/dp_24"
+                            android:layout_height="@dimen/dp_24"
+                            android:elevation="@dimen/dp_2"
+                            android:onClick="@{()-> viewModel.clearAvatar()}"
+                            android:src="@drawable/ic_user_avatar_clear"
+                            android:visibility="@{viewModel.avatar == null || viewModel.avatar.isEmpty ? View.GONE : View.VISIBLE}"
+                            app:layout_constraintBottom_toTopOf="@+id/linearLayout"
+                            app:layout_constraintEnd_toEndOf="@+id/ivAvatar" />
+
+                        <LinearLayout
+                            android:id="@+id/linearLayout"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            app:field_hint="First Name"
-                            app:field_icon="@drawable/ic_person_black_24dp" />
+                            android:orientation="vertical"
+                            android:padding="@dimen/dp_16"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toBottomOf="@+id/ivAvatar">
 
-                        <com.example.components.architecture.nvice.ui.user.create.UserCreateInputField
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            app:field_hint="Last Name" />
+                            <com.example.components.architecture.nvice.widget.fields.CustomFieldEditText
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                app:field_hint="First Name"
+                                app:field_icon="@drawable/ic_person_black_24dp"
+                                app:field_maxLines="1"
+                                app:field_singleLines="true"
+                                app:field_text="@={viewModel.firstName}" />
 
-                        <com.example.components.architecture.nvice.ui.user.create.UserCreateInputSpinner
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            app:spinner_fullWidth="true"
-                            app:spinner_icon="@drawable/ic_work_black_24dp" />
+                            <com.example.components.architecture.nvice.widget.fields.CustomFieldEditText
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                app:field_hint="Last Name"
+                                app:field_maxLines="1"
+                                app:field_singleLines="true"
+                                app:field_text="@={viewModel.lastName}" />
 
-                        <com.example.components.architecture.nvice.ui.user.create.UserCreateInputSpinner
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            app:spinner_icon="@drawable/ic_circle_black"
-                            app:spinner_iconPadding="@dimen/dp_6" />
+                            <com.example.components.architecture.nvice.widget.fields.CustomFieldSpinner
+                                android:id="@+id/spPosition"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                app:field_fullWidth="true"
+                                app:field_icon="@drawable/ic_work_black_24dp"
+                                bind:selectedUserPosition="@={viewModel.position}" />
 
-                        <com.example.components.architecture.nvice.ui.user.create.UserCreateInputSpinner
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            app:spinner_fullWidth="true"
-                            app:spinner_icon="@drawable/ic_date_range_black_24dp" />
+                            <com.example.components.architecture.nvice.widget.fields.CustomFieldSpinner
+                                android:id="@+id/spStatus"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                app:field_icon="@drawable/ic_circle_black"
+                                app:field_iconPadding="@dimen/dp_6"
+                                app:field_iconTint="@{viewModel.status.colorResource}"
+                                bind:selectedUserStatus="@={viewModel.status}" />
 
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginTop="@dimen/dp_12"
-                            android:text="Profile Cover"
-                            android:textSize="@dimen/text_body2" />
+                            <com.example.components.architecture.nvice.widget.fields.CustomFieldSpinner
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                app:field_fullWidth="true"
+                                app:field_icon="@drawable/ic_date_range_black_24dp" />
 
-                        <android.support.constraint.ConstraintLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:paddingBottom="@dimen/dp_72">
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="@dimen/dp_12"
+                                android:text="Profile Cover"
+                                android:textSize="@dimen/text_body2" />
 
-                            <ImageView
-                                android:layout_width="0dp"
-                                android:layout_height="0dp"
-                                android:layout_margin="@dimen/dp_16"
-                                android:layout_marginTop="@dimen/dp_16"
-                                android:background="@drawable/bg_corner_rd_16"
-                                android:backgroundTint="@color/primary_transparent"
-                                android:padding="@dimen/dp_76"
-                                android:src="@drawable/ic_photo_black_24dp"
-                                android:tint="@color/white"
-                                app:layout_constraintDimensionRatio="16:9"
-                                app:layout_constraintEnd_toEndOf="parent"
-                                app:layout_constraintStart_toStartOf="parent"
-                                app:layout_constraintTop_toTopOf="parent" />
-                        </android.support.constraint.ConstraintLayout>
+                            <android.support.constraint.ConstraintLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:paddingBottom="@dimen/dp_72">
 
-                    </LinearLayout>
-                </android.support.constraint.ConstraintLayout>
-            </android.support.v4.widget.NestedScrollView>
+                                <ImageView
+                                    android:layout_width="0dp"
+                                    android:layout_height="0dp"
+                                    android:layout_margin="@dimen/dp_16"
+                                    android:layout_marginTop="@dimen/dp_16"
+                                    android:background="@drawable/bg_corner_rd_16"
+                                    android:backgroundTint="@color/primary_transparent"
+                                    android:onClick="@{()-> viewModel.randomCover()}"
+                                    app:layout_constraintDimensionRatio="16:9"
+                                    app:layout_constraintEnd_toEndOf="parent"
+                                    app:layout_constraintStart_toStartOf="parent"
+                                    app:layout_constraintTop_toTopOf="parent"
+                                    bind:field_cover="@{viewModel.cover}" />
+                            </android.support.constraint.ConstraintLayout>
+
+                        </LinearLayout>
+                    </android.support.constraint.ConstraintLayout>
+                </android.support.v4.widget.NestedScrollView>
+            </android.support.v4.widget.SwipeRefreshLayout>
 
             <FrameLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_alignParentBottom="true"
                 android:background="@color/white"
-                android:elevation="@dimen/dp_8"
                 android:clipToPadding="false"
-                >
+                android:elevation="@dimen/dp_8">
 
                 <TextView
-                    android:clickable="true"
-                    android:focusable="true"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:textAllCaps="true"
-                    android:padding="@dimen/dp_20"
-                    android:background="?selectableItemBackgroundBorderless"
                     android:layout_gravity="end"
-                    android:textColor="@color/blue"
-                    android:text="add staff"
-                    />
+                    android:background="?selectableItemBackgroundBorderless"
+                    android:clickable="true"
+                    android:focusable="true"
+                    android:onClick="@{()-> viewModel.addUser()}"
+                    android:padding="@dimen/dp_20"
+                    android:text="add"
+                    android:textAllCaps="true"
+                    android:textColor="@color/blue" />
 
             </FrameLayout>
         </RelativeLayout>

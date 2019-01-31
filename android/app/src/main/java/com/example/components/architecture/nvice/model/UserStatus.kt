@@ -21,9 +21,14 @@ enum class UserStatus constructor(val id: Int?) {
     fun getCapitalizedName(): String = StringUtils.capitalize(this.name.toLowerCase())
 
     fun getColorResource(): Int = when (this) {
-        PERMANENT -> R.color.primary
-        TEMPORARY -> R.color.primary_dark
-        UNDEFINED -> R.color.black_500
+        PERMANENT -> R.color.user_status_permanent
+        TEMPORARY -> R.color.user_status_temporary
+        UNDEFINED -> R.color.user_status_undefined
+    }
+
+    // for spinners
+    override fun toString(): String {
+        return this.getCapitalizedName()
     }
 
     companion object {
