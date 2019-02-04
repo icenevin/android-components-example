@@ -4,13 +4,19 @@ import android.arch.lifecycle.LiveData
 import android.arch.lifecycle.MutableLiveData
 import com.example.components.architecture.nvice.api.response.UiFacesResponse
 import com.example.components.architecture.nvice.api.response.UiNamesResponse
+import com.example.components.architecture.nvice.api.response.UnsplashPhotosResponse
 import com.example.components.architecture.nvice.api.service.UiFacesService
 import com.example.components.architecture.nvice.api.service.UiNamesService
+import com.example.components.architecture.nvice.api.service.UnsplashService
 import com.example.components.architecture.nvice.dao.UserDao
 import com.example.components.architecture.nvice.data.repository.UserRepository
 import com.example.components.architecture.nvice.model.User
 import com.example.components.architecture.nvice.model.UserPosition
 import com.example.components.architecture.nvice.model.UserStatus
+import io.reactivex.Flowable
+import io.reactivex.Scheduler
+import io.reactivex.android.schedulers.AndroidSchedulers
+import io.reactivex.schedulers.Schedulers
 import org.threeten.bp.LocalDate
 import org.threeten.bp.format.DateTimeFormatter
 import retrofit2.Call
@@ -19,7 +25,11 @@ import retrofit2.Response
 import timber.log.Timber
 import javax.inject.Inject
 
-class UserGenerator @Inject constructor(private val uiNamesService: UiNamesService, private val uiFacesService: UiFacesService) {
+class UserGenerator @Inject constructor(
+        private val uiNamesService: UiNamesService,
+        private val uiFacesService: UiFacesService,
+        private val unsplashService: UnsplashService
+) {
 
     fun generateUser(callback: GenerateUserCallback) {
         uiNamesService.getUserInCountry("", "england").enqueue(object : Callback<UiNamesResponse> {
@@ -52,6 +62,10 @@ class UserGenerator @Inject constructor(private val uiNamesService: UiNamesServi
         })
     }
 
+    fun generateUserCover(): Flowable<List<UnsplashPhotosResponse>> = unsplashService.getPhotosRandom(
+            "f06db831e385882fcb08879965e768be1451e1f6e05da3bd4f074c8afa023e75",
+            "1"
+    )
 }
 
 interface GenerateUserCallback {

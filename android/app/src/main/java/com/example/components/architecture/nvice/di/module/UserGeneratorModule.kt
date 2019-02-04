@@ -2,6 +2,7 @@ package com.example.components.architecture.nvice.di.module
 
 import com.example.components.architecture.nvice.api.service.UiFacesService
 import com.example.components.architecture.nvice.api.service.UiNamesService
+import com.example.components.architecture.nvice.api.service.UnsplashService
 import com.example.components.architecture.nvice.util.UserGenerator
 import dagger.Module
 import dagger.Provides
@@ -11,23 +12,17 @@ import retrofit2.Retrofit
 import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory
 import retrofit2.converter.gson.GsonConverterFactory
 import java.util.concurrent.TimeUnit
+import javax.inject.Inject
 import javax.inject.Singleton
 
 @Module
 class UserGeneratorModule {
 
-    var httpLoggingInterceptor: HttpLoggingInterceptor = HttpLoggingInterceptor()
-
-    init {
-        httpLoggingInterceptor.level = HttpLoggingInterceptor.Level.BODY
-    }
-
     @Singleton
     @Provides
-    fun provideUiNamesService(): UiNamesService {
+    fun provideUiNamesService(okHttpClientBuilder: OkHttpClient.Builder): UiNamesService {
 
-        val okHttpClient = OkHttpClient.Builder()
-                .addInterceptor(httpLoggingInterceptor)
+        val okHttpClient = okHttpClientBuilder
                 .connectTimeout(5000, TimeUnit.MILLISECONDS)
                 .retryOnConnectionFailure(true)
                 .build()
@@ -43,10 +38,9 @@ class UserGeneratorModule {
 
     @Singleton
     @Provides
-    fun provideUiFacesService(): UiFacesService {
+    fun provideUiFacesService(okHttpClientBuilder: OkHttpClient.Builder): UiFacesService {
 
-        val okHttpClient = OkHttpClient.Builder()
-                .addInterceptor(httpLoggingInterceptor)
+        val okHttpClient = okHttpClientBuilder
                 .addInterceptor { chain ->
                     val original = chain.request()
                     val request = original.newBuilder()
@@ -72,5 +66,27 @@ class UserGeneratorModule {
 
     @Singleton
     @Provides
-    fun provideUserGenerator(uiNamesService: UiNamesService, uiFacesService: UiFacesService): UserGenerator = UserGenerator(uiNamesService, uiFacesService)
+    fun provideUnsplashService(okHttpClientBuilder: OkHttpClient.Builder): UnsplashService {
+
+        val okHttpClient = okHttpClientBuilder
+                .connectTimeout(5000, TimeUnit.MILLISECONDS)
+                .retryOnConnectionFailure(true)
+                .build()
+
+        return Retrofit.Builder()
+                .baseUrl("https://api.unsplash.com/")
+                .addConverterFactory(GsonConverterFactory.create())
+                .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
+                .client(okHttpClient)
+                .build()
+                .create(UnsplashService::class.java)
+    }
+
+    @Singleton
+    @Provides
+    fun provideUserGenerator(
+            uiNamesService: UiNamesService,
+            uiFacesService: UiFacesService,
+            unsplashService: UnsplashService
+    ): UserGenerator = UserGenerator(uiNamesService, uiFacesService, unsplashService)
 }

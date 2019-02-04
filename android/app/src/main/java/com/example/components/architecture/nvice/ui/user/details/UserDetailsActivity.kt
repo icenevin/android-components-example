@@ -29,24 +29,14 @@ class UserDetailsActivity : BaseActivity() {
 
     private fun iniTransition() {
         val enterTransitionSet = TransitionSet()
-        val returnTransitionSet = TransitionSet()
 
-        val fadeIn = Fade()
-                .excludeTarget(android.R.id.navigationBarBackground, true)
-                .addTarget(android.R.id.statusBarBackground)
-                .addTarget(R.id.vBackground)
-
-        val fadeCoverIn = Fade()
-                .excludeTarget(android.R.id.navigationBarBackground, true)
-                .addTarget(android.R.id.statusBarBackground)
-                .addTarget(R.id.ivUserCover)
-                .setStartDelay(250)
-
-        val fadeOut = Fade(Fade.MODE_OUT)
+        val fade = Fade()
                 .excludeTarget(android.R.id.navigationBarBackground, true)
                 .addTarget(android.R.id.statusBarBackground)
                 .addTarget(R.id.vBackground)
                 .addTarget(R.id.ivUserCover)
+                .setDuration(150)
+
 
         val slide = Slide(Gravity.TOP)
                 .excludeTarget(android.R.id.statusBarBackground, true)
@@ -60,16 +50,10 @@ class UserDetailsActivity : BaseActivity() {
                 .excludeTarget(R.id.vBackground, true)
                 .excludeTarget(R.id.appBar, true)
 
-        enterTransitionSet.addTransition(fadeIn)
-        enterTransitionSet.addTransition(fadeCoverIn)
+        enterTransitionSet.addTransition(fade)
         enterTransitionSet.addTransition(slide)
         enterTransitionSet.addTransition(explode)
 
-        returnTransitionSet.addTransition(fadeOut)
-        returnTransitionSet.addTransition(slide)
-        returnTransitionSet.addTransition(explode)
-
         window.enterTransition = enterTransitionSet
-        window.returnTransition = returnTransitionSet
     }
 }

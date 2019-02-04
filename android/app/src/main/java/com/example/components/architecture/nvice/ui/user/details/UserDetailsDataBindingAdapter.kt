@@ -1,17 +1,15 @@
 package com.example.components.architecture.nvice.ui.user.details
 
 import android.annotation.SuppressLint
-import android.content.res.Resources
 import android.databinding.BindingAdapter
-import android.graphics.PorterDuff
 import android.graphics.drawable.Drawable
+import android.os.Handler
 import android.support.annotation.ColorRes
 import android.support.v4.content.ContextCompat
 import android.support.v4.graphics.ColorUtils
 import android.view.View
 import android.widget.ImageView
 import com.bumptech.glide.Glide
-import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
 import com.bumptech.glide.request.RequestOptions
 import com.example.components.architecture.nvice.R
@@ -37,13 +35,15 @@ fun setAvatar(view: ImageView, avatar: String?, @ColorRes color: Int?) {
 @Suppress("unused")
 @BindingAdapter("bind:info_cover")
 fun setCover(view: ImageView, avatar: String?) {
-    avatar?.let {
-        Glide.with(view.context)
-                .load(avatar)
-                .apply(RequestOptions.centerCropTransform().diskCacheStrategy(DiskCacheStrategy.AUTOMATIC))
-                .transition(DrawableTransitionOptions.with(AlwaysCrossFadeTransitionFactory(200)))
-                .into(view)
-    }
+    Handler().postDelayed({
+        avatar?.let {
+            Glide.with(view.context)
+                    .load(avatar)
+                    .apply(RequestOptions.centerCropTransform())
+                    .transition(DrawableTransitionOptions.with(AlwaysCrossFadeTransitionFactory(200)))
+                    .into(view)
+        }
+    }, 250)
 }
 
 @Suppress("unused")

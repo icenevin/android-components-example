@@ -93,4 +93,9 @@ class UserCreateFragment : DaggerFragment() {
             true
         }
     }
+
+    override fun onStop() {
+        super.onStop()
+        viewModel.disposeServices()
+    }
 }

@@ -10,8 +10,12 @@ import com.example.components.architecture.nvice.scheduler.DefaultScheduler
 import com.example.components.architecture.nvice.util.GenerateAvatarCallback
 import com.example.components.architecture.nvice.util.GenerateUserCallback
 import com.example.components.architecture.nvice.util.UserGenerator
+import io.reactivex.android.schedulers.AndroidSchedulers
+import io.reactivex.disposables.Disposable
+import io.reactivex.schedulers.Schedulers
 import org.threeten.bp.LocalDateTime
 import org.threeten.bp.format.DateTimeFormatter
+import timber.log.Timber
 import javax.inject.Inject
 
 class UserCreateViewModel @Inject constructor(
@@ -24,6 +28,8 @@ class UserCreateViewModel @Inject constructor(
     val userCreateStatus = MutableLiveData<LoadingStatus>()
     val userDataLoadingStatus = MutableLiveData<LoadingStatus>()
     val userAvatarLoadingStatus = MutableLiveData<LoadingStatus>()
+
+    lateinit var userCoverService: Disposable
 
     val avatar = MutableLiveData<String>()
     val firstName = MutableLiveData<String>()
@@ -80,8 +86,10 @@ class UserCreateViewModel @Inject constructor(
     }
 
     fun randomCover() {
-        cover.postValue("")
-        cover.postValue("https://picsum.photos/1280/?random")
+        userCoverService = userGenerator.generateUserCover()
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe({ response -> cover.postValue(response[0].urls.regular) }, { error -> Timber.e(error) })
     }
 
     fun clearAvatar() {
@@ -95,5 +103,9 @@ class UserCreateViewModel @Inject constructor(
             userRepository.addUser(user)
             userCreateStatus.postValue(LoadingStatus.FINISHED)
         }
+    }
+
+    fun disposeServices() {
+        userCoverService.dispose()
     }
 }
