@@ -8,6 +8,8 @@
 
         <import type="android.support.v4.graphics.ColorUtils" />
 
+        <import type="android.view.View" />
+
         <variable
             name="viewModel"
             type="com.example.components.architecture.nvice.ui.user.details.UserDetailsViewModel" />
@@ -75,7 +77,6 @@
                     android:layout_height="match_parent"
                     android:layout_marginTop="@dimen/dp_192"
                     android:background="@drawable/bg_corner_rd_16_top_only"
-                    android:gravity="center_horizontal"
                     android:orientation="vertical"
                     android:padding="@dimen/dp_16"
                     app:layout_constraintEnd_toEndOf="parent"
@@ -132,7 +133,7 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             app:info_icon="@drawable/ic_date_range_black_24dp"
-                            app:info_label="dd MMM YYYY" />
+                            app:info_label="@{viewModel.user.birthday}" />
 
                         <com.example.components.architecture.nvice.ui.user.details.UserDetailsInfoView
                             android:layout_width="match_parent"
@@ -145,14 +146,30 @@
 
                     <include layout="@layout/view_separator_default" />
 
-                    <TextView
-                        android:layout_width="wrap_content"
+                    <LinearLayout
+                        android:id="@+id/vDescription"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="@dimen/dp_8"
-                        android:layout_marginBottom="@dimen/dp_8"
-                        android:text="@string/ipsum" />
+                        android:orientation="vertical"
+                        android:visibility="@{viewModel.user.description.isEmpty ? View.GONE : View.VISIBLE}">
 
-                    <include layout="@layout/view_separator_default" />
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Description"
+                            android:textSize="@dimen/text_body2"
+                            android:textStyle="bold" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="@dimen/dp_8"
+                            android:layout_marginTop="@dimen/dp_8"
+                            android:layout_marginBottom="@dimen/dp_8"
+                            android:text="@{viewModel.user.description}" />
+
+                        <include layout="@layout/view_separator_default" />
+                    </LinearLayout>
 
                     <LinearLayout
                         android:id="@+id/vTeamMember"

@@ -5,22 +5,69 @@ import android.databinding.*
 import android.support.annotation.ColorRes
 import android.text.Editable
 import android.text.TextWatcher
+import android.view.View
 import android.widget.ArrayAdapter
+import timber.log.Timber
 
 
 @Suppress("unused")
 @SuppressLint("ResourceAsColor")
 @BindingAdapter("field_iconTint")
-
 fun setColorTint(view: CustomField, @ColorRes value: Int) {
     view.setIconTint(value)
+}
+
+@Suppress("unused")
+@SuppressLint("ResourceAsColor")
+@BindingAdapter("field_drawableEndTint")
+fun setDrawableEndColorTint(view: CustomField, @ColorRes value: Int) {
+    view.setDrawableEndTint(value)
+}
+
+@Suppress("unused")
+@SuppressLint("ResourceAsColor")
+@BindingAdapter("field_inputDrawableEndTint")
+fun setInputDrawableEndColorTint(view: CustomFieldEditText, @ColorRes value: Int) {
+    view.setInputDrawableEndTint(value)
+}
+
+@Suppress("unused")
+@BindingAdapter("field_onClick")
+fun setOnClick(view: CustomField, listener: View.OnClickListener?) {
+    listener?.let {
+        view.setOnClick(it)
+    }
+}
+
+@Suppress("unused")
+@BindingAdapter("field_onDrawableEndClick")
+fun setOnDrawableEndClick(view: CustomField, listener: View.OnClickListener?) {
+    listener?.let {
+        view.setOnDrawableEndClick(it)
+    }
+}
+
+@Suppress("unused")
+@BindingAdapter("field_onInputDrawableEndClick")
+fun setOnInputDrawableEndClick(view: CustomFieldEditText, listener: View.OnClickListener?) {
+    listener?.let {
+        view.setOnInputDrawableEndClick(it)
+    }
+}
+
+@Suppress("unused")
+@BindingAdapter("field_showInputDrawableEnd")
+fun setShowInputDrawableEnd(view: CustomFieldEditText, requestShow: Boolean?) {
+    requestShow?.let {
+        view.setShowInputDrawableEnd(it)
+    }
 }
 
 @Suppress("unused")
 @BindingAdapter("field_text")
 fun setText(view: CustomFieldEditText, value: String?) {
     value?.let {
-        if (it != view.getText().toString())
+        if (it != view.getText()?.toString())
             view.setText(it)
     }
 }
@@ -46,7 +93,7 @@ fun setTextWatcher(view: CustomFieldEditText, attrChange: InverseBindingListener
 @Suppress("unused")
 @InverseBindingAdapter(attribute = "field_text")
 fun getText(view: CustomFieldEditText): String? {
-    return view.getText().toString()
+    return view.getText()?.toString()
 }
 
 @Suppress("unused")

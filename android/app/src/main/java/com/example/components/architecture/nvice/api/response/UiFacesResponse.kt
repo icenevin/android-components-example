@@ -4,5 +4,5 @@ import com.google.gson.annotations.SerializedName
 
 data class UiFacesResponse(
         @SerializedName("photo")
-        val photo: String
+        val photo: String?
 )

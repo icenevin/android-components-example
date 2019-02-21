@@ -15,11 +15,30 @@
     <attr name="field_iconHeight" format="dimension" />
     <attr name="field_iconWidth" format="dimension" />
     <attr name="field_showIcon" format="boolean" />
+    <attr name="field_inputDrawableEnd" format="reference" />
+    <attr name="field_inputDrawableEndTint" format="reference" />
+    <attr name="field_inputDrawableEndPadding" format="dimension" />
+    <attr name="field_showInputDrawableEnd" format="boolean" />
+    <attr name="field_drawableEnd" format="reference" />
+    <attr name="field_drawableEndTint" format="reference" />
+    <attr name="field_drawableEndPadding" format="dimension" />
+    <attr name="field_showDrawableEnd" format="boolean" />
+    <attr name="field_padding" format="dimension" />
+    <attr name="field_paddingStart" format="dimension" />
+    <attr name="field_paddingEnd" format="dimension" />
+    <attr name="field_paddingTop" format="dimension" />
+    <attr name="field_paddingBottom" format="dimension" />
     <attr name="field_fullWidth" format="boolean" />
     <attr name="field_hint" format="string" />
     <attr name="field_text" format="string" />
+    <attr name="field_enable" format="boolean" />
     <attr name="field_maxLines" format="integer" />
+    <attr name="field_onClick" format="string" />
+    <attr name="field_onDrawableEndClick" format="string" />
+    <attr name="field_onInputDrawableEndClick" format="string" />
     <attr name="field_singleLines" format="boolean" />
+    <attr name="field_editable" format="boolean" />
+    <attr name="field_longClickable" format="boolean" />
 
     <declare-styleable name="CustomFieldEditText">
         <attr name="field_icon" />
@@ -28,10 +47,29 @@
         <attr name="field_iconHeight" />
         <attr name="field_iconWidth" />
         <attr name="field_showIcon" />
+        <attr name="field_inputDrawableEnd" />
+        <attr name="field_inputDrawableEndTint" />
+        <attr name="field_inputDrawableEndPadding" />
+        <attr name="field_showInputDrawableEnd" />
+        <attr name="field_drawableEnd" />
+        <attr name="field_drawableEndTint" />
+        <attr name="field_drawableEndPadding" />
+        <attr name="field_showDrawableEnd" />
+        <attr name="field_padding" />
+        <attr name="field_paddingStart" />
+        <attr name="field_paddingEnd" />
+        <attr name="field_paddingTop" />
+        <attr name="field_paddingBottom" />
         <attr name="field_hint" />
         <attr name="field_text" />
+        <attr name="field_onClick" />
+        <attr name="field_onDrawableEndClick" />
+        <attr name="field_onInputDrawableEndClick" />
+        <attr name="field_enable" />
         <attr name="field_singleLines" />
         <attr name="field_maxLines" />
+        <attr name="field_editable" />
+        <attr name="field_longClickable" />
     </declare-styleable>
 
     <declare-styleable name="CustomFieldSpinner">
@@ -41,6 +79,22 @@
         <attr name="field_iconHeight" />
         <attr name="field_iconWidth" />
         <attr name="field_showIcon" />
+        <attr name="field_inputDrawableEnd" />
+        <attr name="field_inputDrawableEndTint" />
+        <attr name="field_inputDrawableEndPadding" />
+        <attr name="field_showInputDrawableEnd" />
+        <attr name="field_drawableEnd" />
+        <attr name="field_drawableEndTint" />
+        <attr name="field_drawableEndPadding" />
+        <attr name="field_showDrawableEnd" />
+        <attr name="field_padding" />
+        <attr name="field_paddingStart" />
+        <attr name="field_paddingEnd" />
+        <attr name="field_paddingTop" />
+        <attr name="field_paddingBottom" />
+        <attr name="field_onClick" />
+        <attr name="field_onDrawableEndClick" />
+        <attr name="field_enable" />
         <attr name="field_fullWidth" />
     </declare-styleable>
 </resources>

@@ -19,8 +19,10 @@ class UserDetailsActivity : BaseActivity() {
         super.onCreate(savedInstanceState)
         window.statusBarColor = Color.TRANSPARENT
         setContentView(R.layout.activity_user_details)
-        initView(Parcels.unwrap(intent?.getParcelableExtra("user")))
-        iniTransition()
+        if (savedInstanceState == null) {
+            initView(Parcels.unwrap(intent?.getParcelableExtra("user")))
+            iniTransition()
+        }
     }
 
     private fun initView(user: User) {

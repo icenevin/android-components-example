@@ -7,7 +7,6 @@ import android.arch.lifecycle.ViewModelProvider
 import android.arch.lifecycle.ViewModelProviders
 import android.databinding.DataBindingUtil
 import android.graphics.Bitmap
-import android.graphics.drawable.Drawable
 import android.graphics.drawable.GradientDrawable
 import android.os.Bundle
 import android.support.v4.content.ContextCompat
@@ -17,28 +16,22 @@ import android.support.v7.app.AppCompatActivity
 import android.support.v7.graphics.Palette
 import android.support.v7.widget.Toolbar
 import android.view.*
-import android.view.animation.Animation
-import android.view.animation.AnimationUtils
 import com.bumptech.glide.Glide
-import com.bumptech.glide.load.DataSource
-import com.bumptech.glide.load.engine.GlideException
-import com.bumptech.glide.request.RequestListener
 import com.bumptech.glide.request.target.SimpleTarget
-import com.bumptech.glide.request.target.Target
 import com.bumptech.glide.request.transition.Transition
+import com.example.components.architecture.nvice.BaseFragment
 
 import com.example.components.architecture.nvice.R
 import com.example.components.architecture.nvice.databinding.FragmentUserDetailsBinding
 import com.example.components.architecture.nvice.model.User
 import com.example.components.architecture.nvice.util.DimensUtil
 
-import dagger.android.support.DaggerFragment
 import kotlinx.android.synthetic.main.fragment_user_details.*
 import org.parceler.Parcels
 import javax.inject.Inject
 
 
-class UserDetailsFragment : DaggerFragment() {
+class UserDetailsFragment : BaseFragment() {
 
     @Inject
     lateinit var viewModelFactory: ViewModelProvider.Factory
@@ -76,6 +69,19 @@ class UserDetailsFragment : DaggerFragment() {
         initToolbar()
         initView()
         initEvent()
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu?, inflater: MenuInflater?) {
+        super.onCreateOptionsMenu(menu, inflater)
+        inflater?.inflate(R.menu.menu_user_details, menu)
+    }
+
+    override fun onPrepareOptionsMenu(menu: Menu?) {
+        super.onPrepareOptionsMenu(menu)
+        val mEditUser = menu?.findItem(R.id.action_edit)
+        mEditUser?.setOnMenuItemClickListener {
+            true
+        }
     }
 
     private fun initToolbar() {
@@ -156,18 +162,5 @@ class UserDetailsFragment : DaggerFragment() {
         appBar.setBackgroundColor(ColorUtils.setAlphaComponent(appBarColor, alpha))
         (activity as AppCompatActivity).window.statusBarColor = ColorUtils.setAlphaComponent(statusBarColor, alpha)
         appBar.elevation = DimensUtil.dpToPx(if (alpha >= 255) 8f else 0f)
-    }
-
-    override fun onCreateOptionsMenu(menu: Menu?, inflater: MenuInflater?) {
-        super.onCreateOptionsMenu(menu, inflater)
-        inflater?.inflate(R.menu.menu_user_details, menu)
-    }
-
-    override fun onPrepareOptionsMenu(menu: Menu?) {
-        super.onPrepareOptionsMenu(menu)
-        val mEditUser = menu?.findItem(R.id.action_edit)
-        mEditUser?.setOnMenuItemClickListener {
-            true
-        }
     }
 }

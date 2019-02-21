@@ -17,7 +17,6 @@ import com.example.components.architecture.nvice.model.UserStatus
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners
 import com.bumptech.glide.load.resource.bitmap.CenterCrop
 import com.example.components.architecture.nvice.R
-import com.example.components.architecture.nvice.util.DimensUtil
 
 
 @Suppress("unused")
@@ -38,7 +37,7 @@ fun setCover(view: ImageView, value: String?) {
     Glide.with(view.context)
             .load(value)
             .apply(RequestOptions()
-                    .transforms(CenterCrop(), RoundedCorners(view.context.resources.getDimension(R.dimen.dp_16).toInt()))
+                    .transforms(CenterCrop())
                     .diskCacheStrategy(DiskCacheStrategy.NONE)
                     .skipMemoryCache(true))
             .transition(DrawableTransitionOptions.withCrossFade(200))

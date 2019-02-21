@@ -17,6 +17,9 @@ import io.reactivex.Flowable
 import io.reactivex.Scheduler
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
+import kotlinx.coroutines.Deferred
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
 import org.threeten.bp.LocalDate
 import org.threeten.bp.format.DateTimeFormatter
 import retrofit2.Call
@@ -49,31 +52,14 @@ class UserGenerator @Inject constructor(
         })
     }
 
-    fun generateUserAvatar(callback: GenerateAvatarCallback) {
-        uiFacesService.getAvatarsByProvider("9", "1", "").enqueue(object : Callback<List<UiFacesResponse>> {
-            override fun onResponse(call: Call<List<UiFacesResponse>>, response: Response<List<UiFacesResponse>>) {
-                Timber.i(response.body().toString())
-                callback.onSuccess(response.body()?.get(0)?.photo)
-            }
+    fun generateUserAvatar(): Deferred<List<UiFacesResponse>> =
+            uiFacesService.getAvatarsByProvider("9", "1", "")
 
-            override fun onFailure(call: Call<List<UiFacesResponse>>, t: Throwable) {
-                callback.onFailure(t)
-            }
-        })
-    }
-
-    fun generateUserCover(): Flowable<List<UnsplashPhotosResponse>> = unsplashService.getPhotosRandom(
-            "f06db831e385882fcb08879965e768be1451e1f6e05da3bd4f074c8afa023e75",
-            "1"
-    )
+    fun generateUserCover(): Flowable<List<UnsplashPhotosResponse>> =
+            unsplashService.getPhotosRandom( "1")
 }
 
 interface GenerateUserCallback {
     fun onSuccess(user: User)
-    fun onFailure(t: Throwable)
-}
-
-interface GenerateAvatarCallback {
-    fun onSuccess(url: String?)
     fun onFailure(t: Throwable)
 }

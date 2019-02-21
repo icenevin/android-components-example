@@ -22,6 +22,7 @@ import android.support.v7.widget.helper.ItemTouchHelper
 import android.view.*
 import android.support.v7.widget.SearchView
 import android.view.ViewGroup
+import com.example.components.architecture.nvice.BaseFragment
 import com.example.components.architecture.nvice.ui.user.create.UserCreateActivity
 import com.example.components.architecture.nvice.ui.user.details.UserDetailsActivity
 import kotlinx.android.synthetic.main.item_user.*
@@ -29,7 +30,7 @@ import kotlinx.android.synthetic.main.item_user.view.*
 import org.parceler.Parcels
 
 
-class UserFragment : DaggerFragment() {
+class UserFragment : BaseFragment() {
 
     @Inject
     lateinit var viewModelFactory: ViewModelProvider.Factory
@@ -59,6 +60,29 @@ class UserFragment : DaggerFragment() {
         initView()
         initObserver()
         initEvent()
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu?, inflater: MenuInflater?) {
+        super.onCreateOptionsMenu(menu, inflater)
+        inflater?.inflate(R.menu.menu_user_list, menu)
+    }
+
+    override fun onPrepareOptionsMenu(menu: Menu?) {
+        super.onPrepareOptionsMenu(menu)
+        val mSearchMenuItem = menu?.findItem(R.id.action_search)
+        val searchView = mSearchMenuItem?.actionView as SearchView
+        searchView.queryHint = resources.getString(R.string.toolbar_search_user_hint)
+        searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
+
+            override fun onQueryTextChange(query: String?): Boolean {
+                viewModel.searchUser(query?.let { it } ?: "")
+                return false
+            }
+
+            override fun onQueryTextSubmit(query: String?): Boolean {
+                return false
+            }
+        })
     }
 
     private fun initToolbar() {
@@ -165,28 +189,5 @@ class UserFragment : DaggerFragment() {
         val options = ActivityOptions
                 .makeSceneTransitionAnimation(activity, view, "transitionUserAvatar")
         activity?.startActivity(intent, options.toBundle())
-    }
-
-    override fun onCreateOptionsMenu(menu: Menu?, inflater: MenuInflater?) {
-        super.onCreateOptionsMenu(menu, inflater)
-        inflater?.inflate(R.menu.menu_user_list, menu)
-    }
-
-    override fun onPrepareOptionsMenu(menu: Menu?) {
-        super.onPrepareOptionsMenu(menu)
-        val mSearchMenuItem = menu?.findItem(R.id.action_search)
-        val searchView = mSearchMenuItem?.actionView as SearchView
-        searchView.queryHint = resources.getString(R.string.toolbar_search_user_hint)
-        searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
-
-            override fun onQueryTextChange(query: String?): Boolean {
-                viewModel.searchUser(query?.let { it } ?: "")
-                return false
-            }
-
-            override fun onQueryTextSubmit(query: String?): Boolean {
-                return false
-            }
-        })
     }
 }

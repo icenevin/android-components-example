@@ -1,7 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/cstContainer"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:animateLayoutChanges="true"
     android:gravity="center"
     android:orientation="horizontal"
     android:padding="@dimen/dp_4">
@@ -10,17 +13,54 @@
         android:id="@+id/ivIcon"
         android:layout_width="@dimen/dp_24"
         android:layout_height="@dimen/dp_24"
+        android:layout_marginTop="@dimen/dp_16"
         android:src="@drawable/ic_person_black_24dp"
-        android:tint="@color/black_600" />
+        android:tint="@color/black_600"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
-    <EditText
-        android:id="@+id/edtInputField"
-        android:layout_width="match_parent"
+    <RelativeLayout
+        android:id="@+id/relativeLayout"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:minHeight="@dimen/dp_56"
-        android:layout_marginStart="@dimen/dp_8"
-        android:hint="Type Something"
-        android:backgroundTint="@color/white_600"
-        android:textColorHint="@color/white_500"
-        android:textSize="@dimen/text_body2" />
-</LinearLayout>
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@id/ivDrawableEnd"
+        app:layout_constraintStart_toEndOf="@id/ivIcon"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <EditText
+            android:id="@+id/edtInputField"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/dp_8"
+            android:backgroundTint="@color/white_600"
+            android:hint="Type Something"
+            android:minHeight="@dimen/dp_56"
+            android:textColor="@color/black_500"
+            android:textColorHint="@color/white_500"
+            android:textSize="@dimen/text_body2" />
+
+        <android.support.v7.widget.AppCompatImageView
+            android:id="@+id/ivInputDrawableEnd"
+            android:layout_width="@dimen/dp_24"
+            android:layout_height="@dimen/dp_24"
+            android:layout_alignParentEnd="true"
+            android:layout_centerVertical="true"
+            android:layout_marginEnd="@dimen/dp_8"
+            android:background="?selectableItemBackgroundBorderless"
+            android:src="@drawable/ic_clear_white_24dp"
+            android:tint="@color/black_600"
+            android:visibility="gone" />
+    </RelativeLayout>
+
+    <android.support.v7.widget.AppCompatImageView
+        android:id="@+id/ivDrawableEnd"
+        android:layout_width="@dimen/dp_24"
+        android:layout_height="@dimen/dp_24"
+        android:background="?selectableItemBackgroundBorderless"
+        android:tint="@color/black_600"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+</android.support.constraint.ConstraintLayout>

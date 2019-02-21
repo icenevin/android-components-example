@@ -34,6 +34,18 @@
 
     <string name="toolbar_search_user_hint">Search Staff</string>
 
+    <string name="status_loading">Loading…</string>
+
+    <string name="hint_user_create_first_name">First Name</string>
+    <string name="hint_user_create_last_name">Last Name</string>
+    <string name="hint_user_create_birthday">Date of Birth</string>
+    <string name="hint_user_create_description">Description</string>
+    <string name="hint_user_create_profile_cover">Profile Cover</string>
+
+    <string name="btn_clear">Clear</string>
+    <string name="btn_select">Select</string>
+    <string name="btn_add">add</string>
+
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>

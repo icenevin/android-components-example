@@ -11,7 +11,6 @@ interface UnsplashService {
 
     @GET("photos/random/")
     fun getPhotosRandom(
-            @Query("client_id") clientId: String,
             @Query("count") count: String
     ) : Flowable<List<UnsplashPhotosResponse>>
 }
