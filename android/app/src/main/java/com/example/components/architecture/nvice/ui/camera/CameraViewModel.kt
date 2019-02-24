@@ -10,6 +10,7 @@ import android.support.annotation.RequiresApi
 import android.util.SparseIntArray
 import android.view.Surface
 import com.example.components.architecture.nvice.util.getInt
+import com.example.components.architecture.nvice.util.isValidCitizenId
 import com.google.android.gms.tasks.Task
 import com.google.firebase.ml.vision.FirebaseVision
 import com.google.firebase.ml.vision.common.FirebaseVisionImage
@@ -86,26 +87,10 @@ class CameraViewModel @Inject constructor() : ViewModel() {
     }
 
     private fun detectCitizenId(text: String?): Boolean {
-        text?.let {
-            if (text.length == 13) {
-                try {
-                    var sum = 0
-                    for (index in 1 until 13) {
-                        sum += text[index - 1].getInt() * (13 - (index - 1))
-                    }
-                    Timber.i((11 - (sum % 11)).toString())
-                    if (11 - (sum % 11) == text.last().getInt()) {
-                        Timber.i("Citizen id is detected\n\tresult: $text")
-                        citizenId.postValue(text)
-                        detector.close()
-                        return true
-                    }
-                } catch (nfe: NumberFormatException) {
-                    Timber.i("Input is not a number")
-                } catch (e: Exception) {
-                    Timber.e(e)
-                }
-            }
+        if (text.isValidCitizenId()){
+            citizenId.postValue(text)
+            detector.close()
+            return true
         }
         return false
     }
