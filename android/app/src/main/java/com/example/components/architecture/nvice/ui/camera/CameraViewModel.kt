@@ -9,6 +9,7 @@ import android.os.Build
 import android.support.annotation.RequiresApi
 import android.util.SparseIntArray
 import android.view.Surface
+import com.example.components.architecture.nvice.util.getInt
 import com.google.android.gms.tasks.Task
 import com.google.firebase.ml.vision.FirebaseVision
 import com.google.firebase.ml.vision.common.FirebaseVisionImage
@@ -16,13 +17,21 @@ import com.google.firebase.ml.vision.common.FirebaseVisionImageMetadata
 import com.google.firebase.ml.vision.text.FirebaseVisionText
 import io.fotoapparat.preview.Frame
 import timber.log.Timber
+import java.lang.Exception
 import javax.inject.Inject
 
 
 class CameraViewModel @Inject constructor() : ViewModel() {
 
+    private lateinit var task: Task<FirebaseVisionText>
+
     private val textElements = MutableLiveData<List<FirebaseVisionText.Element>>()
+    private val isCitizenIdDetected = MutableLiveData<Boolean>()
+    private val citizenId = MutableLiveData<String>()
     private var deviceRotation = 0
+    private val metadata = FirebaseVisionImageMetadata.Builder()
+            .setFormat(FirebaseVisionImageMetadata.IMAGE_FORMAT_NV21)
+    private val detector = FirebaseVision.getInstance().onDeviceTextRecognizer!!
 
     companion object {
         private val ORIENTATIONS = SparseIntArray()
@@ -35,11 +44,11 @@ class CameraViewModel @Inject constructor() : ViewModel() {
         }
     }
 
-    private val metadata = FirebaseVisionImageMetadata.Builder()
-            .setFormat(FirebaseVisionImageMetadata.IMAGE_FORMAT_NV21)
+    fun getTextElements() = textElements
 
-    private val detector = FirebaseVision.getInstance().onDeviceTextRecognizer!!
-    private lateinit var task: Task<FirebaseVisionText>
+    fun getCitizenIdStatus() = isCitizenIdDetected
+
+    fun getCitizenId() = citizenId
 
     fun processTextRecognition(frame: Frame, cameraId: String?, cameraManager: CameraManager?) {
 
@@ -58,6 +67,9 @@ class CameraViewModel @Inject constructor() : ViewModel() {
                             for (line in block.lines) {
                                 for (element in line.elements) {
                                     Timber.i(element.text)
+                                    isCitizenIdDetected.postValue(
+                                            detectCitizenId(element.text)
+                                    )
                                 }
                                 textElements.postValue(line.elements)
                             }
@@ -67,6 +79,35 @@ class CameraViewModel @Inject constructor() : ViewModel() {
                 .addOnCanceledListener {
                     Timber.i("FAILURE")
                 }
+    }
+
+    fun updateDeviceRotation(rotation: Int?) {
+        deviceRotation = rotation ?: 0
+    }
+
+    private fun detectCitizenId(text: String?): Boolean {
+        text?.let {
+            if (text.length == 13) {
+                try {
+                    var sum = 0
+                    for (index in 1 until 13) {
+                        sum += text[index - 1].getInt() * (13 - (index - 1))
+                    }
+                    Timber.i((11 - (sum % 11)).toString())
+                    if (11 - (sum % 11) == text.last().getInt()) {
+                        Timber.i("Citizen id is detected\n\tresult: $text")
+                        citizenId.postValue(text)
+                        detector.close()
+                        return true
+                    }
+                } catch (nfe: NumberFormatException) {
+                    Timber.i("Input is not a number")
+                } catch (e: Exception) {
+                    Timber.e(e)
+                }
+            }
+        }
+        return false
     }
 
     @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
@@ -93,10 +134,4 @@ class CameraViewModel @Inject constructor() : ViewModel() {
         }
         return result
     }
-
-    fun updateDeviceRotation(rotation: Int?){
-        deviceRotation = rotation ?: 0
-    }
-
-    fun getTextElements() = textElements
 }

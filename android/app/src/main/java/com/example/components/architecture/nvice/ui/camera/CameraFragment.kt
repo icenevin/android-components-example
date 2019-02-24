@@ -17,6 +17,7 @@ import timber.log.Timber
 import javax.inject.Inject
 import android.hardware.camera2.CameraCharacteristics
 import android.os.Handler
+import android.widget.Toast
 import com.example.components.architecture.nvice.util.TaskUtil
 import com.example.components.architecture.nvice.util.mlkit.GraphicOverlay
 import com.example.components.architecture.nvice.util.mlkit.TextGraphic
@@ -80,7 +81,7 @@ class CameraFragment : BaseFragment() {
                 view = cvCamera,
                 cameraConfiguration = CameraConfiguration(
                         frameProcessor = { frame ->
-                            TaskUtil.run (400) {
+                            TaskUtil.run(400) {
                                 viewModel.processTextRecognition(frame, cameraId, manager)
                             }
                         }
@@ -97,10 +98,14 @@ class CameraFragment : BaseFragment() {
                 }
             }
         })
+
+        viewModel.getCitizenId().observe(this, Observer { id ->
+            Toast.makeText(context, id.toString(), Toast.LENGTH_LONG).show()
+        })
     }
 
     private fun initEvent() {
-        orientationEventListener = object :OrientationEventListener(context){
+        orientationEventListener = object : OrientationEventListener(context) {
             override fun onOrientationChanged(orientation: Int) {
                 viewModel.updateDeviceRotation(orientation)
             }
