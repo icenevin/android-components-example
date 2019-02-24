@@ -29,12 +29,12 @@ class LocaleHelper {
 
         private fun getPersistedData(context: Context): String {
             val appSettingsPreference = AppSettingsPreference(context)
-            return appSettingsPreference.get()?.language!!
+            return appSettingsPreference.get().language!!
         }
 
         private fun persist(context: Context, language: String) {
             val appSettingsPreference = AppSettingsPreference(context)
-            appSettingsPreference.get()?.language = language
+            appSettingsPreference.get().language = language
         }
 
         @TargetApi(Build.VERSION_CODES.N)

@@ -16,6 +16,8 @@ import kotlinx.android.synthetic.main.fragment_camera.*
 import timber.log.Timber
 import javax.inject.Inject
 import android.hardware.camera2.CameraCharacteristics
+import android.os.Handler
+import com.example.components.architecture.nvice.util.TaskUtil
 import com.example.components.architecture.nvice.util.mlkit.GraphicOverlay
 import com.example.components.architecture.nvice.util.mlkit.TextGraphic
 import com.google.firebase.ml.vision.text.FirebaseVisionText
@@ -28,6 +30,7 @@ class CameraFragment : BaseFragment() {
 
     private lateinit var viewModel: CameraViewModel
     private lateinit var fotoapparat: Fotoapparat
+    private lateinit var orientationEventListener: OrientationEventListener
 
     val graphics = mutableListOf<GraphicOverlay.Graphic>()
 
@@ -50,6 +53,7 @@ class CameraFragment : BaseFragment() {
         super.onActivityCreated(savedInstanceState)
         initView()
         initObservers()
+        initEvent()
     }
 
     private fun initView() {
@@ -58,11 +62,10 @@ class CameraFragment : BaseFragment() {
 
     private fun initCamera() {
         val manager = context?.getSystemService(CAMERA_SERVICE) as CameraManager
-        val deviceRotation = activity?.windowManager?.defaultDisplay?.rotation
+        viewModel.updateDeviceRotation(activity?.windowManager?.defaultDisplay?.rotation)
         var cameraId: String? = null
 
         for (id in manager.cameraIdList) {
-            Timber.i("CameraId: $id")
             val characteristics = manager.getCameraCharacteristics(id)
             val cameraDirection = characteristics.get(CameraCharacteristics.LENS_FACING)
             if (cameraDirection != null &&
@@ -77,14 +80,16 @@ class CameraFragment : BaseFragment() {
                 view = cvCamera,
                 cameraConfiguration = CameraConfiguration(
                         frameProcessor = { frame ->
-                            viewModel.processTextRecognition(frame, cameraId, deviceRotation, manager)
+                            TaskUtil.run (400) {
+                                viewModel.processTextRecognition(frame, cameraId, manager)
+                            }
                         }
                 )
         )
     }
 
     private fun initObservers() {
-        viewModel.textElements.observe(this, Observer { textElements ->
+        viewModel.getTextElements().observe(this, Observer { textElements ->
             textElements?.let {
                 if (it.isNotEmpty()) {
                     goOverlay.clear()
@@ -92,6 +97,15 @@ class CameraFragment : BaseFragment() {
                 }
             }
         })
+    }
+
+    private fun initEvent() {
+        orientationEventListener = object :OrientationEventListener(context){
+            override fun onOrientationChanged(orientation: Int) {
+                viewModel.updateDeviceRotation(orientation)
+            }
+        }
+        orientationEventListener.enable()
     }
 
     private fun getGraphicsFromElements(elements: List<FirebaseVisionText.Element>): List<GraphicOverlay.Graphic> {
@@ -110,5 +124,6 @@ class CameraFragment : BaseFragment() {
     override fun onStop() {
         super.onStop()
         fotoapparat.stop()
+        orientationEventListener.enable()
     }
 }

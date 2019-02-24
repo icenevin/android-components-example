@@ -4,17 +4,14 @@ import com.example.components.architecture.nvice.api.ApiConfigs
 import com.example.components.architecture.nvice.api.service.UiFacesService
 import com.example.components.architecture.nvice.api.service.UiNamesService
 import com.example.components.architecture.nvice.api.service.UnsplashService
-import com.example.components.architecture.nvice.util.UserGenerator
 import com.jakewharton.retrofit2.adapter.kotlin.coroutines.CoroutineCallAdapterFactory
 import dagger.Module
 import dagger.Provides
 import okhttp3.OkHttpClient
-import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory
 import retrofit2.converter.gson.GsonConverterFactory
 import java.util.concurrent.TimeUnit
-import javax.inject.Inject
 import javax.inject.Singleton
 
 @Module
@@ -93,11 +90,11 @@ class UserGeneratorModule {
                 .create(UnsplashService::class.java)
     }
 
-    @Singleton
-    @Provides
-    fun provideUserGenerator(
-            uiNamesService: UiNamesService,
-            uiFacesService: UiFacesService,
-            unsplashService: UnsplashService
-    ): UserGenerator = UserGenerator(uiNamesService, uiFacesService, unsplashService)
+//    @Singleton
+//    @Provides
+//    fun provideUserGenerator(
+//            uiNamesService: UiNamesService,
+//            uiFacesService: UiFacesService,
+//            unsplashService: UnsplashService
+//    ): UserGenerator = UserGenerator(uiNamesService, uiFacesService, unsplashService)
 }

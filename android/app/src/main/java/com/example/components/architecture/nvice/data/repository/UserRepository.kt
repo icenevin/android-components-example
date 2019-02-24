@@ -5,10 +5,12 @@ import android.arch.paging.LivePagedListBuilder
 import android.arch.paging.PagedList
 import com.example.components.architecture.nvice.dao.UserDao
 import com.example.components.architecture.nvice.data.datasource.DataSourceFactory
+import com.example.components.architecture.nvice.data.preference.AppSettingsPreference
 import com.example.components.architecture.nvice.model.User
 import com.example.components.architecture.nvice.scheduler.DefaultScheduler
 import com.example.components.architecture.nvice.ui.user.UserDataSourceFactory
 import com.example.components.architecture.nvice.util.RegexUtil
+import timber.log.Timber
 import java.util.*
 import javax.inject.Inject
 import javax.inject.Singleton
@@ -16,7 +18,9 @@ import javax.inject.Singleton
 @Singleton
 class UserRepository @Inject constructor(
         private val userDao: UserDao,
-        private val userDataSourceFactory: UserDataSourceFactory) {
+        private val userDataSourceFactory: UserDataSourceFactory,
+        private val appSettingsPreference: AppSettingsPreference
+) {
 
     companion object {
         private const val PREFETCH_DISTANCE = 10
@@ -35,7 +39,10 @@ class UserRepository @Inject constructor(
         getUserList().observeForever {
             result.postValue(it)
         }
+        Timber.i(getPreferenceStatus().toString())
     }
+
+    private fun getPreferenceStatus() = appSettingsPreference.has()
 
     private fun getUserList() = LivePagedListBuilder(userDataSourceFactory, pagedListConfig).build()
 

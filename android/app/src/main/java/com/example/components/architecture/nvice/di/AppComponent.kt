@@ -17,10 +17,11 @@ import javax.inject.Singleton
             OkHttpClientModule::class,
             UserGeneratorModule::class,
             ActivityBindingModule::class,
-            DataSourceFactoryModule::class,
-            ViewModelModule::class,
-            PreferenceModule::class
+//            DataSourceFactoryModule::class,
+//            PreferenceModule::class,
+            ViewModelModule::class
         ])
+
 interface AppComponent : AndroidInjector<BaseApplication> {
     @Component.Builder
     abstract class Builder : AndroidInjector.Builder<BaseApplication>()

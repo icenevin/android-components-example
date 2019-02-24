@@ -9,6 +9,7 @@ import android.os.Build
 import android.support.annotation.RequiresApi
 import android.util.SparseIntArray
 import android.view.Surface
+import com.google.android.gms.tasks.Task
 import com.google.firebase.ml.vision.FirebaseVision
 import com.google.firebase.ml.vision.common.FirebaseVisionImage
 import com.google.firebase.ml.vision.common.FirebaseVisionImageMetadata
@@ -20,7 +21,8 @@ import javax.inject.Inject
 
 class CameraViewModel @Inject constructor() : ViewModel() {
 
-    val textElements = MutableLiveData<List<FirebaseVisionText.Element>>()
+    private val textElements = MutableLiveData<List<FirebaseVisionText.Element>>()
+    private var deviceRotation = 0
 
     companion object {
         private val ORIENTATIONS = SparseIntArray()
@@ -36,23 +38,27 @@ class CameraViewModel @Inject constructor() : ViewModel() {
     private val metadata = FirebaseVisionImageMetadata.Builder()
             .setFormat(FirebaseVisionImageMetadata.IMAGE_FORMAT_NV21)
 
-    private val detector = FirebaseVision.getInstance().onDeviceTextRecognizer
+    private val detector = FirebaseVision.getInstance().onDeviceTextRecognizer!!
+    private lateinit var task: Task<FirebaseVisionText>
 
-    fun processTextRecognition(frame: Frame, cameraId: String?, deviceRotation: Int?, cameraManager: CameraManager?) {
+    fun processTextRecognition(frame: Frame, cameraId: String?, cameraManager: CameraManager?) {
 
         val image = FirebaseVisionImage.fromByteArray(
                 frame.image,
                 metadata.setWidth(frame.size.width)
                         .setHeight(frame.size.height)
-                        .setRotation (getRotationCompensation(cameraId, deviceRotation, cameraManager))
+                        .setRotation(getRotationCompensation(cameraId, deviceRotation, cameraManager))
                         .build()
         )
 
-        detector.processImage(image)
+        task = detector.processImage(image)
                 .addOnSuccessListener {
                     if (it.textBlocks.size > 0) {
                         for (block in it.textBlocks) {
                             for (line in block.lines) {
+                                for (element in line.elements) {
+                                    Timber.i(element.text)
+                                }
                                 textElements.postValue(line.elements)
                             }
                         }
@@ -87,4 +93,10 @@ class CameraViewModel @Inject constructor() : ViewModel() {
         }
         return result
     }
+
+    fun updateDeviceRotation(rotation: Int?){
+        deviceRotation = rotation ?: 0
+    }
+
+    fun getTextElements() = textElements
 }

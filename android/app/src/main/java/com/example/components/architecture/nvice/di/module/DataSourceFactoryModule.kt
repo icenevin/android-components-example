@@ -8,8 +8,8 @@ import dagger.Provides
 @Module
 class DataSourceFactoryModule {
 
-    @Provides
-    fun provideUserDataSourceFactory(userDao: UserDao): UserDataSourceFactory {
-        return UserDataSourceFactory(userDao)
-    }
+//    @Provides
+//    fun provideUserDataSourceFactory(userDao: UserDao): UserDataSourceFactory {
+//        return UserDataSourceFactory(userDao)
+//    }
 }

@@ -4,8 +4,11 @@ import android.content.Context
 import com.example.components.architecture.nvice.R
 import com.example.components.architecture.nvice.model.AppSettings
 import com.google.gson.Gson
+import javax.inject.Inject
+import javax.inject.Singleton
 
-class AppSettingsPreference(var context: Context?) {
+@Singleton
+class AppSettingsPreference @Inject constructor(private var context: Context?) {
 
     private var sharedPreferences = context?.getSharedPreferences(
             context?.getString(R.string.preference_settings), Context.MODE_PRIVATE)
