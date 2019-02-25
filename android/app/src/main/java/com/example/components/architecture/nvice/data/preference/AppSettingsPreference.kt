@@ -8,29 +8,11 @@ import javax.inject.Inject
 import javax.inject.Singleton
 
 @Singleton
-class AppSettingsPreference @Inject constructor(private var context: Context?) {
-
-    private var sharedPreferences = context?.getSharedPreferences(
-            context?.getString(R.string.preference_settings), Context.MODE_PRIVATE)
-
-    private fun pref() = Gson().fromJson(sharedPreferences?.getString(context?.getString(R.string.cache_app_settings), null), AppSettings::class.java)
-            ?: null
-
-    fun get() = pref()?.let { it } ?: AppSettings()
-
-    fun set(appSettings: AppSettings?) {
-        with(sharedPreferences?.edit()) {
-            this?.putString(context?.getString(R.string.cache_app_settings), Gson().toJson(appSettings))
-            this?.apply()
-        }
-    }
-
-    fun clear() {
-        with(sharedPreferences?.edit()) {
-            this?.putString(context?.getString(R.string.cache_app_settings), null)
-            this?.apply()
-        }
-    }
-
-    fun has() = pref() != null
+class AppSettingsPreference @Inject constructor(context: Context?) : BasePreference<AppSettings>(
+        context,
+        "preference_settings",
+        "cache_app_settings",
+        AppSettings::class.java
+) {
+    override fun get() = super.get() ?: AppSettings()
 }
