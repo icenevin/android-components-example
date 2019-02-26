@@ -1,5 +1,6 @@
 package com.example.components.architecture.nvice.util
 
+import com.example.components.architecture.nvice.util.regex.RegexPattern
 import timber.log.Timber
 import java.lang.Exception
 
@@ -26,6 +27,13 @@ class ValidationUtil {
                         Timber.e(e)
                     }
                 }
+            }
+            return false
+        }
+
+        fun isValidEmail(email: String?): Boolean {
+            email?.let {
+                return it.matches(RegexPattern.EMAIL.regex())
             }
             return false
         }

@@ -1,4 +1,4 @@
-package com.example.components.architecture.nvice.util
+package com.example.components.architecture.nvice.util.regex
 
 class RegexUtil {
     companion object {

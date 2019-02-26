@@ -5,8 +5,7 @@ import android.arch.persistence.db.SimpleSQLiteQuery
 import com.example.components.architecture.nvice.dao.UserDao
 import com.example.components.architecture.nvice.data.datasource.DataSourceFactory
 import com.example.components.architecture.nvice.model.User
-import com.example.components.architecture.nvice.util.RegexUtil
-import timber.log.Timber
+import com.example.components.architecture.nvice.util.regex.RegexUtil
 import javax.inject.Inject
 import kotlin.collections.HashMap
 

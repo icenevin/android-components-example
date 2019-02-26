@@ -9,9 +9,7 @@ import com.example.components.architecture.nvice.data.preference.AppSettingsPref
 import com.example.components.architecture.nvice.model.User
 import com.example.components.architecture.nvice.scheduler.DefaultScheduler
 import com.example.components.architecture.nvice.ui.user.UserDataSourceFactory
-import com.example.components.architecture.nvice.util.RegexUtil
 import timber.log.Timber
-import java.util.*
 import javax.inject.Inject
 import javax.inject.Singleton
 
