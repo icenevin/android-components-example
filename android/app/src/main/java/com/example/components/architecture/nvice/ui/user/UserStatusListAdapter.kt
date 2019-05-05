@@ -1,15 +1,15 @@
 package com.example.components.architecture.nvice.ui.user
 
-import android.support.v7.widget.RecyclerView
+import androidx.recyclerview.widget.RecyclerView
 import android.view.ViewGroup
 import android.view.LayoutInflater
-import android.databinding.DataBindingUtil
-import android.support.design.chip.Chip
-import android.support.v7.recyclerview.extensions.AsyncListDiffer
+import androidx.databinding.DataBindingUtil
+import com.google.android.material.chip.Chip
+import androidx.recyclerview.widget.AsyncListDiffer
 import com.example.components.architecture.nvice.R
 import com.example.components.architecture.nvice.databinding.ItemUserStatusFilterBinding
 import com.example.components.architecture.nvice.model.UserStatus
-import android.support.v7.util.DiffUtil
+import androidx.recyclerview.widget.DiffUtil
 
 
 class UserStatusListAdapter : RecyclerView.Adapter<UserStatusListAdapter.UserStatusViewHolder>() {

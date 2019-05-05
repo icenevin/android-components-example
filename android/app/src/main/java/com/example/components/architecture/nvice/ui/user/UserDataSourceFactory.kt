@@ -1,7 +1,7 @@
 package com.example.components.architecture.nvice.ui.user
 
-import android.arch.paging.DataSource
-import android.arch.persistence.db.SimpleSQLiteQuery
+import androidx.paging.DataSource
+import androidx.sqlite.db.SimpleSQLiteQuery
 import com.example.components.architecture.nvice.dao.UserDao
 import com.example.components.architecture.nvice.data.datasource.DataSourceFactory
 import com.example.components.architecture.nvice.model.User
@@ -9,7 +9,10 @@ import com.example.components.architecture.nvice.util.regex.RegexUtil
 import javax.inject.Inject
 import kotlin.collections.HashMap
 
-class UserDataSourceFactory @Inject constructor(private val dao: UserDao) : DataSourceFactory<Int, User>() {
+class UserDataSourceFactory @Inject constructor(
+        private val dao: UserDao
+) : DataSourceFactory<Int, User>() {
+
     private var statusList = emptyList<Int>().toMutableList()
 
     private val queryMain = "SELECT * FROM user"

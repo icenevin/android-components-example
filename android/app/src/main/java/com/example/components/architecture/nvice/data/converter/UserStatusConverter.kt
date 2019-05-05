@@ -1,6 +1,6 @@
 package com.example.components.architecture.nvice.data.converter
 
-import android.arch.persistence.room.TypeConverter
+import androidx.room.TypeConverter
 import com.example.components.architecture.nvice.model.UserStatus
 
 class UserStatusConverter {

@@ -2,10 +2,10 @@ package com.example.components.architecture.nvice.ui.user.details
 
 import android.content.Context
 import android.content.res.Resources
-import android.databinding.BindingAdapter
-import android.support.annotation.ColorRes
-import android.support.v4.content.ContextCompat
-import android.support.v4.graphics.drawable.DrawableCompat
+import androidx.databinding.BindingAdapter
+import androidx.annotation.ColorRes
+import androidx.core.content.ContextCompat
+import androidx.core.graphics.drawable.DrawableCompat
 import android.util.AttributeSet
 import android.view.LayoutInflater
 import android.widget.LinearLayout

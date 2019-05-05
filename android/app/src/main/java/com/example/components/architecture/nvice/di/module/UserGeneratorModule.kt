@@ -89,12 +89,4 @@ class UserGeneratorModule {
                 .build()
                 .create(UnsplashService::class.java)
     }
-
-//    @Singleton
-//    @Provides
-//    fun provideUserGenerator(
-//            uiNamesService: UiNamesService,
-//            uiFacesService: UiFacesService,
-//            unsplashService: UnsplashService
-//    ): UserGenerator = UserGenerator(uiNamesService, uiFacesService, unsplashService)
 }

@@ -1,11 +1,12 @@
 package com.example.components.architecture.nvice.dao
 
-import android.arch.lifecycle.LiveData
-import android.arch.paging.DataSource
-import android.arch.persistence.db.SupportSQLiteQuery
-import android.arch.persistence.room.*
+import androidx.lifecycle.LiveData
+import androidx.paging.DataSource
+import androidx.sqlite.db.SupportSQLiteQuery
+import androidx.room.*
 import com.example.components.architecture.nvice.model.User
 import com.example.components.architecture.nvice.model.UserStatus
+import kotlinx.coroutines.Deferred
 
 @Dao
 interface UserDao {
@@ -26,6 +27,9 @@ interface UserDao {
 
     @Query("SELECT * FROM user WHERE user.id == :id")
     fun findById(id: Int): LiveData<User>
+
+    @Query("SELECT * FROM user WHERE user.id == :id")
+    suspend fun findByIdAsync(id: Int): User
 
     @Query("SELECT DISTINCT status FROM user")
     fun selectAllUserStatus(): LiveData<MutableList<UserStatus>>

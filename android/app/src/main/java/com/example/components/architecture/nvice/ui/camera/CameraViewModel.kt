@@ -1,16 +1,15 @@
 package com.example.components.architecture.nvice.ui.camera
 
-import android.arch.lifecycle.MutableLiveData
-import android.arch.lifecycle.ViewModel
+import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.ViewModel
 import android.hardware.camera2.CameraAccessException
 import android.hardware.camera2.CameraCharacteristics
 import android.hardware.camera2.CameraManager
 import android.os.Build
-import android.support.annotation.RequiresApi
+import androidx.annotation.RequiresApi
 import android.util.SparseIntArray
 import android.view.Surface
-import com.example.components.architecture.nvice.util.getInt
-import com.example.components.architecture.nvice.util.isValidCitizenId
+import com.example.components.architecture.nvice.util.extension.isValidCitizenId
 import com.google.android.gms.tasks.Task
 import com.google.firebase.ml.vision.FirebaseVision
 import com.google.firebase.ml.vision.common.FirebaseVisionImage
@@ -18,7 +17,6 @@ import com.google.firebase.ml.vision.common.FirebaseVisionImageMetadata
 import com.google.firebase.ml.vision.text.FirebaseVisionText
 import io.fotoapparat.preview.Frame
 import timber.log.Timber
-import java.lang.Exception
 import javax.inject.Inject
 
 

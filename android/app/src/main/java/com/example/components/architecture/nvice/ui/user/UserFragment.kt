@@ -2,25 +2,25 @@ package com.example.components.architecture.nvice.ui.user
 
 
 import android.app.ActivityOptions
-import android.arch.lifecycle.*
+import androidx.lifecycle.*
 import android.os.Bundle
 
 import com.example.components.architecture.nvice.R
-import android.support.v7.widget.LinearLayoutManager
-import android.support.v7.widget.RecyclerView
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.example.components.architecture.nvice.model.User
 import com.example.components.architecture.nvice.model.UserStatus
 import com.example.components.architecture.nvice.scheduler.DefaultScheduler
 import dagger.android.support.DaggerFragment
 import kotlinx.android.synthetic.main.fragment_user_list.*
 import javax.inject.Inject
-import android.arch.paging.PagedList
+import androidx.paging.PagedList
 import android.content.Intent
-import android.support.v7.app.AppCompatActivity
-import android.support.v7.widget.Toolbar
-import android.support.v7.widget.helper.ItemTouchHelper
+import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.widget.Toolbar
+import androidx.recyclerview.widget.ItemTouchHelper
 import android.view.*
-import android.support.v7.widget.SearchView
+import androidx.appcompat.widget.SearchView
 import android.view.ViewGroup
 import com.example.components.architecture.nvice.BaseFragment
 import com.example.components.architecture.nvice.ui.user.create.UserCreateActivity
@@ -62,14 +62,14 @@ class UserFragment : BaseFragment() {
         initEvent()
     }
 
-    override fun onCreateOptionsMenu(menu: Menu?, inflater: MenuInflater?) {
+    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
         super.onCreateOptionsMenu(menu, inflater)
-        inflater?.inflate(R.menu.menu_user_list, menu)
+        inflater.inflate(R.menu.menu_user_list, menu)
     }
 
-    override fun onPrepareOptionsMenu(menu: Menu?) {
+    override fun onPrepareOptionsMenu(menu: Menu) {
         super.onPrepareOptionsMenu(menu)
-        val mSearchMenuItem = menu?.findItem(R.id.action_search)
+        val mSearchMenuItem = menu.findItem(R.id.action_search)
         val searchView = mSearchMenuItem?.actionView as SearchView
         searchView.queryHint = resources.getString(R.string.toolbar_search_user_hint)
         searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {

@@ -1,8 +1,8 @@
 package com.example.components.architecture.nvice.widget.fields
 
 import android.content.Context
-import android.support.annotation.ColorRes
-import android.support.constraint.ConstraintLayout
+import androidx.annotation.ColorRes
+import androidx.constraintlayout.widget.ConstraintLayout
 import android.util.AttributeSet
 import android.widget.LinearLayout
 

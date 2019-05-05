@@ -1,6 +1,6 @@
 package com.example.components.architecture.nvice.ui.user.details
 
-import android.arch.lifecycle.ViewModel
+import androidx.lifecycle.ViewModel
 import com.example.components.architecture.nvice.di.ViewModelKey
 import com.example.components.architecture.nvice.di.scope.java.FragmentScope
 import dagger.Binds

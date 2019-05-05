@@ -1,9 +1,9 @@
 package com.example.components.architecture.nvice.model
 
 import com.example.components.architecture.nvice.R
-import com.example.components.architecture.nvice.util.random
+import com.example.components.architecture.nvice.util.extension.random
 import com.google.gson.annotations.SerializedName
-import org.apache.commons.lang3.StringUtils
+import com.example.components.architecture.nvice.util.extension.capitalize
 
 enum class UserStatus constructor(val id: Int?) {
 
@@ -18,8 +18,6 @@ enum class UserStatus constructor(val id: Int?) {
 
     fun getValue(): Int? = id
 
-    fun getCapitalizedName(): String = StringUtils.capitalize(this.name.toLowerCase())
-
     fun getColorResource(): Int = when (this) {
         PERMANENT -> R.color.user_status_permanent
         TEMPORARY -> R.color.user_status_temporary
@@ -28,7 +26,7 @@ enum class UserStatus constructor(val id: Int?) {
 
     // for spinners
     override fun toString(): String {
-        return this.getCapitalizedName()
+        return this.name.capitalize()
     }
 
     companion object {

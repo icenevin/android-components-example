@@ -25,7 +25,7 @@ class UserDetailsActivity : BaseActivity() {
         }
     }
 
-    private fun initView(user: User) {
+    private fun initView(user: User?) {
         supportFragmentManager.beginTransaction().replace(R.id.container, UserDetailsFragment.getInstance(user)).commit()
     }
 

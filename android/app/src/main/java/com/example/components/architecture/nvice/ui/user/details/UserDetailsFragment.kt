@@ -3,18 +3,18 @@ package com.example.components.architecture.nvice.ui.user.details
 
 import android.animation.ArgbEvaluator
 import android.animation.ValueAnimator
-import android.arch.lifecycle.ViewModelProvider
-import android.arch.lifecycle.ViewModelProviders
-import android.databinding.DataBindingUtil
+import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.ViewModelProviders
+import androidx.databinding.DataBindingUtil
 import android.graphics.Bitmap
 import android.graphics.drawable.GradientDrawable
 import android.os.Bundle
-import android.support.v4.content.ContextCompat
-import android.support.v4.graphics.ColorUtils
-import android.support.v4.widget.NestedScrollView
-import android.support.v7.app.AppCompatActivity
-import android.support.v7.graphics.Palette
-import android.support.v7.widget.Toolbar
+import androidx.core.content.ContextCompat
+import androidx.core.graphics.ColorUtils
+import androidx.core.widget.NestedScrollView
+import androidx.appcompat.app.AppCompatActivity
+import androidx.palette.graphics.Palette
+import androidx.appcompat.widget.Toolbar
 import android.view.*
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.target.SimpleTarget
@@ -40,7 +40,7 @@ class UserDetailsFragment : BaseFragment() {
     private var isAppBarBgShowing: Boolean = false
 
     companion object {
-        fun getInstance(user: User): UserDetailsFragment {
+        fun getInstance(user: User?): UserDetailsFragment {
             val fragment = UserDetailsFragment()
             val args = Bundle()
             args.putParcelable("user", Parcels.wrap(user))
@@ -54,7 +54,7 @@ class UserDetailsFragment : BaseFragment() {
         setHasOptionsMenu(true)
         viewModel = ViewModelProviders.of(this, viewModelFactory)
                 .get(UserDetailsViewModel::class.java)
-        viewModel.user = Parcels.unwrap(arguments?.getParcelable("user"))
+        viewModel.initUser(Parcels.unwrap(arguments?.getParcelable("user")))
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
@@ -68,20 +68,26 @@ class UserDetailsFragment : BaseFragment() {
         super.onActivityCreated(savedInstanceState)
         initToolbar()
         initView()
+        initObserver()
         initEvent()
     }
 
-    override fun onCreateOptionsMenu(menu: Menu?, inflater: MenuInflater?) {
+    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
         super.onCreateOptionsMenu(menu, inflater)
-        inflater?.inflate(R.menu.menu_user_details, menu)
+        inflater.inflate(R.menu.menu_user_details, menu)
     }
 
-    override fun onPrepareOptionsMenu(menu: Menu?) {
+    override fun onPrepareOptionsMenu(menu: Menu) {
         super.onPrepareOptionsMenu(menu)
-        val mEditUser = menu?.findItem(R.id.action_edit)
+        val mEditUser = menu.findItem(R.id.action_edit)
         mEditUser?.setOnMenuItemClickListener {
             true
         }
+    }
+
+    override fun onStop() {
+        super.onStop()
+        viewModel.disposeServices()
     }
 
     private fun initToolbar() {
@@ -97,8 +103,13 @@ class UserDetailsFragment : BaseFragment() {
         initBackground()
     }
 
+
+    private fun initObserver() {
+
+    }
+
     private fun initBackground() {
-        Glide.with(context!!).asBitmap().load(viewModel.user.avatar).into(object : SimpleTarget<Bitmap>() {
+        Glide.with(context!!).asBitmap().load(viewModel.getAvatar()).into(object : SimpleTarget<Bitmap>() {
             override fun onResourceReady(resource: Bitmap, transition: Transition<in Bitmap>?) {
                 Palette.from(resource).generate { palette ->
                     palette?.let {

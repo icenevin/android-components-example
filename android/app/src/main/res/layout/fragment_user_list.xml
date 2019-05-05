@@ -3,22 +3,22 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
 
-    <android.support.design.widget.CoordinatorLayout
+    <androidx.coordinatorlayout.widget.CoordinatorLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@color/white_300"
         tools:context="com.example.components.architecture.nvice.ui.user.UserFragment">
 
-        <android.support.design.widget.AppBarLayout
+        <com.google.android.material.appbar.AppBarLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
-            <android.support.v7.widget.Toolbar
+            <androidx.appcompat.widget.Toolbar
                 android:id="@+id/toolbar"
                 style="@style/AppToolbar"
                 app:layout_scrollFlags="scroll|enterAlways" />
 
-            <android.support.constraint.ConstraintLayout
+            <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@color/white_100"
@@ -26,7 +26,7 @@
                 android:padding="@dimen/dp_8"
                 app:layout_scrollFlags="enterAlways">
 
-                <android.support.v7.widget.AppCompatImageView
+                <androidx.appcompat.widget.AppCompatImageView
                     android:id="@+id/btnFilter"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -39,7 +39,7 @@
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
 
-                <android.support.v7.widget.RecyclerView
+                <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/rvUserStatusFilters"
                     android:layout_width="0dp"
                     android:layout_height="@dimen/sp_36"
@@ -51,8 +51,8 @@
                     app:layout_constraintEnd_toStartOf="@+id/btnFilter"
                     app:layout_constraintStart_toStartOf="parent" />
 
-            </android.support.constraint.ConstraintLayout>
-        </android.support.design.widget.AppBarLayout>
+            </androidx.constraintlayout.widget.ConstraintLayout>
+        </com.google.android.material.appbar.AppBarLayout>
 
         <FrameLayout
             android:layout_width="match_parent"
@@ -68,7 +68,7 @@
                 android:gravity="center"
                 android:orientation="vertical">
 
-                <android.support.v7.widget.AppCompatImageView
+                <androidx.appcompat.widget.AppCompatImageView
                     android:id="@+id/ivListStatusIcon"
                     android:layout_width="@dimen/dp_128"
                     android:layout_height="@dimen/dp_128"
@@ -83,7 +83,7 @@
                     android:textColor="@color/black_500" />
             </LinearLayout>
 
-            <android.support.v7.widget.RecyclerView
+            <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/rvUserList"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
@@ -92,7 +92,7 @@
                 android:paddingBottom="@dimen/dp_48" />
         </FrameLayout>
 
-        <android.support.design.widget.FloatingActionButton
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
             android:id="@+id/btnAddUser"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -103,5 +103,5 @@
             app:backgroundTint="@color/primary"
             app:layout_anchor="@id/rvUserList"
             app:layout_anchorGravity="bottom|right|end" />
-    </android.support.design.widget.CoordinatorLayout>
+    </androidx.coordinatorlayout.widget.CoordinatorLayout>
 </layout>

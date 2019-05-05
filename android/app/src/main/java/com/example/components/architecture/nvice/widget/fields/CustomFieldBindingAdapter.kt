@@ -1,8 +1,8 @@
 package com.example.components.architecture.nvice.widget.fields
 
 import android.annotation.SuppressLint
-import android.databinding.*
-import android.support.annotation.ColorRes
+import androidx.databinding.*
+import androidx.annotation.ColorRes
 import android.text.Editable
 import android.text.TextWatcher
 import android.view.View

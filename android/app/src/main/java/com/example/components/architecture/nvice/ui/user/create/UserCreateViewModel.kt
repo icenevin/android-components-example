@@ -1,14 +1,17 @@
 package com.example.components.architecture.nvice.ui.user.create
 
-import android.arch.lifecycle.MutableLiveData
-import android.arch.lifecycle.ViewModel
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
+import com.example.components.architecture.nvice.BaseViewModel
 import com.example.components.architecture.nvice.data.repository.UserRepository
 import com.example.components.architecture.nvice.model.User
 import com.example.components.architecture.nvice.model.UserPosition
 import com.example.components.architecture.nvice.model.UserStatus
 import com.example.components.architecture.nvice.scheduler.DefaultScheduler
-import com.example.components.architecture.nvice.util.GenerateUserCallback
-import com.example.components.architecture.nvice.util.UserGenerator
+import com.example.components.architecture.nvice.data.repository.GenerateUserCallback
+import com.example.components.architecture.nvice.data.repository.UserGeneratorRepository
+import com.example.components.architecture.nvice.ui.LoadingStatus
+import com.example.components.architecture.nvice.util.extension.init
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.Disposable
 import io.reactivex.schedulers.Schedulers
@@ -19,21 +22,20 @@ import org.threeten.bp.format.DateTimeFormatter
 import timber.log.Timber
 import java.lang.Exception
 import javax.inject.Inject
-import javax.inject.Singleton
 
 
 class UserCreateViewModel @Inject constructor(
         private val userRepository: UserRepository,
-        private val userGenerator: UserGenerator
-) : ViewModel() {
+        private val userGeneratorRepository: UserGeneratorRepository
+) : BaseViewModel() {
 
-    // loading status
-    enum class LoadingStatus { FINISHED, PROCESSING, IDLE }
+    private val _isUserCreated = MutableLiveData<Boolean>().init(false)
+    val isUserCreated : LiveData<Boolean>
+        get() = _isUserCreated
 
-    val userCreateStatus = MutableLiveData<LoadingStatus>()
-    val userDataLoadingStatus = MutableLiveData<LoadingStatus>()
-    val userAvatarLoadingStatus = MutableLiveData<LoadingStatus>()
-    val userCoverLoadingStatus = MutableLiveData<LoadingStatus>()
+    val userDataLoadingStatus = MutableLiveData<LoadingStatus>().init(LoadingStatus.IDLE)
+    val userAvatarLoadingStatus = MutableLiveData<LoadingStatus>().init(LoadingStatus.IDLE)
+    val userCoverLoadingStatus = MutableLiveData<LoadingStatus>().init(LoadingStatus.IDLE)
 
     // disposable (rxjava)
     private var userCoverService: Disposable? = null
@@ -43,37 +45,19 @@ class UserCreateViewModel @Inject constructor(
     private val bgScope = CoroutineScope(Dispatchers.IO + job)
 
     // user information
-    val avatar = MutableLiveData<String>()
-    val firstName = MutableLiveData<String>()
-    val lastName = MutableLiveData<String>()
-    val description = MutableLiveData<String>()
-    val dateOfBirth = MutableLiveData<String>()
-    val position = MutableLiveData<UserPosition>()
-    val status = MutableLiveData<UserStatus>()
-    val cover = MutableLiveData<String>()
-
-    // date picker trigger
-    val showDatePicker = MutableLiveData<Boolean>()
-
-    init {
-        avatar.postValue(null)
-        firstName.postValue("")
-        lastName.postValue("")
-        description.postValue("")
-        dateOfBirth.postValue("")
-        position.postValue(UserPosition.DEV)
-        status.postValue(UserStatus.PERMANENT)
-        cover.postValue(null)
-        userCreateStatus.postValue(LoadingStatus.PROCESSING)
-        userDataLoadingStatus.postValue(LoadingStatus.IDLE)
-        userAvatarLoadingStatus.postValue(LoadingStatus.IDLE)
-        userCoverLoadingStatus.postValue(LoadingStatus.IDLE)
-    }
+    val avatar = MutableLiveData<String>().init(null)
+    val firstName = MutableLiveData<String>().init("")
+    val lastName = MutableLiveData<String>().init("")
+    val description = MutableLiveData<String>().init("")
+    val dateOfBirth = MutableLiveData<String>().init("")
+    val position = MutableLiveData<UserPosition>().init(UserPosition.DEV)
+    val status = MutableLiveData<UserStatus>().init(UserStatus.PERMANENT)
+    val cover = MutableLiveData<String>().init(null)
 
     // use custom callback
     fun randomUser() {
         userDataLoadingStatus.postValue(LoadingStatus.PROCESSING)
-        userGenerator.generateUser(object : GenerateUserCallback {
+        userGeneratorRepository.generateUser(object : GenerateUserCallback {
             override fun onSuccess(user: User) {
                 DefaultScheduler.AsyncScheduler.execute {
                     user.staffId = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyyMMdd")) + (1000 + (userRepository.getLatestUserId() + 1))
@@ -99,10 +83,10 @@ class UserCreateViewModel @Inject constructor(
 
     // use kotlin coroutines
     fun randomAvatar() {
-        userAvatarLoadingStatus.postValue(LoadingStatus.PROCESSING)
+        userAvatarLoadingStatus.value = LoadingStatus.PROCESSING
         bgScope.launch {
             try {
-                val result = userGenerator.generateUserAvatar().await()
+                val result = userGeneratorRepository.generateUserAvatar().await()
                 result[0].photo?.let {
                     avatar.postValue(it)
                 }
@@ -114,7 +98,7 @@ class UserCreateViewModel @Inject constructor(
     }
 
     fun selectCover() {
-        if (cover.value.isNullOrEmpty() && userCoverLoadingStatus != LoadingStatus.PROCESSING) {
+        if (cover.value.isNullOrEmpty() && userCoverLoadingStatus.value != LoadingStatus.PROCESSING) {
             randomCover()
         }
     }
@@ -122,7 +106,7 @@ class UserCreateViewModel @Inject constructor(
     // use rxJava
     fun randomCover() {
         userCoverLoadingStatus.postValue(LoadingStatus.PROCESSING)
-        userCoverService = userGenerator.generateUserCover()
+        userCoverService = userGeneratorRepository.generateUserCover()
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(
@@ -137,19 +121,19 @@ class UserCreateViewModel @Inject constructor(
     }
 
     fun clearAvatar() {
-        avatar.postValue("")
+        avatar.value = ""
     }
 
     fun clearCover() {
-        cover.postValue("")
+        cover.value = ""
     }
 
     fun clearDateOfBirth() {
-        dateOfBirth.postValue("")
+        dateOfBirth.value = ""
     }
 
     fun clearDescription() {
-        description.postValue("")
+        description.value = ""
     }
 
     fun addUser() {
@@ -157,20 +141,17 @@ class UserCreateViewModel @Inject constructor(
         DefaultScheduler.AsyncScheduler.execute {
             user.staffId = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyyMMdd")) + (1000 + (userRepository.getLatestUserId() + 1))
             userRepository.addUser(user)
-            userCreateStatus.postValue(LoadingStatus.FINISHED)
+            _isUserCreated.postValue(true)
         }
-    }
-
-    fun requestDateOfBirthPicker() {
-        showDatePicker.postValue(true)
     }
 
     fun setDateOfBirth(day: Int, month: Int, year: Int) {
         val date = LocalDate.of(year, month + 1, day)
-        dateOfBirth.postValue(date.format(DateTimeFormatter.ofPattern("d MMM yyyy")))
+        dateOfBirth.value = date.format(DateTimeFormatter.ofPattern("d MMM yyyy"))
     }
 
-    fun disposeServices() {
+    override fun disposeServices() {
+        job.cancel()
         userCoverService?.dispose()
     }
 }

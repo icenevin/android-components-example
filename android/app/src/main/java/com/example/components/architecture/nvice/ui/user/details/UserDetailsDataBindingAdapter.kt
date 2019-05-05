@@ -1,12 +1,12 @@
 package com.example.components.architecture.nvice.ui.user.details
 
 import android.annotation.SuppressLint
-import android.databinding.BindingAdapter
+import androidx.databinding.BindingAdapter
 import android.graphics.drawable.Drawable
 import android.os.Handler
-import android.support.annotation.ColorRes
-import android.support.v4.content.ContextCompat
-import android.support.v4.graphics.ColorUtils
+import androidx.annotation.ColorRes
+import androidx.core.content.ContextCompat
+import androidx.core.graphics.ColorUtils
 import android.view.View
 import android.widget.ImageView
 import com.bumptech.glide.Glide

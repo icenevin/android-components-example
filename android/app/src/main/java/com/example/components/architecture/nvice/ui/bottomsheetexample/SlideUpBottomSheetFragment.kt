@@ -1,11 +1,11 @@
 package com.example.components.architecture.nvice.ui.bottomsheetexample
 
 
-import android.arch.lifecycle.ViewModelProvider
-import android.arch.lifecycle.ViewModelProviders
+import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.ViewModelProviders
 import android.os.Bundle
-import android.support.design.widget.BottomSheetBehavior
-import android.support.v4.app.Fragment
+import com.google.android.material.bottomsheet.BottomSheetBehavior
+import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup

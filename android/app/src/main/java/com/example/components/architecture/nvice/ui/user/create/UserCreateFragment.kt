@@ -2,18 +2,19 @@ package com.example.components.architecture.nvice.ui.user.create
 
 
 import android.app.DatePickerDialog
-import android.arch.lifecycle.Observer
-import android.arch.lifecycle.ViewModelProvider
-import android.arch.lifecycle.ViewModelProviders
+import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.ViewModelProviders
 import android.content.Intent
-import android.databinding.DataBindingUtil
+import androidx.databinding.DataBindingUtil
 import android.os.Bundle
-import android.support.v4.content.ContextCompat
-import android.support.v7.app.AppCompatActivity
-import android.support.v7.widget.Toolbar
+import androidx.core.content.ContextCompat
+import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.widget.Toolbar
 import android.view.*
 import android.widget.ArrayAdapter
 import com.example.components.architecture.nvice.BaseFragment
+import com.example.components.architecture.nvice.BaseViewModel
 
 import com.example.components.architecture.nvice.R
 import com.example.components.architecture.nvice.databinding.FragmentUserCreateBinding
@@ -21,6 +22,7 @@ import com.example.components.architecture.nvice.model.UserPosition
 import com.example.components.architecture.nvice.model.UserStatus
 import com.example.components.architecture.nvice.ui.camera.CameraActivity
 import kotlinx.android.synthetic.main.fragment_user_create.*
+import timber.log.Timber
 import java.util.*
 import javax.inject.Inject
 
@@ -47,6 +49,7 @@ class UserCreateFragment : BaseFragment() {
         setHasOptionsMenu(true)
         val binding: FragmentUserCreateBinding = DataBindingUtil.inflate(inflater, R.layout.fragment_user_create, container, false)
         binding.lifecycleOwner = this
+        binding.fragment = this
         binding.viewModel = viewModel
         return binding.root
     }
@@ -59,20 +62,20 @@ class UserCreateFragment : BaseFragment() {
         initView()
     }
 
-    override fun onCreateOptionsMenu(menu: Menu?, inflater: MenuInflater?) {
+    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
         super.onCreateOptionsMenu(menu, inflater)
-        inflater?.inflate(R.menu.menu_user_create, menu)
+        inflater.inflate(R.menu.menu_user_create, menu)
     }
 
-    override fun onPrepareOptionsMenu(menu: Menu?) {
+    override fun onPrepareOptionsMenu(menu: Menu) {
         super.onPrepareOptionsMenu(menu)
-        val mRandomUser = menu?.findItem(R.id.action_random)
+        val mRandomUser = menu.findItem(R.id.action_random)
         mRandomUser?.setOnMenuItemClickListener {
             viewModel.randomUser()
             true
         }
 
-        val mScan = menu?.findItem(R.id.action_scan)
+        val mScan = menu.findItem(R.id.action_scan)
         mScan?.setOnMenuItemClickListener {
             activity?.startActivity(Intent(context, CameraActivity::class.java))
             true
@@ -108,18 +111,10 @@ class UserCreateFragment : BaseFragment() {
 
     private fun initObservers() {
 
-        viewModel.userCreateStatus.observe(this, Observer { list ->
-            list?.let { status ->
-                if (status == UserCreateViewModel.LoadingStatus.FINISHED) {
+        viewModel.isUserCreated.observe(this, Observer { status ->
+            status?.let { isCreated ->
+                if (isCreated) {
                     activity?.finish()
-                }
-            }
-        })
-
-        viewModel.showDatePicker.observe(this, Observer { request ->
-            request?.let { isDatePickerRequested ->
-                if (isDatePickerRequested) {
-                    datePicker.show()
                 }
             }
         })
@@ -128,5 +123,10 @@ class UserCreateFragment : BaseFragment() {
     private fun initView() {
         spPosition.getSpinner().adapter = ArrayAdapter<UserPosition>(context!!, R.layout.item_dropdown_custom_field_spinner, UserPosition.values())
         spStatus.getSpinner().adapter = ArrayAdapter<UserStatus>(context!!, R.layout.item_dropdown_custom_field_spinner, UserStatus.values())
+    }
+
+    fun showDatePicker() {
+        Timber.i("show date picker")
+        datePicker.show()
     }
 }

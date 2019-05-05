@@ -1,4 +1,4 @@
-package com.example.components.architecture.nvice.util
+package com.example.components.architecture.nvice.data.repository
 
 import com.example.components.architecture.nvice.api.response.UiFacesResponse
 import com.example.components.architecture.nvice.api.response.UiNamesResponse
@@ -18,7 +18,7 @@ import javax.inject.Inject
 import javax.inject.Singleton
 
 @Singleton
-class UserGenerator @Inject constructor(
+class UserGeneratorRepository @Inject constructor(
         private val uiNamesService: UiNamesService,
         private val uiFacesService: UiFacesService,
         private val unsplashService: UnsplashService

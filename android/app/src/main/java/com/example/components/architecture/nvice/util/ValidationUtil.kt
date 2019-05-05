@@ -1,5 +1,6 @@
 package com.example.components.architecture.nvice.util
 
+import com.example.components.architecture.nvice.util.extension.getInt
 import com.example.components.architecture.nvice.util.regex.RegexPattern
 import timber.log.Timber
 import java.lang.Exception

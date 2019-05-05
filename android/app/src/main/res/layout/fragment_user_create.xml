@@ -12,48 +12,53 @@
 
         <import type="com.example.components.architecture.nvice.model.UserPosition" />
 
-        <import type="com.example.components.architecture.nvice.ui.user.create.UserCreateViewModel.LoadingStatus" />
+        <import type="com.example.components.architecture.nvice.ui.LoadingStatus" />
+
+        <variable
+            name="fragment"
+            type="com.example.components.architecture.nvice.ui.user.create.UserCreateFragment" />
 
         <variable
             name="viewModel"
             type="com.example.components.architecture.nvice.ui.user.create.UserCreateViewModel" />
     </data>
 
-    <android.support.design.widget.CoordinatorLayout
+    <androidx.coordinatorlayout.widget.CoordinatorLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         tools:context=".ui.user.create.UserCreateFragment">
 
-        <android.support.design.widget.AppBarLayout
+        <com.google.android.material.appbar.AppBarLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
-            <android.support.v7.widget.Toolbar
+            <androidx.appcompat.widget.Toolbar
                 android:id="@+id/toolbar"
                 style="@style/AppToolbar" />
-        </android.support.design.widget.AppBarLayout>
+        </com.google.android.material.appbar.AppBarLayout>
 
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
-            <android.support.v4.widget.SwipeRefreshLayout
+            <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:enable="@{false}"
-                bind:loading="@{viewModel.userDataLoadingStatus}">
+                bind:loading="@{viewModel.userDataLoadingStatus}"
+               >
 
-                <android.support.v4.widget.NestedScrollView
+                <androidx.core.widget.NestedScrollView
                     android:layout_width="match_parent"
                     android:layout_height="match_parent">
 
-                    <android.support.constraint.ConstraintLayout
+                    <androidx.constraintlayout.widget.ConstraintLayout
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:background="@color/white">
 
-                        <android.support.constraint.ConstraintLayout
+                        <androidx.constraintlayout.widget.ConstraintLayout
                             android:id="@+id/ivAvatar"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
@@ -62,7 +67,7 @@
                             app:layout_constraintStart_toStartOf="parent"
                             app:layout_constraintTop_toTopOf="parent">
 
-                            <android.support.v7.widget.AppCompatImageView
+                            <androidx.appcompat.widget.AppCompatImageView
                                 android:layout_width="@dimen/dp_92"
                                 android:layout_height="@dimen/dp_92"
                                 android:background="@drawable/ic_user_avatar_add"
@@ -88,9 +93,9 @@
                                     android:layout_gravity="center" />
                             </FrameLayout>
 
-                        </android.support.constraint.ConstraintLayout>
+                        </androidx.constraintlayout.widget.ConstraintLayout>
 
-                        <android.support.v7.widget.AppCompatImageView
+                        <androidx.appcompat.widget.AppCompatImageView
                             android:layout_width="@dimen/dp_24"
                             android:layout_height="@dimen/dp_24"
                             android:elevation="@dimen/dp_2"
@@ -155,7 +160,7 @@
                                 app:field_icon="@drawable/ic_date_range_black_24dp"
                                 app:field_inputDrawableEnd="@drawable/ic_clear_white_24dp"
                                 app:field_longClickable="false"
-                                app:field_onClick="@{()->viewModel.requestDateOfBirthPicker()}"
+                                app:field_onClick="@{()-> fragment.showDatePicker()}"
                                 app:field_onInputDrawableEndClick="@{()-> viewModel.clearDateOfBirth()}"
                                 app:field_showInputDrawableEnd="@{viewModel.dateOfBirth == null || viewModel.dateOfBirth.isEmpty ? false : true}"
                                 app:field_text="@{viewModel.dateOfBirth}" />
@@ -167,8 +172,8 @@
                                 app:field_hint="@string/hint_user_create_description"
                                 app:field_icon="@drawable/ic_description_black_24dp"
                                 app:field_inputDrawableEnd="@drawable/ic_clear_white_24dp"
-                                app:field_showInputDrawableEnd="@{viewModel.description == null || viewModel.description.isEmpty ? false : true}"
                                 app:field_onInputDrawableEndClick="@{()-> viewModel.clearDescription()}"
+                                app:field_showInputDrawableEnd="@{viewModel.description == null || viewModel.description.isEmpty ? false : true}"
                                 app:field_text="@={viewModel.description}" />
                         </LinearLayout>
 
@@ -248,13 +253,13 @@
                                 </LinearLayout>
                             </RelativeLayout>
 
-                            <android.support.constraint.ConstraintLayout
+                            <androidx.constraintlayout.widget.ConstraintLayout
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:background="@color/black_500"
                                 android:visibility="@{viewModel.cover == null || viewModel.cover.isEmpty ? View.GONE : View.VISIBLE, default = gone}">
 
-                                <android.support.v7.widget.AppCompatImageView
+                                <androidx.appcompat.widget.AppCompatImageView
                                     android:id="@+id/ivCoverIcon"
                                     android:layout_width="@dimen/dp_36"
                                     android:layout_height="wrap_content"
@@ -276,7 +281,7 @@
                                     app:layout_constraintStart_toStartOf="parent"
                                     app:layout_constraintTop_toBottomOf="@+id/ivCoverIcon" />
 
-                                <android.support.v7.widget.AppCompatImageView
+                                <androidx.appcompat.widget.AppCompatImageView
                                     android:layout_width="0dp"
                                     android:layout_height="0dp"
                                     android:onClick="@{()->viewModel.randomCover()}"
@@ -295,11 +300,11 @@
                                     app:layout_constraintEnd_toEndOf="parent"
                                     app:layout_constraintStart_toStartOf="parent"
                                     app:layout_constraintTop_toTopOf="parent" />
-                            </android.support.constraint.ConstraintLayout>
+                            </androidx.constraintlayout.widget.ConstraintLayout>
                         </LinearLayout>
-                    </android.support.constraint.ConstraintLayout>
-                </android.support.v4.widget.NestedScrollView>
-            </android.support.v4.widget.SwipeRefreshLayout>
+                    </androidx.constraintlayout.widget.ConstraintLayout>
+                </androidx.core.widget.NestedScrollView>
+            </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 
             <FrameLayout
                 android:layout_width="match_parent"
@@ -324,5 +329,5 @@
 
             </FrameLayout>
         </RelativeLayout>
-    </android.support.design.widget.CoordinatorLayout>
+    </androidx.coordinatorlayout.widget.CoordinatorLayout>
 </layout>

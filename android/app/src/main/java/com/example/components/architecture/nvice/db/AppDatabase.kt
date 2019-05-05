@@ -1,8 +1,8 @@
 package com.example.components.architecture.nvice.db
 
-import android.arch.persistence.room.Database
-import android.arch.persistence.room.RoomDatabase
-import android.arch.persistence.room.TypeConverters
+import androidx.room.Database
+import androidx.room.RoomDatabase
+import androidx.room.TypeConverters
 import com.example.components.architecture.nvice.data.converter.UserStatusConverter
 import com.example.components.architecture.nvice.dao.UserDao
 import com.example.components.architecture.nvice.data.converter.UserPositionConverter

@@ -2,10 +2,10 @@ package com.example.components.architecture.nvice.widget.fields
 
 import android.content.Context
 import android.content.res.Resources
-import android.support.annotation.ColorRes
-import android.support.constraint.ConstraintSet
-import android.support.v4.content.ContextCompat
-import android.support.v4.graphics.drawable.DrawableCompat
+import androidx.annotation.ColorRes
+import androidx.constraintlayout.widget.ConstraintSet
+import androidx.core.content.ContextCompat
+import androidx.core.graphics.drawable.DrawableCompat
 import android.util.AttributeSet
 import android.view.LayoutInflater
 import android.view.View

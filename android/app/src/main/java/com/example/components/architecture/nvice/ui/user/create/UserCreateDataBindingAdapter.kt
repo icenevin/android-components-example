@@ -1,22 +1,24 @@
 package com.example.components.architecture.nvice.ui.user.create
 
-import android.databinding.BindingAdapter
+import androidx.databinding.BindingAdapter
 import android.widget.ImageView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
 import com.bumptech.glide.request.RequestOptions
 import com.example.components.architecture.nvice.widget.fields.CustomFieldSpinner
 import android.widget.AdapterView
-import android.databinding.InverseBindingListener
+import androidx.databinding.InverseBindingListener
 import android.view.View
-import android.databinding.InverseBindingAdapter
-import android.support.v4.widget.SwipeRefreshLayout
+import androidx.databinding.InverseBindingAdapter
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.example.components.architecture.nvice.model.UserPosition
 import com.example.components.architecture.nvice.model.UserStatus
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners
 import com.bumptech.glide.load.resource.bitmap.CenterCrop
+import com.example.components.architecture.nvice.BaseViewModel
 import com.example.components.architecture.nvice.R
+import com.example.components.architecture.nvice.ui.LoadingStatus
 
 
 @Suppress("unused")
@@ -99,12 +101,12 @@ fun getSelectedUserStatus(view: CustomFieldSpinner): UserStatus {
 }
 
 @BindingAdapter("bind:loading")
-fun setLoader(view: SwipeRefreshLayout, status: UserCreateViewModel.LoadingStatus?) {
+fun setLoader(view: SwipeRefreshLayout, status: LoadingStatus?) {
     status?.let {
         when (status) {
-            UserCreateViewModel.LoadingStatus.FINISHED -> view.isRefreshing = false
-            UserCreateViewModel.LoadingStatus.PROCESSING -> view.isRefreshing = true
-            UserCreateViewModel.LoadingStatus.IDLE -> view.isRefreshing = false
+            LoadingStatus.FINISHED -> view.isRefreshing = false
+            LoadingStatus.PROCESSING -> view.isRefreshing = true
+            LoadingStatus.IDLE -> view.isRefreshing = false
         }
     }
 }

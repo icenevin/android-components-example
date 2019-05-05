@@ -1,7 +1,7 @@
 package com.example.components.architecture.nvice.ui.user
 
-import android.support.v7.widget.RecyclerView
-import android.support.v7.widget.helper.ItemTouchHelper
+import androidx.recyclerview.widget.RecyclerView
+import androidx.recyclerview.widget.ItemTouchHelper
 import timber.log.Timber
 
 class UserItemTouchHelperCallback(private val listener: OnItemTouchListener) : ItemTouchHelper.Callback() {

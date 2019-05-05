@@ -1,8 +1,7 @@
 package com.example.components.architecture.nvice.model
 
-import com.example.components.architecture.nvice.util.random
+import com.example.components.architecture.nvice.util.extension.random
 import com.google.gson.annotations.SerializedName
-import org.apache.commons.lang3.StringUtils
 
 enum class UserPosition constructor(val id: Int?, val positionName: String, val positionGroup: String, val positionSubGroup: String) {
 
@@ -29,8 +28,6 @@ enum class UserPosition constructor(val id: Int?, val positionName: String, val 
     UNDEFINED(9999, "Undefined", "Undefined", "Undefined");
 
     fun getValue(): Int? = id
-
-    fun getCapitalizedName(): String = StringUtils.capitalize(this.positionGroup)
 
     // for spinners
     override fun toString(): String {

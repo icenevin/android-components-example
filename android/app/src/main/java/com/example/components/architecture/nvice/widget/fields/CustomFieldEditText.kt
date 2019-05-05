@@ -2,13 +2,13 @@ package com.example.components.architecture.nvice.widget.fields
 
 import android.content.Context
 import android.content.res.Resources
-import android.databinding.BindingMethod
-import android.databinding.BindingMethods
-import android.databinding.InverseBindingMethod
-import android.databinding.InverseBindingMethods
-import android.support.annotation.ColorRes
-import android.support.v4.content.ContextCompat
-import android.support.v4.graphics.drawable.DrawableCompat
+import androidx.databinding.BindingMethod
+import androidx.databinding.BindingMethods
+import androidx.databinding.InverseBindingMethod
+import androidx.databinding.InverseBindingMethods
+import androidx.annotation.ColorRes
+import androidx.core.content.ContextCompat
+import androidx.core.graphics.drawable.DrawableCompat
 import android.text.TextWatcher
 import android.util.AttributeSet
 import android.view.LayoutInflater

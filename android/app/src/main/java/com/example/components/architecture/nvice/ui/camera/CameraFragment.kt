@@ -1,8 +1,8 @@
 package com.example.components.architecture.nvice.ui.camera
 
-import android.arch.lifecycle.Observer
-import android.arch.lifecycle.ViewModelProvider
-import android.arch.lifecycle.ViewModelProviders
+import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.ViewModelProviders
 import android.content.Context.CAMERA_SERVICE
 import android.hardware.camera2.CameraManager
 import android.os.Bundle

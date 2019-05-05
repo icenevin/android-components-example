@@ -1,7 +1,7 @@
 package com.example.components.architecture.nvice.interactor
 
-import android.arch.lifecycle.LiveData
-import android.arch.lifecycle.MutableLiveData
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 import com.example.components.architecture.nvice.interactor.result.Result
 import com.example.components.architecture.nvice.scheduler.DefaultScheduler
 import timber.log.Timber

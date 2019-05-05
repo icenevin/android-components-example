@@ -1,6 +1,6 @@
 package com.example.components.architecture.nvice.di
 
-import android.arch.persistence.room.Room
+import androidx.room.Room
 import android.content.Context
 import android.net.wifi.WifiManager
 import com.example.components.architecture.nvice.BaseApplication

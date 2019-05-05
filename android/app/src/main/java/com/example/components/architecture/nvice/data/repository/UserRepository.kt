@@ -1,8 +1,8 @@
 package com.example.components.architecture.nvice.data.repository
 
-import android.arch.lifecycle.MutableLiveData
-import android.arch.paging.LivePagedListBuilder
-import android.arch.paging.PagedList
+import androidx.lifecycle.MutableLiveData
+import androidx.paging.LivePagedListBuilder
+import androidx.paging.PagedList
 import com.example.components.architecture.nvice.dao.UserDao
 import com.example.components.architecture.nvice.data.datasource.DataSourceFactory
 import com.example.components.architecture.nvice.data.preference.AppSettingsPreference
@@ -50,6 +50,8 @@ class UserRepository @Inject constructor(
         userDataSourceFactory.searchByStatus(statusList)
         result.value?.dataSource?.invalidate()
     }
+
+    suspend fun getUserById(id: Int) = userDao.findByIdAsync(id)
 
     fun getLatestUserId() =  userDao.selectLatestId()
 

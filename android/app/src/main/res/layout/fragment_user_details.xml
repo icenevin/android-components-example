@@ -6,7 +6,8 @@
 
     <data>
 
-        <import type="android.support.v4.graphics.ColorUtils" />
+        <import type="androidx.core.graphics.ColorUtils" />
+        <import type="com.example.components.architecture.nvice.util.StringUtil" />
 
         <import type="android.view.View" />
 
@@ -26,14 +27,14 @@
             android:id="@+id/vBackground"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            bind:info_backgroundColor="@{viewModel.user.status.colorResource}"
+            bind:info_backgroundColor="@{viewModel.getStatusColor()}"
             bind:info_backgroundColorAlpha="@{100}" />
 
-        <android.support.constraint.ConstraintLayout
+        <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
-            <android.support.v7.widget.AppCompatImageView
+            <androidx.appcompat.widget.AppCompatImageView
                 android:id="@+id/ivUserCover"
                 android:layout_width="0dp"
                 android:layout_height="0dp"
@@ -41,18 +42,18 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                bind:info_cover="@{viewModel.user.cover}" />
+                bind:info_cover="@{viewModel.getCover()}" />
 
-        </android.support.constraint.ConstraintLayout>
+        </androidx.constraintlayout.widget.ConstraintLayout>
 
-        <android.support.v4.widget.NestedScrollView
+        <androidx.core.widget.NestedScrollView
             android:id="@+id/svContent"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:fillViewport="true"
             android:overScrollMode="never">
 
-            <android.support.constraint.ConstraintLayout
+            <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:transitionGroup="false">
@@ -68,8 +69,8 @@
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
-                    bind:info_avatar="@{viewModel.user.avatar}"
-                    bind:info_avatarErrorColor="@{viewModel.user.status.colorResource}" />
+                    bind:info_avatar="@{viewModel.getAvatar()}"
+                    bind:info_avatarErrorColor="@{viewModel.getStatusColor()}" />
 
                 <LinearLayout
                     android:id="@+id/vContents"
@@ -104,7 +105,7 @@
                             android:id="@+id/tvPosition"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="@{viewModel.getPosition()}"
+                            android:text="@{StringUtil.capitalize(viewModel.getPositionGroup())}"
                             android:textSize="@dimen/text_body1" />
                     </LinearLayout>
 
@@ -121,27 +122,27 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             app:info_icon="@drawable/ic_person_black_24dp"
-                            app:info_label="@{@string/item_user_id_text(viewModel.user.staffId)}" />
+                            app:info_label="@{@string/item_user_id_text(viewModel.getStaffId())}" />
 
                         <com.example.components.architecture.nvice.ui.user.details.UserDetailsInfoView
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             app:info_icon="@drawable/ic_work_black_24dp"
-                            app:info_label="@{viewModel.user.position.positionName}" />
+                            app:info_label="@{viewModel.getPositionName()}" />
 
                         <com.example.components.architecture.nvice.ui.user.details.UserDetailsInfoView
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             app:info_icon="@drawable/ic_date_range_black_24dp"
-                            app:info_label="@{viewModel.user.birthday}" />
+                            app:info_label="@{viewModel.getDateOfBirth()}" />
 
                         <com.example.components.architecture.nvice.ui.user.details.UserDetailsInfoView
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             app:info_icon="@drawable/ic_circle_black"
                             app:info_iconPadding="@dimen/dp_6"
-                            app:info_iconTint="@{viewModel.user.status.colorResource}"
-                            app:info_label="@{viewModel.user.status.capitalizedName}" />
+                            app:info_iconTint="@{viewModel.getStatusColor()}"
+                            app:info_label="@{StringUtil.capitalize(viewModel.getStatusName())}" />
                     </LinearLayout>
 
                     <include layout="@layout/view_separator_default" />
@@ -151,7 +152,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:orientation="vertical"
-                        android:visibility="@{viewModel.user.description.isEmpty ? View.GONE : View.VISIBLE}">
+                        android:visibility="@{viewModel.getDescription().isEmpty ? View.GONE : View.VISIBLE}">
 
                         <TextView
                             android:layout_width="wrap_content"
@@ -166,7 +167,7 @@
                             android:layout_marginStart="@dimen/dp_8"
                             android:layout_marginTop="@dimen/dp_8"
                             android:layout_marginBottom="@dimen/dp_8"
-                            android:text="@{viewModel.user.description}" />
+                            android:text="@{viewModel.getDescription()}" />
 
                         <include layout="@layout/view_separator_default" />
                     </LinearLayout>
@@ -186,20 +187,20 @@
                             android:textSize="@dimen/text_body2"
                             android:textStyle="bold" />
 
-                        <android.support.v7.widget.RecyclerView
+                        <androidx.recyclerview.widget.RecyclerView
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content" />
                     </LinearLayout>
                 </LinearLayout>
-            </android.support.constraint.ConstraintLayout>
-        </android.support.v4.widget.NestedScrollView>
+            </androidx.constraintlayout.widget.ConstraintLayout>
+        </androidx.core.widget.NestedScrollView>
 
-        <android.support.design.widget.CoordinatorLayout
+        <androidx.coordinatorlayout.widget.CoordinatorLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:fitsSystemWindows="true">
 
-            <android.support.design.widget.AppBarLayout
+            <com.google.android.material.appbar.AppBarLayout
                 android:id="@+id/appBar"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -207,10 +208,10 @@
                 android:fitsSystemWindows="false"
                 app:elevation="0dp">
 
-                <android.support.v7.widget.Toolbar
+                <androidx.appcompat.widget.Toolbar
                     android:id="@+id/toolbar"
                     style="@style/AppToolbar.Transparent" />
-            </android.support.design.widget.AppBarLayout>
-        </android.support.design.widget.CoordinatorLayout>
+            </com.google.android.material.appbar.AppBarLayout>
+        </androidx.coordinatorlayout.widget.CoordinatorLayout>
     </FrameLayout>
 </layout>
