@@ -16,7 +16,7 @@ class BaseApplication : DaggerApplication() {
         super.onCreate()
         Timber.plant(Timber.DebugTree())
         AndroidThreeTen.init(this)
-        FirebaseApp.initializeApp(this);
+        FirebaseApp.initializeApp(this)
         Timber.i(LocaleHelper.getLanguage(this))
     }
 

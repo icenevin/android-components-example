@@ -11,7 +11,6 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.components.architecture.nvice.model.User
 import com.example.components.architecture.nvice.model.UserStatus
 import com.example.components.architecture.nvice.scheduler.DefaultScheduler
-import dagger.android.support.DaggerFragment
 import kotlinx.android.synthetic.main.fragment_user_list.*
 import javax.inject.Inject
 import androidx.paging.PagedList
@@ -25,7 +24,7 @@ import android.view.ViewGroup
 import com.example.components.architecture.nvice.BaseFragment
 import com.example.components.architecture.nvice.ui.user.create.UserCreateActivity
 import com.example.components.architecture.nvice.ui.user.details.UserDetailsActivity
-import kotlinx.android.synthetic.main.item_user.*
+import com.example.components.architecture.nvice.util.benchmark.TimeCapture
 import kotlinx.android.synthetic.main.item_user.view.*
 import org.parceler.Parcels
 
@@ -99,14 +98,15 @@ class UserFragment : BaseFragment() {
     }
 
     private fun initObserver() {
-        viewModel.getUserList().observe(this, Observer { list ->
+
+        viewModel.getUserList().observe(viewLifecycleOwner, Observer { list ->
             list?.let {
                 userPagedListAdapter.submitList(it)
                 handleListStatus(list)
             }
         })
 
-        viewModel.getUserStatus().observe(this, Observer { statusList ->
+        viewModel.getUserStatus().observe(viewLifecycleOwner, Observer { statusList ->
             statusList?.let {
                 userStatusListAdapter.submitList(it)
             }
