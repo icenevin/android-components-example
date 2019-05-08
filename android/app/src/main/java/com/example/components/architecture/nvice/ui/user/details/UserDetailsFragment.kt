@@ -76,7 +76,6 @@ class UserDetailsFragment : BaseFragment() {
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
         initToolbar()
-        initView()
         initObserver()
         initEvent()
     }
@@ -109,11 +108,6 @@ class UserDetailsFragment : BaseFragment() {
         }
     }
 
-    override fun onDestroy() {
-        super.onDestroy()
-        viewModel.disposeServices()
-    }
-
     private fun initToolbar() {
         (activity as AppCompatActivity).setSupportActionBar(toolbar as Toolbar)
         (activity as AppCompatActivity).supportActionBar?.setDisplayShowTitleEnabled(false)
@@ -123,19 +117,15 @@ class UserDetailsFragment : BaseFragment() {
         toolbar.setNavigationOnClickListener { (activity as AppCompatActivity).onBackPressed() }
     }
 
-    private fun initView() {
-//        initBackground()
-    }
-
-
     private fun initObserver() {
         viewModel.avatar.observe(viewLifecycleOwner, Observer {
             initBackground(it)
         })
     }
 
-    private fun initBackground(url: String) {
-        Glide.with(context!!).asBitmap().load(url).into(object : SimpleTarget<Bitmap>() {
+    private fun initBackground(url: String?) {
+
+        Glide.with(context!!).asBitmap().load(url ?: "").into(object : SimpleTarget<Bitmap>() {
             override fun onResourceReady(resource: Bitmap, transition: Transition<in Bitmap>?) {
                 Palette.from(resource).generate { palette ->
                     palette?.let {

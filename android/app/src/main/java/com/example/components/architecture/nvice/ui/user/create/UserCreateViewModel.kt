@@ -45,14 +45,19 @@ class UserCreateViewModel @Inject constructor(
     private val bgScope = CoroutineScope(Dispatchers.IO + job)
 
     // user information
-    val avatar = MutableLiveData<String>().init(null)
-    val firstName = MutableLiveData<String>().init("")
-    val lastName = MutableLiveData<String>().init("")
-    val description = MutableLiveData<String>().init("")
-    val dateOfBirth = MutableLiveData<String>().init("")
-    val position = MutableLiveData<UserPosition>().init(UserPosition.DEV)
-    val status = MutableLiveData<UserStatus>().init(UserStatus.PERMANENT)
-    val cover = MutableLiveData<String>().init(null)
+    val avatar = MutableLiveData<String?>().init(null)
+    val firstName = MutableLiveData<String?>().init("")
+    val lastName = MutableLiveData<String?>().init("")
+    val description = MutableLiveData<String?>().init("")
+    val dateOfBirth = MutableLiveData<String?>().init("")
+    val position = MutableLiveData<UserPosition?>().init(UserPosition.DEV)
+    val status = MutableLiveData<UserStatus?>().init(UserStatus.PERMANENT)
+    val cover = MutableLiveData<String?>().init(null)
+
+    override fun disposeServices() {
+        job.cancel()
+        userCoverService?.dispose()
+    }
 
     // use custom callback
     fun randomUser() {
@@ -148,10 +153,5 @@ class UserCreateViewModel @Inject constructor(
     fun setDateOfBirth(day: Int, month: Int, year: Int) {
         val date = LocalDate.of(year, month + 1, day)
         dateOfBirth.value = date.format(DateTimeFormatter.ofPattern("d MMM yyyy"))
-    }
-
-    override fun disposeServices() {
-        job.cancel()
-        userCoverService?.dispose()
     }
 }

@@ -67,11 +67,6 @@ class UserEditFragment : BaseFragment() {
         initView()
     }
 
-    override fun onStop() {
-        super.onStop()
-        viewModel.disposeServices()
-    }
-
     private fun initToolbar() {
         (activity as AppCompatActivity).setSupportActionBar(toolbar as Toolbar)
         (activity as AppCompatActivity).supportActionBar?.setDisplayShowTitleEnabled(false)

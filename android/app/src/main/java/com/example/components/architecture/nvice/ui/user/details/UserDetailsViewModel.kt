@@ -19,16 +19,16 @@ class UserDetailsViewModel @Inject constructor(
 
     private var userId: Int? = null
 
-    val fullName = MutableLiveData<String>().init("")
-    val positionGroup = MutableLiveData<String>().init("")
-    val positionName = MutableLiveData<String>().init("")
-    val dateOfBirth = MutableLiveData<String>().init("")
-    val statusName = MutableLiveData<String>().init("")
-    val statusColor = MutableLiveData<Int>().init(null)
-    val description = MutableLiveData<String>().init("")
-    val staffId = MutableLiveData<String>().init("")
-    val cover = MutableLiveData<String>().init("")
-    val avatar = MutableLiveData<String>().init("")
+    val fullName = MutableLiveData<String?>().init("")
+    val positionGroup = MutableLiveData<String?>().init("")
+    val positionName = MutableLiveData<String?>().init("")
+    val dateOfBirth = MutableLiveData<String?>().init("")
+    val statusName = MutableLiveData<String?>().init("")
+    val statusColor = MutableLiveData<Int?>().init(null)
+    val description = MutableLiveData<String?>().init("")
+    val staffId = MutableLiveData<String?>().init("")
+    val cover = MutableLiveData<String?>().init("")
+    val avatar = MutableLiveData<String?>().init("")
 
     private val job: Job = Job()
     private val bgScope = CoroutineScope(Dispatchers.IO + job)

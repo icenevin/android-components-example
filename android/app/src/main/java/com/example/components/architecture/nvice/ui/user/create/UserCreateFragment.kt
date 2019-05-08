@@ -81,11 +81,6 @@ class UserCreateFragment : BaseFragment() {
         }
     }
 
-    override fun onStop() {
-        super.onStop()
-        viewModel.disposeServices()
-    }
-
     private fun initToolbar() {
         (activity as AppCompatActivity).setSupportActionBar(toolbar as Toolbar)
         (activity as AppCompatActivity).supportActionBar?.setDisplayShowTitleEnabled(false)
@@ -125,7 +120,6 @@ class UserCreateFragment : BaseFragment() {
     }
 
     fun showDatePicker() {
-        Timber.i("show date picker")
         datePicker.show()
     }
 }
