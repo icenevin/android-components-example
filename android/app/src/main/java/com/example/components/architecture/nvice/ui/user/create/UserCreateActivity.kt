@@ -15,6 +15,6 @@ class UserCreateActivity : BaseActivity() {
     }
 
     private fun initView() {
-        supportFragmentManager.beginTransaction().replace(R.id.container, UserCreateFragment.getInstance()).commit()
+        supportFragmentManager.beginTransaction().replace(R.id.container, UserCreateFragment.newInstance()).commit()
     }
 }

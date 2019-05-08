@@ -1,52 +1,58 @@
-package com.example.components.architecture.nvice.ui.user.create
+package com.example.components.architecture.nvice.ui.user.edit
 
-
+import android.app.Activity
 import android.app.DatePickerDialog
+import android.os.Bundle
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
+import android.widget.ArrayAdapter
+import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.widget.Toolbar
+import androidx.core.content.ContextCompat
+import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.ViewModelProviders
-import android.content.Intent
-import androidx.databinding.DataBindingUtil
-import android.os.Bundle
-import androidx.core.content.ContextCompat
-import androidx.appcompat.app.AppCompatActivity
-import androidx.appcompat.widget.Toolbar
-import android.view.*
-import android.widget.ArrayAdapter
 import com.example.components.architecture.nvice.BaseFragment
-
 import com.example.components.architecture.nvice.R
-import com.example.components.architecture.nvice.databinding.FragmentUserCreateBinding
+import com.example.components.architecture.nvice.databinding.FragmentUserEditBinding
 import com.example.components.architecture.nvice.model.UserPosition
 import com.example.components.architecture.nvice.model.UserStatus
-import com.example.components.architecture.nvice.ui.camera.CameraActivity
-import kotlinx.android.synthetic.main.fragment_user_create.*
+import kotlinx.android.synthetic.main.fragment_user_edit.*
 import timber.log.Timber
 import java.util.*
 import javax.inject.Inject
 
 
-class UserCreateFragment : BaseFragment() {
+class UserEditFragment : BaseFragment() {
+
+    companion object {
+        fun newInstance(userId: Int?): UserEditFragment {
+            val fragment = UserEditFragment()
+            val args = Bundle()
+            args.putInt("userId", userId ?: 0)
+            fragment.arguments = args
+            return fragment
+        }
+    }
 
     @Inject
     lateinit var viewModelFactory: ViewModelProvider.Factory
-    private lateinit var viewModel: UserCreateViewModel
+    private lateinit var viewModel: UserEditViewModel
     private lateinit var datePicker: DatePickerDialog
-
-    companion object {
-        fun newInstance() = UserCreateFragment()
-    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         viewModel = ViewModelProviders.of(this, viewModelFactory)
-                .get(UserCreateViewModel::class.java)
+                .get(UserEditViewModel::class.java)
+        val userId = arguments?.getInt("userId")
+        viewModel.initUser(userId)
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
-                              savedInstanceState: Bundle?): View? {
-        setHasOptionsMenu(true)
-        val binding: FragmentUserCreateBinding = DataBindingUtil.inflate(inflater, R.layout.fragment_user_create, container, false)
+                              savedInstanceState: Bundle?): View {
+        val binding: FragmentUserEditBinding = DataBindingUtil.inflate(inflater, R.layout.fragment_user_edit, container, false)
         binding.lifecycleOwner = this
         binding.fragment = this
         binding.viewModel = viewModel
@@ -61,26 +67,6 @@ class UserCreateFragment : BaseFragment() {
         initView()
     }
 
-    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
-        super.onCreateOptionsMenu(menu, inflater)
-        inflater.inflate(R.menu.menu_user_create, menu)
-    }
-
-    override fun onPrepareOptionsMenu(menu: Menu) {
-        super.onPrepareOptionsMenu(menu)
-        val mRandomUser = menu.findItem(R.id.action_random)
-        mRandomUser?.setOnMenuItemClickListener {
-            viewModel.randomUser()
-            true
-        }
-
-        val mScan = menu.findItem(R.id.action_scan)
-        mScan?.setOnMenuItemClickListener {
-            activity?.startActivity(Intent(context, CameraActivity::class.java))
-            true
-        }
-    }
-
     override fun onStop() {
         super.onStop()
         viewModel.disposeServices()
@@ -92,7 +78,7 @@ class UserCreateFragment : BaseFragment() {
         (activity as AppCompatActivity).supportActionBar?.setDisplayHomeAsUpEnabled(true)
         (activity as AppCompatActivity).supportActionBar?.setDisplayShowHomeEnabled(true)
         toolbar.navigationIcon = ContextCompat.getDrawable(context!!, R.drawable.ic_arrow_back_white_24dp)
-        toolbar.title = "Add Staff"
+        toolbar.title = "Edit Staff"
         toolbar.setNavigationOnClickListener { (activity as AppCompatActivity).onBackPressed() }
     }
 
@@ -110,9 +96,10 @@ class UserCreateFragment : BaseFragment() {
 
     private fun initObservers() {
 
-        viewModel.isUserCreated.observe(viewLifecycleOwner, Observer { status ->
-            status?.let { isCreated ->
-                if (isCreated) {
+        viewModel.isProfileChangeCompleted.observe(viewLifecycleOwner, Observer { status ->
+            status?.let { isCompleted ->
+                if (isCompleted) {
+                    activity?.setResult(Activity.RESULT_OK)
                     activity?.finish()
                 }
             }

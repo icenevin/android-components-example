@@ -17,7 +17,8 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".ui.camera.CameraActivity"></activity>
+        <activity android:name="com.example.components.architecture.nvice.ui.user.edit.UserEditActivity"></activity>
+        <activity android:name=".ui.camera.CameraActivity" />
 
         <meta-data
             android:name="com.google.firebase.ml.vision.DEPENDENCIES"
@@ -32,7 +33,7 @@
             </intent-filter>
         </activity>
         <activity android:name=".ui.user.details.UserDetailsActivity" />
-        <activity android:name=".ui.user.create.UserCreateActivity" />
+        <activity android:name="com.example.components.architecture.nvice.ui.user.create.UserCreateActivity" />
     </application>
 
 </manifest>

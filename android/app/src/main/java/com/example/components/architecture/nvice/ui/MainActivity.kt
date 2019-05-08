@@ -26,7 +26,7 @@ class MainActivity : BaseActivity() {
     }
 
     private fun initView() {
-        supportFragmentManager.beginTransaction().replace(container.id, UserFragment()).commit()
+        supportFragmentManager.beginTransaction().replace(container.id, UserFragment.newInstance()).commit()
         Timber.i(appSettingsPreference.has().toString())
     }
 }

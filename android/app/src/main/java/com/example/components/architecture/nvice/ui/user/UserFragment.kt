@@ -24,12 +24,15 @@ import android.view.ViewGroup
 import com.example.components.architecture.nvice.BaseFragment
 import com.example.components.architecture.nvice.ui.user.create.UserCreateActivity
 import com.example.components.architecture.nvice.ui.user.details.UserDetailsActivity
-import com.example.components.architecture.nvice.util.benchmark.TimeCapture
 import kotlinx.android.synthetic.main.item_user.view.*
 import org.parceler.Parcels
 
 
 class UserFragment : BaseFragment() {
+
+    companion object {
+        fun newInstance() = UserFragment()
+    }
 
     @Inject
     lateinit var viewModelFactory: ViewModelProvider.Factory
@@ -185,7 +188,7 @@ class UserFragment : BaseFragment() {
 
     private fun navToUserDetails(view: View, user: User) {
         val intent = Intent(context, UserDetailsActivity::class.java)
-        intent.putExtra("user", Parcels.wrap(user))
+        intent.putExtra("userId", user.id)
         val options = ActivityOptions
                 .makeSceneTransitionAnimation(activity, view, "transitionUserAvatar")
         activity?.startActivity(intent, options.toBundle())

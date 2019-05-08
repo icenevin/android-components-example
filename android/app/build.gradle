@@ -62,11 +62,13 @@ dependencies {
 
     implementation 'de.hdodenhof:circleimageview:3.0.0'
 
-    implementation 'androidx.navigation:navigation-fragment-ktx:2.1.0-alpha02' // use -ktx for Kotlin
+    implementation 'androidx.navigation:navigation-fragment-ktx:2.1.0-alpha02'
+    // use -ktx for Kotlin
     implementation 'androidx.navigation:navigation-ui-ktx:2.1.0-alpha02' // use -ktx for Kotlin
 
     implementation "androidx.room:room-runtime:$room_version"
     implementation "androidx.room:room-ktx:$room_version"
+    implementation 'androidx.lifecycle:lifecycle-viewmodel-ktx:2.0.0'
     testImplementation "androidx.room:room-testing:$room_version"
     kapt "androidx.room:room-compiler:$room_version" // use kapt for Kotlin
 

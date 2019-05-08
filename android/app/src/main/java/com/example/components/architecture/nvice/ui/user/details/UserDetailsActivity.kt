@@ -20,13 +20,14 @@ class UserDetailsActivity : BaseActivity() {
         window.statusBarColor = Color.TRANSPARENT
         setContentView(R.layout.activity_user_details)
         if (savedInstanceState == null) {
-            initView(Parcels.unwrap(intent?.getParcelableExtra("user")))
+            val userId = intent?.getIntExtra("userId", 0)
+            initView(userId)
             iniTransition()
         }
     }
 
-    private fun initView(user: User?) {
-        supportFragmentManager.beginTransaction().replace(R.id.container, UserDetailsFragment.getInstance(user)).commit()
+    private fun initView(userId: Int?) {
+        supportFragmentManager.beginTransaction().replace(R.id.container, UserDetailsFragment.newInstance(userId)).commit()
     }
 
     private fun iniTransition() {

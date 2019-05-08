@@ -1,9 +1,11 @@
 package com.example.components.architecture.nvice.ui.camera
 
+import android.Manifest
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.ViewModelProviders
 import android.content.Context.CAMERA_SERVICE
+import android.content.pm.PackageManager
 import android.hardware.camera2.CameraManager
 import android.os.Bundle
 import android.view.*
@@ -18,6 +20,8 @@ import javax.inject.Inject
 import android.hardware.camera2.CameraCharacteristics
 import android.os.Handler
 import android.widget.Toast
+import androidx.core.app.ActivityCompat
+import androidx.core.content.ContextCompat
 import com.example.components.architecture.nvice.util.TaskUtil
 import com.example.components.architecture.nvice.util.mlkit.GraphicOverlay
 import com.example.components.architecture.nvice.util.mlkit.TextGraphic
@@ -29,9 +33,11 @@ class CameraFragment : BaseFragment() {
     @Inject
     lateinit var viewModelFactory: ViewModelProvider.Factory
 
+    private val PERMISSIONS_REQUEST_CAMERA = 1001
+
     private lateinit var viewModel: CameraViewModel
-    private lateinit var fotoapparat: Fotoapparat
-    private lateinit var orientationEventListener: OrientationEventListener
+    private var fotoapparat: Fotoapparat? = null
+    private var orientationEventListener: OrientationEventListener? = null
 
     val graphics = mutableListOf<GraphicOverlay.Graphic>()
 
@@ -57,8 +63,27 @@ class CameraFragment : BaseFragment() {
         initEvent()
     }
 
+    override fun onStart() {
+        super.onStart()
+    }
+
+    override fun onStop() {
+        super.onStop()
+        fotoapparat?.stop()
+        orientationEventListener?.enable()
+    }
+
     private fun initView() {
-        initCamera()
+        checkCameraPermission()
+    }
+
+    private fun checkCameraPermission() {
+        if (ContextCompat.checkSelfPermission(context!!, Manifest.permission.CAMERA)
+                != PackageManager.PERMISSION_GRANTED) {
+            requestPermissions(arrayOf(Manifest.permission.CAMERA), PERMISSIONS_REQUEST_CAMERA)
+        } else {
+            initCamera()
+        }
     }
 
     private fun initCamera() {
@@ -87,10 +112,12 @@ class CameraFragment : BaseFragment() {
                         }
                 )
         )
+
+        fotoapparat?.start()
     }
 
     private fun initObservers() {
-        viewModel.getTextElements().observe(this, Observer { textElements ->
+        viewModel.getTextElements().observe(viewLifecycleOwner, Observer { textElements ->
             textElements?.let {
                 if (it.isNotEmpty()) {
                     goOverlay.clear()
@@ -99,7 +126,7 @@ class CameraFragment : BaseFragment() {
             }
         })
 
-        viewModel.getCitizenId().observe(this, Observer { id ->
+        viewModel.getCitizenId().observe(viewLifecycleOwner, Observer { id ->
             Toast.makeText(context, id.toString(), Toast.LENGTH_LONG).show()
         })
     }
@@ -110,7 +137,7 @@ class CameraFragment : BaseFragment() {
                 viewModel.updateDeviceRotation(orientation)
             }
         }
-        orientationEventListener.enable()
+        orientationEventListener?.enable()
     }
 
     private fun getGraphicsFromElements(elements: List<FirebaseVisionText.Element>): List<GraphicOverlay.Graphic> {
@@ -121,14 +148,19 @@ class CameraFragment : BaseFragment() {
         return graphics
     }
 
-    override fun onStart() {
-        super.onStart()
-        fotoapparat.start()
-    }
-
-    override fun onStop() {
-        super.onStop()
-        fotoapparat.stop()
-        orientationEventListener.enable()
+    override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>, grantResults: IntArray) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
+        when (requestCode) {
+            PERMISSIONS_REQUEST_CAMERA -> {
+                if ((grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED)) {
+                    initCamera()
+                } else {
+                    activity?.finish()
+                }
+                return
+            }
+            else -> {
+            }
+        }
     }
 }

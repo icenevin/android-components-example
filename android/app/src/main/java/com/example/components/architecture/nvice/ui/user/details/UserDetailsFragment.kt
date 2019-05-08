@@ -3,6 +3,8 @@ package com.example.components.architecture.nvice.ui.user.details
 
 import android.animation.ArgbEvaluator
 import android.animation.ValueAnimator
+import android.app.Activity
+import android.content.Intent
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.ViewModelProviders
 import androidx.databinding.DataBindingUtil
@@ -16,6 +18,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.palette.graphics.Palette
 import androidx.appcompat.widget.Toolbar
 import android.view.*
+import androidx.lifecycle.Observer
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.target.SimpleTarget
 import com.bumptech.glide.request.transition.Transition
@@ -24,14 +27,18 @@ import com.example.components.architecture.nvice.BaseFragment
 import com.example.components.architecture.nvice.R
 import com.example.components.architecture.nvice.databinding.FragmentUserDetailsBinding
 import com.example.components.architecture.nvice.model.User
+import com.example.components.architecture.nvice.ui.user.edit.UserEditActivity
 import com.example.components.architecture.nvice.util.DimensUtil
 
 import kotlinx.android.synthetic.main.fragment_user_details.*
 import org.parceler.Parcels
+import timber.log.Timber
 import javax.inject.Inject
 
 
 class UserDetailsFragment : BaseFragment() {
+
+    private val EDIT_USER_REQUEST: Int = 100
 
     @Inject
     lateinit var viewModelFactory: ViewModelProvider.Factory
@@ -40,10 +47,10 @@ class UserDetailsFragment : BaseFragment() {
     private var isAppBarBgShowing: Boolean = false
 
     companion object {
-        fun getInstance(user: User?): UserDetailsFragment {
+        fun newInstance(userId: Int?): UserDetailsFragment {
             val fragment = UserDetailsFragment()
             val args = Bundle()
-            args.putParcelable("user", Parcels.wrap(user))
+            args.putInt("userId", userId ?: 0)
             fragment.arguments = args
             return fragment
         }
@@ -54,12 +61,14 @@ class UserDetailsFragment : BaseFragment() {
         setHasOptionsMenu(true)
         viewModel = ViewModelProviders.of(this, viewModelFactory)
                 .get(UserDetailsViewModel::class.java)
-        viewModel.initUser(Parcels.unwrap(arguments?.getParcelable("user")))
+        val userId = arguments?.getInt("userId", 0)
+        viewModel.initUser(userId)
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
         val binding: FragmentUserDetailsBinding = DataBindingUtil.inflate(inflater, R.layout.fragment_user_details, container, false)
+        binding.lifecycleOwner = this
         binding.viewModel = viewModel
         return binding.root
     }
@@ -81,12 +90,27 @@ class UserDetailsFragment : BaseFragment() {
         super.onPrepareOptionsMenu(menu)
         val mEditUser = menu.findItem(R.id.action_edit)
         mEditUser?.setOnMenuItemClickListener {
+            val intent = Intent(activity, UserEditActivity::class.java)
+            intent.putExtra("userId", viewModel.getUserId())
+            startActivityForResult(intent, EDIT_USER_REQUEST)
             true
         }
     }
 
-    override fun onStop() {
-        super.onStop()
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        Timber.i("requestCode: $requestCode")
+        if (requestCode == EDIT_USER_REQUEST) {
+            when (resultCode) {
+                Activity.RESULT_OK -> {
+                    viewModel.updateUserDetails()
+                }
+            }
+        }
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
         viewModel.disposeServices()
     }
 
@@ -100,16 +124,18 @@ class UserDetailsFragment : BaseFragment() {
     }
 
     private fun initView() {
-        initBackground()
+//        initBackground()
     }
 
 
     private fun initObserver() {
-
+        viewModel.avatar.observe(viewLifecycleOwner, Observer {
+            initBackground(it)
+        })
     }
 
-    private fun initBackground() {
-        Glide.with(context!!).asBitmap().load(viewModel.getAvatar()).into(object : SimpleTarget<Bitmap>() {
+    private fun initBackground(url: String) {
+        Glide.with(context!!).asBitmap().load(url).into(object : SimpleTarget<Bitmap>() {
             override fun onResourceReady(resource: Bitmap, transition: Transition<in Bitmap>?) {
                 Palette.from(resource).generate { palette ->
                     palette?.let {

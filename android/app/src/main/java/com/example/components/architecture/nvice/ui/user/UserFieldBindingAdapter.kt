@@ -1,4 +1,4 @@
-package com.example.components.architecture.nvice.ui.user.create
+package com.example.components.architecture.nvice.ui.user
 
 import androidx.databinding.BindingAdapter
 import android.widget.ImageView
@@ -14,17 +14,13 @@ import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.example.components.architecture.nvice.model.UserPosition
 import com.example.components.architecture.nvice.model.UserStatus
-import com.bumptech.glide.load.resource.bitmap.RoundedCorners
 import com.bumptech.glide.load.resource.bitmap.CenterCrop
-import com.example.components.architecture.nvice.BaseViewModel
-import com.example.components.architecture.nvice.R
 import com.example.components.architecture.nvice.ui.LoadingStatus
 
 
 @Suppress("unused")
 @BindingAdapter("bind:field_avatar")
 fun setAvatar(view: ImageView, value: String?) {
-
     Glide.with(view.context)
             .load(value)
             .apply(RequestOptions.circleCropTransform())
@@ -35,7 +31,6 @@ fun setAvatar(view: ImageView, value: String?) {
 @Suppress("unused")
 @BindingAdapter("bind:field_cover")
 fun setCover(view: ImageView, value: String?) {
-
     Glide.with(view.context)
             .load(value)
             .apply(RequestOptions()

@@ -27,12 +27,12 @@
             android:id="@+id/vBackground"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            bind:info_backgroundColor="@{viewModel.getStatusColor()}"
+            bind:info_backgroundColor="@{viewModel.statusColor}"
             bind:info_backgroundColorAlpha="@{100}" />
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="wrap_content">
 
             <androidx.appcompat.widget.AppCompatImageView
                 android:id="@+id/ivUserCover"
@@ -42,7 +42,17 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                bind:info_cover="@{viewModel.getCover()}" />
+                bind:info_cover="@{viewModel.cover}" />
+
+            <androidx.appcompat.widget.AppCompatImageView
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:alpha="0.5"
+                android:background="@drawable/img_vignette_top"
+                app:layout_constraintDimensionRatio="16:9"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"/>
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -69,8 +79,8 @@
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
-                    bind:info_avatar="@{viewModel.getAvatar()}"
-                    bind:info_avatarErrorColor="@{viewModel.getStatusColor()}" />
+                    bind:info_avatar="@{viewModel.avatar}"
+                    bind:info_avatarErrorColor="@{viewModel.statusColor}" />
 
                 <LinearLayout
                     android:id="@+id/vContents"
@@ -97,7 +107,7 @@
                             android:id="@+id/tvName"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="@{viewModel.getFullName()}"
+                            android:text="@{viewModel.fullName}"
                             android:textColor="@color/black_700"
                             android:textSize="@dimen/text_header6" />
 
@@ -105,7 +115,7 @@
                             android:id="@+id/tvPosition"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="@{StringUtil.capitalize(viewModel.getPositionGroup())}"
+                            android:text="@{StringUtil.capitalize(viewModel.positionGroup)}"
                             android:textSize="@dimen/text_body1" />
                     </LinearLayout>
 
@@ -122,27 +132,27 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             app:info_icon="@drawable/ic_person_black_24dp"
-                            app:info_label="@{@string/item_user_id_text(viewModel.getStaffId())}" />
+                            app:info_label="@{@string/item_user_id_text(viewModel.staffId)}" />
 
                         <com.example.components.architecture.nvice.ui.user.details.UserDetailsInfoView
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             app:info_icon="@drawable/ic_work_black_24dp"
-                            app:info_label="@{viewModel.getPositionName()}" />
+                            app:info_label="@{viewModel.positionName}" />
 
                         <com.example.components.architecture.nvice.ui.user.details.UserDetailsInfoView
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             app:info_icon="@drawable/ic_date_range_black_24dp"
-                            app:info_label="@{viewModel.getDateOfBirth()}" />
+                            app:info_label="@{viewModel.dateOfBirth}" />
 
                         <com.example.components.architecture.nvice.ui.user.details.UserDetailsInfoView
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             app:info_icon="@drawable/ic_circle_black"
                             app:info_iconPadding="@dimen/dp_6"
-                            app:info_iconTint="@{viewModel.getStatusColor()}"
-                            app:info_label="@{StringUtil.capitalize(viewModel.getStatusName())}" />
+                            app:info_iconTint="@{viewModel.statusColor}"
+                            app:info_label="@{StringUtil.capitalize(viewModel.statusName)}" />
                     </LinearLayout>
 
                     <include layout="@layout/view_separator_default" />
@@ -152,7 +162,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:orientation="vertical"
-                        android:visibility="@{viewModel.getDescription().isEmpty ? View.GONE : View.VISIBLE}">
+                        android:visibility="@{viewModel.description.isEmpty ? View.GONE : View.VISIBLE}">
 
                         <TextView
                             android:layout_width="wrap_content"
@@ -167,7 +177,7 @@
                             android:layout_marginStart="@dimen/dp_8"
                             android:layout_marginTop="@dimen/dp_8"
                             android:layout_marginBottom="@dimen/dp_8"
-                            android:text="@{viewModel.getDescription()}" />
+                            android:text="@{viewModel.description}" />
 
                         <include layout="@layout/view_separator_default" />
                     </LinearLayout>

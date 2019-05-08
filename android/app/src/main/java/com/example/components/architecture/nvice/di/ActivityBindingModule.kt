@@ -9,6 +9,8 @@ import com.example.components.architecture.nvice.ui.user.create.UserCreateActivi
 import com.example.components.architecture.nvice.ui.user.create.UserCreateModule
 import com.example.components.architecture.nvice.ui.user.details.UserDetailsActivity
 import com.example.components.architecture.nvice.ui.user.details.UserDetailsModule
+import com.example.components.architecture.nvice.ui.user.edit.UserEditActivity
+import com.example.components.architecture.nvice.ui.user.edit.UserEditModule
 import dagger.Module
 import dagger.android.ContributesAndroidInjector
 
@@ -37,6 +39,14 @@ abstract class ActivityBindingModule {
             ]
     )
     internal abstract fun userDetailsActivity(): UserDetailsActivity
+
+    @ActivityScope
+    @ContributesAndroidInjector(
+            modules = [
+                UserEditModule::class
+            ]
+    )
+    internal abstract fun userEditActivity(): UserEditActivity
 
     @ActivityScope
     @ContributesAndroidInjector(
