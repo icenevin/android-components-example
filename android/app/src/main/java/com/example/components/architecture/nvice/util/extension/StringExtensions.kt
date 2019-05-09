@@ -1,8 +1,8 @@
 package com.example.components.architecture.nvice.util.extension
 
-import com.example.components.architecture.nvice.util.StringUtil
-import com.example.components.architecture.nvice.util.ValidationUtil
+import com.example.components.architecture.nvice.util.StringUtils
+import com.example.components.architecture.nvice.util.ValidationUtils
 
-fun String?.isValidCitizenId() = ValidationUtil.isValidCitizenId(this)
+fun String?.isValidCitizenId() = ValidationUtils.isValidCitizenId(this)
 
-fun String?.capitalize() = StringUtil.capitalize(this)
+fun String?.capitalize() = StringUtils.capitalize(this)

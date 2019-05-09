@@ -1,6 +1,6 @@
 package com.example.components.architecture.nvice.util
 
-class TaskUtil {
+class TaskUtils {
     companion object {
         private var lastTimestamp = getCurrentTimestamp()
 

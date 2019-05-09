@@ -20,7 +20,8 @@ import com.example.components.architecture.nvice.databinding.FragmentUserEditBin
 import com.example.components.architecture.nvice.model.UserPosition
 import com.example.components.architecture.nvice.model.UserStatus
 import kotlinx.android.synthetic.main.fragment_user_edit.*
-import timber.log.Timber
+import org.threeten.bp.LocalDate
+import org.threeten.bp.format.DateTimeFormatter
 import java.util.*
 import javax.inject.Inject
 
@@ -67,6 +68,10 @@ class UserEditFragment : BaseFragment() {
         initView()
     }
 
+    fun showDatePicker() {
+        datePicker.show()
+    }
+
     private fun initToolbar() {
         (activity as AppCompatActivity).setSupportActionBar(toolbar as Toolbar)
         (activity as AppCompatActivity).supportActionBar?.setDisplayShowTitleEnabled(false)
@@ -99,15 +104,19 @@ class UserEditFragment : BaseFragment() {
                 }
             }
         })
+
+        viewModel.dateOfBirth.observe(viewLifecycleOwner, Observer { value ->
+            value?.let { date ->
+                if (date.isNotEmpty()) {
+                    val dateOfBirth = LocalDate.parse(date, DateTimeFormatter.ofPattern("d MMM yyyy"))
+                    datePicker.updateDate(dateOfBirth.year, dateOfBirth.monthValue - 1, dateOfBirth.dayOfMonth)
+                }
+            }
+        })
     }
 
     private fun initView() {
         spPosition.getSpinner().adapter = ArrayAdapter<UserPosition>(context!!, R.layout.item_dropdown_custom_field_spinner, UserPosition.values())
         spStatus.getSpinner().adapter = ArrayAdapter<UserStatus>(context!!, R.layout.item_dropdown_custom_field_spinner, UserStatus.values())
-    }
-
-    fun showDatePicker() {
-        Timber.i("show date picker")
-        datePicker.show()
     }
 }

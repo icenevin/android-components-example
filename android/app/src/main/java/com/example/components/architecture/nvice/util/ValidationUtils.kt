@@ -5,7 +5,7 @@ import com.example.components.architecture.nvice.util.regex.RegexPattern
 import timber.log.Timber
 import java.lang.Exception
 
-class ValidationUtil {
+class ValidationUtils {
 
     companion object {
         fun isValidCitizenId(id: String?): Boolean {

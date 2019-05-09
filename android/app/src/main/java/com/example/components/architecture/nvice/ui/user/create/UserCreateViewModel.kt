@@ -30,7 +30,7 @@ class UserCreateViewModel @Inject constructor(
 ) : BaseViewModel() {
 
     private val _isUserCreated = MutableLiveData<Boolean>().init(false)
-    val isUserCreated : LiveData<Boolean>
+    val isUserCreated: LiveData<Boolean>
         get() = _isUserCreated
 
     val userDataLoadingStatus = MutableLiveData<LoadingStatus>().init(LoadingStatus.IDLE)
@@ -142,11 +142,22 @@ class UserCreateViewModel @Inject constructor(
     }
 
     fun addUser() {
-        val user = User(null, "", firstName.value, lastName.value, dateOfBirth.value, description.value, avatar.value, cover.value, status.value, position.value)
-        DefaultScheduler.AsyncScheduler.execute {
-            user.staffId = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyyMMdd")) + (1000 + (userRepository.getLatestUserId() + 1))
-            userRepository.addUser(user)
-            _isUserCreated.postValue(true)
+        val that = this@UserCreateViewModel
+        User().apply {
+            firstName = that.firstName.value
+            lastName = that.lastName.value
+            birthday = that.dateOfBirth.value
+            description = that.description.value
+            avatar = that.avatar.value
+            cover = that.cover.value
+            status = that.status.value
+            position = that.position.value
+        }.run {
+            DefaultScheduler.AsyncScheduler.execute {
+                staffId = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyyMMdd")) + (1000 + (userRepository.getLatestUserId() + 1))
+                userRepository.addUser(this)
+                _isUserCreated.postValue(true)
+            }
         }
     }
 

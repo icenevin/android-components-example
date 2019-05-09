@@ -15,14 +15,11 @@ import io.fotoapparat.Fotoapparat
 import io.fotoapparat.configuration.CameraConfiguration
 
 import kotlinx.android.synthetic.main.fragment_camera.*
-import timber.log.Timber
 import javax.inject.Inject
 import android.hardware.camera2.CameraCharacteristics
-import android.os.Handler
 import android.widget.Toast
-import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
-import com.example.components.architecture.nvice.util.TaskUtil
+import com.example.components.architecture.nvice.util.TaskUtils
 import com.example.components.architecture.nvice.util.mlkit.GraphicOverlay
 import com.example.components.architecture.nvice.util.mlkit.TextGraphic
 import com.google.firebase.ml.vision.text.FirebaseVisionText
@@ -106,7 +103,7 @@ class CameraFragment : BaseFragment() {
                 view = cvCamera,
                 cameraConfiguration = CameraConfiguration(
                         frameProcessor = { frame ->
-                            TaskUtil.run(400) {
+                            TaskUtils.run(400) {
                                 viewModel.processTextRecognition(frame, cameraId, manager)
                             }
                         }

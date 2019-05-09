@@ -113,3 +113,18 @@ fun setSelectedItem(view: CustomFieldSpinner, value: Any?) {
     }
 }
 
+@Suppress("unused")
+@BindingAdapter("field_error")
+fun setError(view: CustomFieldEditText, value: String?) {
+    value?.let {
+            view.setError(it)
+    }
+}
+
+@Suppress("unused")
+@BindingAdapter("field_error")
+fun setError(view: CustomFieldEditText, value: CustomFieldError?) {
+    value?.let {
+        view.setError(it)
+    }
+}

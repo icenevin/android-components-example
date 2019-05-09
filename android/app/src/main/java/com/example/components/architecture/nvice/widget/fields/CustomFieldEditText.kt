@@ -66,33 +66,12 @@ class CustomFieldEditText @JvmOverloads constructor(
         }
     }
 
-    fun setText(text: String) {
-        edtInputField.setText(text)
-    }
-
-    fun getText() = edtInputField.text ?: null
-
-    fun addTextChangedListener(watcher: TextWatcher) {
-        edtInputField.addTextChangedListener(watcher)
-    }
-
-    fun setOnInputDrawableEndClick(listener: OnClickListener) {
-        ivInputDrawableEnd.setOnClickListener { v -> listener.onClick(v) }
-    }
-
     override fun setOnClick(listener: OnClickListener) {
         edtInputField.setOnClickListener { v -> listener.onClick(v) }
     }
 
     override fun setOnDrawableEndClick(listener: OnClickListener) {
         ivDrawableEnd.setOnClickListener { v -> listener.onClick(v) }
-    }
-
-    fun setInputDrawableEndTint(color: Int) {
-        try {
-            DrawableCompat.setTint(DrawableCompat.wrap(ivInputDrawableEnd.drawable).mutate(), ContextCompat.getColor(context, color))
-        } catch (e: Resources.NotFoundException) {
-        }
     }
 
     override fun setIconTint(@ColorRes color: Int) {
@@ -105,6 +84,37 @@ class CustomFieldEditText @JvmOverloads constructor(
     override fun setDrawableEndTint(color: Int) {
         try {
             DrawableCompat.setTint(DrawableCompat.wrap(ivDrawableEnd.drawable).mutate(), ContextCompat.getColor(context, color))
+        } catch (e: Resources.NotFoundException) {
+        }
+    }
+
+    fun setText(text: String) {
+        edtInputField.setText(text)
+    }
+
+    fun getText() = edtInputField.text ?: null
+
+    fun setError(text: String) {
+        edtInputField.error = text
+    }
+
+    fun setError(error: CustomFieldError?){
+        error?.let {
+            edtInputField.setError(it.text, it.drawable)
+        }
+    }
+
+    fun addTextChangedListener(watcher: TextWatcher) {
+        edtInputField.addTextChangedListener(watcher)
+    }
+
+    fun setOnInputDrawableEndClick(listener: OnClickListener) {
+        ivInputDrawableEnd.setOnClickListener { v -> listener.onClick(v) }
+    }
+
+    fun setInputDrawableEndTint(color: Int) {
+        try {
+            DrawableCompat.setTint(DrawableCompat.wrap(ivInputDrawableEnd.drawable).mutate(), ContextCompat.getColor(context, color))
         } catch (e: Resources.NotFoundException) {
         }
     }

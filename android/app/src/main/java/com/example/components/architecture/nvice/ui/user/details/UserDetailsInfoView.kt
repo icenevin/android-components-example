@@ -2,17 +2,13 @@ package com.example.components.architecture.nvice.ui.user.details
 
 import android.content.Context
 import android.content.res.Resources
-import androidx.databinding.BindingAdapter
 import androidx.annotation.ColorRes
 import androidx.core.content.ContextCompat
 import androidx.core.graphics.drawable.DrawableCompat
 import android.util.AttributeSet
 import android.view.LayoutInflater
 import android.widget.LinearLayout
-import android.widget.TextView
 import com.example.components.architecture.nvice.R
-import com.example.components.architecture.nvice.databinding.FragmentUserDetailsBinding
-import com.example.components.architecture.nvice.util.DimensUtil
 import kotlinx.android.synthetic.main.view_user_details_info.view.*
 
 

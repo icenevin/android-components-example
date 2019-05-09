@@ -2,7 +2,7 @@ package com.example.components.architecture.nvice.util
 
 import android.content.res.Resources
 
-class DimensUtil {
+class DimensUtils {
     companion object {
         fun dpToPx(dp: Float): Float {
             return (dp * Resources.getSystem().displayMetrics.density)

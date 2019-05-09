@@ -39,6 +39,7 @@
     <attr name="field_singleLines" format="boolean" />
     <attr name="field_editable" format="boolean" />
     <attr name="field_longClickable" format="boolean" />
+    <attr name="field_error" format="reference" />
 
     <declare-styleable name="CustomFieldEditText">
         <attr name="field_icon" />
@@ -70,6 +71,7 @@
         <attr name="field_maxLines" />
         <attr name="field_editable" />
         <attr name="field_longClickable" />
+        <attr name="field_error" />
     </declare-styleable>
 
     <declare-styleable name="CustomFieldSpinner">

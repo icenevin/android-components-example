@@ -62,7 +62,6 @@ class UserEditViewModel @Inject constructor(
     }
 
     fun selectAvatar() {
-        // select function in the future
         randomAvatar()
     }
 
@@ -72,35 +71,6 @@ class UserEditViewModel @Inject constructor(
                 user = userRepository.getUserById(it)
                 setUserDetails(user)
             }
-        }
-    }
-
-    private fun setUserDetails(user: User?) {
-        user?.let {
-            avatar.postValue(it.avatar)
-            firstName.postValue(it.firstName)
-            lastName.postValue(it.lastName)
-            description.postValue(it.description)
-            dateOfBirth.postValue(it.birthday)
-            position.postValue(it.position)
-            cover.postValue(it.cover)
-            avatar.postValue(it.avatar)
-        }
-    }
-
-    // use kotlin coroutines
-    fun randomAvatar() {
-        userAvatarLoadingStatus.value = LoadingStatus.PROCESSING
-        bgScope.launch {
-            try {
-                val result = userGeneratorRepository.generateUserAvatar().await()
-                result[0].photo?.let {
-                    avatar.postValue(it)
-                }
-            } catch (e: Exception) {
-                Timber.e("Exception $e")
-            }
-            userAvatarLoadingStatus.postValue(LoadingStatus.FINISHED)
         }
     }
 
@@ -144,16 +114,18 @@ class UserEditViewModel @Inject constructor(
     }
 
     fun updateUser() {
-        DefaultScheduler.AsyncScheduler.execute {
-            user.avatar = avatar.value
-            user.cover = cover.value
-            user.firstName = firstName.value
-            user.lastName = lastName.value
-            user.description = description.value
-            user.birthday = dateOfBirth.value
-            user.status = status.value
-            user.position = position.value
-            userRepository.updateUser(user)
+        val that = this@UserEditViewModel
+        user.apply {
+            avatar = that.avatar.value
+            cover = that.cover.value
+            firstName = that.firstName.value
+            lastName = that.lastName.value
+            description = that.description.value
+            birthday = that.dateOfBirth.value
+            status = that.status.value
+            position = that.position.value
+        }.run {
+            userRepository.updateUser(this)
             _isProfileChangeCompleted.postValue(true)
         }
     }
@@ -161,5 +133,34 @@ class UserEditViewModel @Inject constructor(
     fun setDateOfBirth(day: Int, month: Int, year: Int) {
         val date = LocalDate.of(year, month + 1, day)
         dateOfBirth.value = date.format(DateTimeFormatter.ofPattern("d MMM yyyy"))
+    }
+
+    private fun setUserDetails(user: User?) {
+        user?.let {
+            avatar.postValue(it.avatar)
+            firstName.postValue(it.firstName)
+            lastName.postValue(it.lastName)
+            description.postValue(it.description)
+            dateOfBirth.postValue(it.birthday)
+            position.postValue(it.position)
+            status.postValue(it.status)
+            cover.postValue(it.cover)
+        }
+    }
+
+    // use kotlin coroutines
+    private fun randomAvatar() {
+        userAvatarLoadingStatus.value = LoadingStatus.PROCESSING
+        bgScope.launch {
+            try {
+                val result = userGeneratorRepository.generateUserAvatar().await()
+                result[0].photo?.let {
+                    avatar.postValue(it)
+                }
+            } catch (e: Exception) {
+                Timber.e("Exception $e")
+            }
+            userAvatarLoadingStatus.postValue(LoadingStatus.FINISHED)
+        }
     }
 }

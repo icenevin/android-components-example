@@ -26,12 +26,10 @@ import com.example.components.architecture.nvice.BaseFragment
 
 import com.example.components.architecture.nvice.R
 import com.example.components.architecture.nvice.databinding.FragmentUserDetailsBinding
-import com.example.components.architecture.nvice.model.User
 import com.example.components.architecture.nvice.ui.user.edit.UserEditActivity
-import com.example.components.architecture.nvice.util.DimensUtil
+import com.example.components.architecture.nvice.util.DimensUtils
 
 import kotlinx.android.synthetic.main.fragment_user_details.*
-import org.parceler.Parcels
 import timber.log.Timber
 import javax.inject.Inject
 
@@ -188,6 +186,6 @@ class UserDetailsFragment : BaseFragment() {
         val appBarColor = ContextCompat.getColor(context!!, R.color.primary)
         appBar.setBackgroundColor(ColorUtils.setAlphaComponent(appBarColor, alpha))
         (activity as AppCompatActivity).window.statusBarColor = ColorUtils.setAlphaComponent(statusBarColor, alpha)
-        appBar.elevation = DimensUtil.dpToPx(if (alpha >= 255) 8f else 0f)
+        appBar.elevation = DimensUtils.dpToPx(if (alpha >= 255) 8f else 0f)
     }
 }
