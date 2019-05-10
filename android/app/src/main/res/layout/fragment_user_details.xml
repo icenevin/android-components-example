@@ -117,7 +117,7 @@
                             android:id="@+id/tvPosition"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="@{StringUtil.capitalize(viewModel.positionGroup)}"
+                            android:text="@{StringUtils.capitalize(viewModel.positionGroup)}"
                             android:textSize="@dimen/text_body1" />
                     </LinearLayout>
 
@@ -155,7 +155,7 @@
                             app:info_icon="@drawable/ic_circle_black"
                             app:info_iconPadding="@dimen/dp_6"
                             app:info_iconTint="@{viewModel.statusColor}"
-                            app:info_label="@{StringUtil.capitalize(viewModel.statusName)}" />
+                            app:info_label="@{StringUtils.capitalize(viewModel.statusName)}" />
                     </LinearLayout>
 
                     <include layout="@layout/view_separator_default" />
