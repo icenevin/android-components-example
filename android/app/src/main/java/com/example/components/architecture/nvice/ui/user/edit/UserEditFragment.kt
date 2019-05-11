@@ -118,7 +118,7 @@ class UserEditFragment : BaseFragment() {
         viewModel.formValidator.observe(viewLifecycleOwner, Observer { exception ->
             exception?.let {
                 with(it.list) {
-                    this[UserError.EMPTY_FIRST_NAME]?.let { edtFirstName.setError("First name cannot be empty") } 
+                    this[UserError.EMPTY_FIRST_NAME]?.let { edtFirstName.setError("First name cannot be empty") }
                     this[UserError.EMPTY_LAST_NAME]?.let { edtLastName.setError("Last name cannot be empty") }
                 }
             }

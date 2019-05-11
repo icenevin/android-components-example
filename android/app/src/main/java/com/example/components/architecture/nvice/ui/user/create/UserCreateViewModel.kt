@@ -14,6 +14,7 @@ import com.example.components.architecture.nvice.data.repository.UserGeneratorRe
 import com.example.components.architecture.nvice.ui.LoadingStatus
 import com.example.components.architecture.nvice.util.ValidationUtils
 import com.example.components.architecture.nvice.util.extension.init
+import com.example.components.architecture.nvice.util.validator.FormValidator
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.Disposable
 import io.reactivex.schedulers.Schedulers
@@ -179,5 +180,5 @@ class UserCreateViewModel @Inject constructor(
         dateOfBirth.value = date.format(DateTimeFormatter.ofPattern("d MMM yyyy"))
     }
 
-    private fun validateUser(user: User?) = ValidationUtils.validateUser(user)
+    private fun validateUser(user: User?) = FormValidator.validateUser(user)
 }
