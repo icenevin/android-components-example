@@ -16,12 +16,12 @@ import android.widget.ArrayAdapter
 import com.example.components.architecture.nvice.BaseFragment
 
 import com.example.components.architecture.nvice.R
+import com.example.components.architecture.nvice.data.exception.UserError
 import com.example.components.architecture.nvice.databinding.FragmentUserCreateBinding
 import com.example.components.architecture.nvice.model.UserPosition
 import com.example.components.architecture.nvice.model.UserStatus
 import com.example.components.architecture.nvice.ui.camera.CameraActivity
 import kotlinx.android.synthetic.main.fragment_user_create.*
-import timber.log.Timber
 import java.util.*
 import javax.inject.Inject
 
@@ -109,6 +109,15 @@ class UserCreateFragment : BaseFragment() {
             status?.let { isCreated ->
                 if (isCreated) {
                     activity?.finish()
+                }
+            }
+        })
+
+        viewModel.formValidator.observe(viewLifecycleOwner, Observer { exception ->
+            exception?.let {
+                with(it.list) {
+                    this[UserError.EMPTY_FIRST_NAME]?.let { edtFirstName.setError("First name cannot be empty") }
+                    this[UserError.EMPTY_LAST_NAME]?.let { edtLastName.setError("Last name cannot be empty") }
                 }
             }
         })

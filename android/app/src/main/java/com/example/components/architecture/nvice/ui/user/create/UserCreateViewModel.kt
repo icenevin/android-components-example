@@ -3,6 +3,7 @@ package com.example.components.architecture.nvice.ui.user.create
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.example.components.architecture.nvice.BaseViewModel
+import com.example.components.architecture.nvice.data.exception.ValidatorException
 import com.example.components.architecture.nvice.data.repository.UserRepository
 import com.example.components.architecture.nvice.model.User
 import com.example.components.architecture.nvice.model.UserPosition
@@ -11,6 +12,7 @@ import com.example.components.architecture.nvice.scheduler.DefaultScheduler
 import com.example.components.architecture.nvice.data.repository.GenerateUserCallback
 import com.example.components.architecture.nvice.data.repository.UserGeneratorRepository
 import com.example.components.architecture.nvice.ui.LoadingStatus
+import com.example.components.architecture.nvice.util.ValidationUtils
 import com.example.components.architecture.nvice.util.extension.init
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.Disposable
@@ -32,6 +34,10 @@ class UserCreateViewModel @Inject constructor(
     private val _isUserCreated = MutableLiveData<Boolean>().init(false)
     val isUserCreated: LiveData<Boolean>
         get() = _isUserCreated
+
+    private val _formValidator = MutableLiveData<ValidatorException>()
+    val formValidator: LiveData<ValidatorException>
+        get() = _formValidator
 
     val userDataLoadingStatus = MutableLiveData<LoadingStatus>().init(LoadingStatus.IDLE)
     val userAvatarLoadingStatus = MutableLiveData<LoadingStatus>().init(LoadingStatus.IDLE)
@@ -155,8 +161,15 @@ class UserCreateViewModel @Inject constructor(
         }.run {
             DefaultScheduler.AsyncScheduler.execute {
                 staffId = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyyMMdd")) + (1000 + (userRepository.getLatestUserId() + 1))
-                userRepository.addUser(this)
-                _isUserCreated.postValue(true)
+                try {
+                    validateUser(this).run {
+                        userRepository.addUser(this)
+                        _isUserCreated.postValue(true)
+                    }
+                } catch (exception: ValidatorException) {
+                    exception.printStackTrace()
+                    _formValidator.postValue(exception)
+                }
             }
         }
     }
@@ -165,4 +178,6 @@ class UserCreateViewModel @Inject constructor(
         val date = LocalDate.of(year, month + 1, day)
         dateOfBirth.value = date.format(DateTimeFormatter.ofPattern("d MMM yyyy"))
     }
+
+    private fun validateUser(user: User?) = ValidationUtils.validateUser(user)
 }

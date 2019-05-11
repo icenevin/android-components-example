@@ -55,9 +55,9 @@ class UserRepository @Inject constructor(
 
     fun getLatestUserId() = userDao.selectLatestId()
 
-    fun addUser(user: User) = DefaultScheduler.AsyncScheduler.execute { userDao.insert(user) }
+    fun addUser(user: User?) = DefaultScheduler.AsyncScheduler.execute { user?.let { userDao.insert(it) } }
 
-    fun updateUser(user: User) = DefaultScheduler.AsyncScheduler.execute { userDao.update(user) }
+    fun updateUser(user: User?) = DefaultScheduler.AsyncScheduler.execute { user?.let { userDao.update(it) } }
 
     fun deleteUser(user: User) = DefaultScheduler.AsyncScheduler.execute { userDao.delete(user) }
 

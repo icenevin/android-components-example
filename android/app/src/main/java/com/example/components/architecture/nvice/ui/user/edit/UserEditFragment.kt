@@ -16,6 +16,7 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.ViewModelProviders
 import com.example.components.architecture.nvice.BaseFragment
 import com.example.components.architecture.nvice.R
+import com.example.components.architecture.nvice.data.exception.UserError
 import com.example.components.architecture.nvice.databinding.FragmentUserEditBinding
 import com.example.components.architecture.nvice.model.UserPosition
 import com.example.components.architecture.nvice.model.UserStatus
@@ -110,6 +111,15 @@ class UserEditFragment : BaseFragment() {
                 if (date.isNotEmpty()) {
                     val dateOfBirth = LocalDate.parse(date, DateTimeFormatter.ofPattern("d MMM yyyy"))
                     datePicker.updateDate(dateOfBirth.year, dateOfBirth.monthValue - 1, dateOfBirth.dayOfMonth)
+                }
+            }
+        })
+
+        viewModel.formValidator.observe(viewLifecycleOwner, Observer { exception ->
+            exception?.let {
+                with(it.list) {
+                    this[UserError.EMPTY_FIRST_NAME]?.let { edtFirstName.setError("First name cannot be empty") } 
+                    this[UserError.EMPTY_LAST_NAME]?.let { edtLastName.setError("Last name cannot be empty") }
                 }
             }
         })

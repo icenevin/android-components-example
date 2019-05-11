@@ -3,6 +3,8 @@ package com.example.components.architecture.nvice.ui.user.edit
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.example.components.architecture.nvice.BaseViewModel
+import com.example.components.architecture.nvice.data.exception.InvalidUserException
+import com.example.components.architecture.nvice.data.exception.ValidatorException
 import com.example.components.architecture.nvice.data.repository.UserGeneratorRepository
 import com.example.components.architecture.nvice.data.repository.UserRepository
 import com.example.components.architecture.nvice.model.User
@@ -10,6 +12,7 @@ import com.example.components.architecture.nvice.model.UserPosition
 import com.example.components.architecture.nvice.model.UserStatus
 import com.example.components.architecture.nvice.scheduler.DefaultScheduler
 import com.example.components.architecture.nvice.ui.LoadingStatus
+import com.example.components.architecture.nvice.util.ValidationUtils
 import com.example.components.architecture.nvice.util.extension.init
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.Disposable
@@ -32,6 +35,10 @@ class UserEditViewModel @Inject constructor(
     private val _isProfileChangeCompleted = MutableLiveData<Boolean>().init(false)
     val isProfileChangeCompleted: LiveData<Boolean>
         get() = _isProfileChangeCompleted
+
+    private val _formValidator = MutableLiveData<ValidatorException>()
+    val formValidator: LiveData<ValidatorException>
+        get() = _formValidator
 
     private lateinit var user: User
 
@@ -125,8 +132,14 @@ class UserEditViewModel @Inject constructor(
             status = that.status.value
             position = that.position.value
         }.run {
-            userRepository.updateUser(this)
-            _isProfileChangeCompleted.postValue(true)
+            try {
+                validateUser(this).run {
+                    userRepository.updateUser(this)
+                    _isProfileChangeCompleted.postValue(true)
+                }
+            } catch (exception: ValidatorException) {
+                _formValidator.postValue(exception)
+            }
         }
     }
 
@@ -163,4 +176,6 @@ class UserEditViewModel @Inject constructor(
             userAvatarLoadingStatus.postValue(LoadingStatus.FINISHED)
         }
     }
+
+    private fun validateUser(user: User?) = ValidationUtils.validateUser(user)
 }

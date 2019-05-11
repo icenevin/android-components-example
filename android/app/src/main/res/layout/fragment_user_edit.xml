@@ -118,6 +118,7 @@
                             app:layout_constraintTop_toBottomOf="@+id/ivAvatar">
 
                             <com.example.components.architecture.nvice.widget.fields.CustomFieldEditText
+                                android:id="@+id/edtFirstName"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 app:field_hint="@string/hint_user_create_first_name"
@@ -127,6 +128,7 @@
                                 app:field_text="@={viewModel.firstName}" />
 
                             <com.example.components.architecture.nvice.widget.fields.CustomFieldEditText
+                                android:id="@+id/edtLastName"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 app:field_hint="@string/hint_user_create_last_name"
