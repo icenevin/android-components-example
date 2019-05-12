@@ -3,18 +3,15 @@ package com.example.components.architecture.nvice.ui.user.edit
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.example.components.architecture.nvice.BaseViewModel
-import com.example.components.architecture.nvice.data.exception.InvalidUserException
 import com.example.components.architecture.nvice.data.exception.ValidatorException
 import com.example.components.architecture.nvice.data.repository.UserGeneratorRepository
 import com.example.components.architecture.nvice.data.repository.UserRepository
 import com.example.components.architecture.nvice.model.User
 import com.example.components.architecture.nvice.model.UserPosition
 import com.example.components.architecture.nvice.model.UserStatus
-import com.example.components.architecture.nvice.scheduler.DefaultScheduler
 import com.example.components.architecture.nvice.ui.LoadingStatus
-import com.example.components.architecture.nvice.util.ValidationUtils
 import com.example.components.architecture.nvice.util.extension.init
-import com.example.components.architecture.nvice.util.validator.FormValidator
+import com.example.components.architecture.nvice.util.validation.UserValidation
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.Disposable
 import io.reactivex.schedulers.Schedulers
@@ -133,14 +130,7 @@ class UserEditViewModel @Inject constructor(
             status = that.status.value
             position = that.position.value
         }.run {
-            try {
-                validateUser(this).run {
-                    userRepository.updateUser(this)
-                    _isProfileChangeCompleted.postValue(true)
-                }
-            } catch (exception: ValidatorException) {
-                _formValidator.postValue(exception)
-            }
+            validateUser(this)
         }
     }
 
@@ -178,5 +168,12 @@ class UserEditViewModel @Inject constructor(
         }
     }
 
-    private fun validateUser(user: User?) = FormValidator.validateUser(user)
+    private fun validateUser(user: User?) = UserValidation.validateUser(user,
+            success = {
+                userRepository.addUser(it)
+                _isProfileChangeCompleted.postValue(true)
+            },
+            fail = {
+                _formValidator.postValue(it)
+            })
 }

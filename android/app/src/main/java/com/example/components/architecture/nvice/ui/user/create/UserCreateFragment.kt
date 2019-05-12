@@ -16,11 +16,12 @@ import android.widget.ArrayAdapter
 import com.example.components.architecture.nvice.BaseFragment
 
 import com.example.components.architecture.nvice.R
-import com.example.components.architecture.nvice.data.exception.UserError
 import com.example.components.architecture.nvice.databinding.FragmentUserCreateBinding
 import com.example.components.architecture.nvice.model.UserPosition
 import com.example.components.architecture.nvice.model.UserStatus
 import com.example.components.architecture.nvice.ui.camera.CameraActivity
+import com.example.components.architecture.nvice.util.benchmark.TimeCapture
+import com.example.components.architecture.nvice.util.extension.validateWith
 import kotlinx.android.synthetic.main.fragment_user_create.*
 import java.util.*
 import javax.inject.Inject
@@ -113,11 +114,13 @@ class UserCreateFragment : BaseFragment() {
             }
         })
 
-        viewModel.formValidator.observe(viewLifecycleOwner, Observer { exception ->
-            exception?.let {
-                with(it.list) {
-                    this[UserError.EMPTY_FIRST_NAME]?.let { edtFirstName.setError("First name cannot be empty") }
-                    this[UserError.EMPTY_LAST_NAME]?.let { edtLastName.setError("Last name cannot be empty") }
+        viewModel.formValidator.observe(viewLifecycleOwner, Observer { validator ->
+            validator?.let { exception ->
+                edtFirstName.validateWith(exception.list) { view, error ->
+                    view.setError(error.getAlertMessage(context))
+                }
+                edtLastName.validateWith(exception.list) { view, error ->
+                    view.setError(error.getAlertMessage(context))
                 }
             }
         })

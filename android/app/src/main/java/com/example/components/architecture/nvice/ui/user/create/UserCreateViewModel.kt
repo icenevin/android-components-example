@@ -12,9 +12,8 @@ import com.example.components.architecture.nvice.scheduler.DefaultScheduler
 import com.example.components.architecture.nvice.data.repository.GenerateUserCallback
 import com.example.components.architecture.nvice.data.repository.UserGeneratorRepository
 import com.example.components.architecture.nvice.ui.LoadingStatus
-import com.example.components.architecture.nvice.util.ValidationUtils
 import com.example.components.architecture.nvice.util.extension.init
-import com.example.components.architecture.nvice.util.validator.FormValidator
+import com.example.components.architecture.nvice.util.validation.UserValidation
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.Disposable
 import io.reactivex.schedulers.Schedulers
@@ -162,15 +161,7 @@ class UserCreateViewModel @Inject constructor(
         }.run {
             DefaultScheduler.AsyncScheduler.execute {
                 staffId = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyyMMdd")) + (1000 + (userRepository.getLatestUserId() + 1))
-                try {
-                    validateUser(this).run {
-                        userRepository.addUser(this)
-                        _isUserCreated.postValue(true)
-                    }
-                } catch (exception: ValidatorException) {
-                    exception.printStackTrace()
-                    _formValidator.postValue(exception)
-                }
+                validateUser(this)
             }
         }
     }
@@ -180,5 +171,12 @@ class UserCreateViewModel @Inject constructor(
         dateOfBirth.value = date.format(DateTimeFormatter.ofPattern("d MMM yyyy"))
     }
 
-    private fun validateUser(user: User?) = FormValidator.validateUser(user)
+    private fun validateUser(user: User?) = UserValidation.validateUser(user,
+            success = {
+                userRepository.addUser(it)
+                _isUserCreated.postValue(true)
+            },
+            fail = {
+                _formValidator.postValue(it)
+            })
 }

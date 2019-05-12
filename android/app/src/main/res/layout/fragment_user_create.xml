@@ -10,6 +10,8 @@
 
         <import type="android.view.View" />
 
+        <import type="com.example.components.architecture.nvice.util.validation.Validator" />
+
         <import type="com.example.components.architecture.nvice.model.UserPosition" />
 
         <import type="com.example.components.architecture.nvice.ui.LoadingStatus" />
@@ -120,19 +122,21 @@
                                 android:id="@+id/edtFirstName"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                app:field_hint="@string/hint_user_create_first_name"
+                                app:field_hint="@string/hint_user_first_name"
                                 app:field_icon="@drawable/ic_person_black_24dp"
                                 app:field_maxLines="1"
                                 app:field_singleLines="true"
+                                app:field_validator="@{Validator.USER_FIRST_NAME}"
                                 app:field_text="@={viewModel.firstName}" />
 
                             <com.example.components.architecture.nvice.widget.fields.CustomFieldEditText
                                 android:id="@+id/edtLastName"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                app:field_hint="@string/hint_user_create_last_name"
+                                app:field_hint="@string/hint_user_last_name"
                                 app:field_maxLines="1"
                                 app:field_singleLines="true"
+                                app:field_validator="@{Validator.USER_LAST_NAME}"
                                 app:field_text="@={viewModel.lastName}" />
 
                             <com.example.components.architecture.nvice.widget.fields.CustomFieldSpinner
@@ -157,7 +161,7 @@
                                 android:layout_height="wrap_content"
                                 app:field_editable="false"
                                 app:field_fullWidth="true"
-                                app:field_hint="@string/hint_user_create_birthday"
+                                app:field_hint="@string/hint_user_birthday"
                                 app:field_icon="@drawable/ic_date_range_black_24dp"
                                 app:field_inputDrawableEnd="@drawable/ic_clear_white_24dp"
                                 app:field_longClickable="false"
@@ -170,7 +174,7 @@
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 app:field_fullWidth="true"
-                                app:field_hint="@string/hint_user_create_description"
+                                app:field_hint="@string/hint_user_description"
                                 app:field_icon="@drawable/ic_description_black_24dp"
                                 app:field_inputDrawableEnd="@drawable/ic_clear_white_24dp"
                                 app:field_onInputDrawableEndClick="@{()-> viewModel.clearDescription()}"
@@ -202,7 +206,7 @@
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
                                     app:field_editable="false"
-                                    app:field_hint="@string/hint_user_create_profile_cover"
+                                    app:field_hint="@string/hint_user_profile_cover"
                                     app:field_icon="@drawable/ic_photo_black_24dp"
                                     app:field_longClickable="false"
                                     app:field_maxLines="1"

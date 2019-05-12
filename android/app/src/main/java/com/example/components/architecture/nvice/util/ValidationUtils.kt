@@ -1,9 +1,5 @@
 package com.example.components.architecture.nvice.util
 
-import com.example.components.architecture.nvice.data.exception.InvalidUserException
-import com.example.components.architecture.nvice.data.exception.UserError
-import com.example.components.architecture.nvice.data.exception.ValidatorException
-import com.example.components.architecture.nvice.model.User
 import com.example.components.architecture.nvice.util.extension.getInt
 import com.example.components.architecture.nvice.util.regex.RegexPattern
 import timber.log.Timber
@@ -11,6 +7,7 @@ import timber.log.Timber
 class ValidationUtils {
 
     companion object {
+
         fun isValidCitizenId(id: String?): Boolean {
             id?.let {
                 if (id.length == 13) {

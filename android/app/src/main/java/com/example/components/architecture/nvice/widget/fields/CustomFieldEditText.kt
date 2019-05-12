@@ -98,7 +98,7 @@ class CustomFieldEditText @JvmOverloads constructor(
         edtInputField.error = text
     }
 
-    fun setError(error: CustomFieldError?){
+    fun setError(error: CustomFieldError?) {
         error?.let {
             edtInputField.setError(it.text, it.drawable)
         }

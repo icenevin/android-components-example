@@ -33,17 +33,20 @@
 
     <string name="status_loading">Loading…</string>
 
-    <string name="hint_user_create_first_name">First Name</string>
-    <string name="hint_user_create_last_name">Last Name</string>
-    <string name="hint_user_create_birthday">Date of Birth</string>
-    <string name="hint_user_create_description">Description</string>
-    <string name="hint_user_create_profile_cover">Profile Cover</string>
+    <string name="hint_user_first_name">First Name</string>
+    <string name="hint_user_last_name">Last Name</string>
+    <string name="hint_user_birthday">Date of Birth</string>
+    <string name="hint_user_description">Description</string>
+    <string name="hint_user_profile_cover">Profile Cover</string>
 
     <string name="btn_clear">Clear</string>
     <string name="btn_select">Select</string>
     <string name="btn_add">add</string>
     <string name="btn_save">save</string>
 
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="error_empty_user_first_name">First name cannot be empty.</string>
+    <string name="error_empty_user_last_name">Last name cannot be empty.</string>
+
+    <string name="error_invalid_user_first_name">First name is invalid.</string>
+    <string name="error_invalid_user_last_name">Last name is invalid.</string>
 </resources>
