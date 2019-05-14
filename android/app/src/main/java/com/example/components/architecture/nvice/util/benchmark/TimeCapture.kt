@@ -6,8 +6,11 @@ class TimeCapture {
 
     companion object {
 
-        private const val WATCHER_TIME_OUT = 10000L
-        private val watchers = HashMap<String, Watcher?>()
+        @PublishedApi
+        internal const val WATCHER_TIME_OUT = 10000L
+
+        @PublishedApi
+        internal val watchers = HashMap<String, Watcher?>()
 
         fun start(tag: String) {
             watchers[tag] = Watcher(tag).start()
@@ -52,7 +55,7 @@ class TimeCapture {
             this.captureAsync(task.toString(), task)
         }
 
-        fun captureAsync(tag: String, task: Companion.(Watcher?) -> Unit) {
+        inline fun captureAsync(tag: String, task: Companion.(Watcher?) -> Unit) {
             start(tag)
             task(this, watchers[tag])
             Handler().postDelayed({

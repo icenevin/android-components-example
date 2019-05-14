@@ -16,7 +16,6 @@ import com.example.components.architecture.nvice.model.UserPosition
 import com.example.components.architecture.nvice.model.UserStatus
 import com.bumptech.glide.load.resource.bitmap.CenterCrop
 import com.example.components.architecture.nvice.ui.LoadingStatus
-import timber.log.Timber
 
 
 @Suppress("unused")
@@ -86,7 +85,6 @@ fun setSelectedUserStatus(view: CustomFieldSpinner, value: UserStatus?, attrChan
     }
 
     value?.let {
-        Timber.i(it.name)
         view.getSpinner().setSelection(it.ordinal)
     }
 }

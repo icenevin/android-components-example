@@ -2,6 +2,7 @@ package com.example.components.architecture.nvice.widget.fields
 
 import android.content.Context
 import android.content.res.Resources
+import android.text.Editable
 import androidx.databinding.BindingMethod
 import androidx.databinding.BindingMethods
 import androidx.databinding.InverseBindingMethod
@@ -16,6 +17,7 @@ import android.view.View
 import android.widget.EditText
 import com.example.components.architecture.nvice.R
 import kotlinx.android.synthetic.main.view_custom_field_edittext.view.*
+import timber.log.Timber
 
 
 class CustomFieldEditText @JvmOverloads constructor(
@@ -23,6 +25,8 @@ class CustomFieldEditText @JvmOverloads constructor(
         attrs: AttributeSet? = null,
         defStyle: Int = 0
 ) : CustomField(context, attrs, defStyle) {
+
+    private var isClearable: Boolean = false
 
     init {
         LayoutInflater.from(context).inflate(R.layout.view_custom_field_edittext, this, true)
@@ -38,10 +42,6 @@ class CustomFieldEditText @JvmOverloads constructor(
             ivIcon.layoutParams.height = attributes.getLayoutDimension(R.styleable.CustomFieldEditText_field_iconHeight, resources.getDimension(R.dimen.dp_24).toInt())
             ivIcon.layoutParams.width = attributes.getLayoutDimension(R.styleable.CustomFieldEditText_field_iconWidth, resources.getDimension(R.dimen.dp_24).toInt())
             ivIcon.visibility = if (attributes.getBoolean(R.styleable.CustomFieldEditText_field_showIcon, true)) View.VISIBLE else View.GONE
-
-            ivInputDrawableEnd.setImageResource(attributes.getResourceId(R.styleable.CustomFieldEditText_field_inputDrawableEnd, 0))
-            ivInputDrawableEnd.setPadding(inputDrawableEndPadding, inputDrawableEndPadding, inputDrawableEndPadding, inputDrawableEndPadding)
-            ivInputDrawableEnd.visibility = if (showInputDrawableEnd) View.VISIBLE else View.GONE
 
             ivDrawableEnd.setImageResource(attributes.getResourceId(R.styleable.CustomFieldEditText_field_drawableEnd, 0))
             ivDrawableEnd.setPadding(drawableEndPadding, drawableEndPadding, drawableEndPadding, drawableEndPadding)
@@ -61,6 +61,32 @@ class CustomFieldEditText @JvmOverloads constructor(
 
             edtInputField.setSingleLine(attributes.getBoolean(R.styleable.CustomFieldEditText_field_singleLines, false))
             edtInputField.setText(attributes.getString(R.styleable.CustomFieldEditText_field_text))
+
+            isClearable = attributes.getBoolean(R.styleable.CustomFieldEditText_field_clearable, false)
+
+            if (isClearable) {
+                ivInputDrawableEnd.setImageResource(R.drawable.ic_clear_white_24dp)
+                setInputDrawableEndTint(R.color.black_600)
+                ivInputDrawableEnd.setOnClickListener {
+                    this.setText("")
+                }
+                edtInputField.addTextChangedListener(object : TextWatcher{
+                    override fun afterTextChanged(s: Editable?) {
+                        Timber.i("afterTextChanged")
+                        checkClearable(s.toString())
+                    }
+
+                    override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
+                    }
+
+                    override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+                    }
+                })
+            } else {
+                ivInputDrawableEnd.setImageResource(attributes.getResourceId(R.styleable.CustomFieldEditText_field_inputDrawableEnd, 0))
+                ivInputDrawableEnd.setPadding(inputDrawableEndPadding, inputDrawableEndPadding, inputDrawableEndPadding, inputDrawableEndPadding)
+                ivInputDrawableEnd.visibility = if (showInputDrawableEnd) View.VISIBLE else View.GONE
+            }
 
             attributes.recycle()
         }
@@ -127,5 +153,9 @@ class CustomFieldEditText @JvmOverloads constructor(
                 if (requestShow) resources.getDimension(R.dimen.dp_36).toInt() else edtInputField.paddingEnd,
                 edtInputField.paddingBottom
         )
+    }
+
+    fun checkClearable(text: String) {
+        setShowInputDrawableEnd(this.isClearable && text.isNotEmpty())
     }
 }

@@ -7,11 +7,11 @@ import com.example.components.architecture.nvice.util.validation.Validator
 import com.example.components.architecture.nvice.widget.fields.CustomFieldEditText
 import kotlin.Exception
 
-fun <T : ErrorException> CustomFieldEditText.validateWith(exceptions: HashMap<Validator, T>?, action: (CustomFieldEditText, Error) -> Unit) {
+inline fun <T : ErrorException> CustomFieldEditText.validateWith(exceptions: HashMap<Validator, T>?, action: (CustomFieldEditText, Error) -> Unit) {
     this.validateWith(exceptions, this.validator, action)
 }
 
-fun <T : ErrorException> CustomFieldEditText.validateWith(exceptions: HashMap<Validator, T>?, validator: Validator?, action: (CustomFieldEditText, Error) -> Unit) {
+inline fun <T : ErrorException> CustomFieldEditText.validateWith(exceptions: HashMap<Validator, T>?, validator: Validator?, action: (CustomFieldEditText, Error) -> Unit) {
     exceptions?.let {
         (it[validator])?.let { exception ->
             action(this, exception.error)

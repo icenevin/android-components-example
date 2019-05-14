@@ -20,8 +20,9 @@ import com.example.components.architecture.nvice.databinding.FragmentUserCreateB
 import com.example.components.architecture.nvice.model.UserPosition
 import com.example.components.architecture.nvice.model.UserStatus
 import com.example.components.architecture.nvice.ui.camera.CameraActivity
-import com.example.components.architecture.nvice.util.benchmark.TimeCapture
+import com.example.components.architecture.nvice.widget.modal.UserAvatarPicker
 import com.example.components.architecture.nvice.util.extension.validateWith
+import com.example.components.architecture.nvice.widget.modal.UserCoverPicker
 import kotlinx.android.synthetic.main.fragment_user_create.*
 import java.util.*
 import javax.inject.Inject
@@ -32,7 +33,10 @@ class UserCreateFragment : BaseFragment() {
     @Inject
     lateinit var viewModelFactory: ViewModelProvider.Factory
     private lateinit var viewModel: UserCreateViewModel
-    private lateinit var datePicker: DatePickerDialog
+
+    private var datePicker: DatePickerDialog? = null
+    private var avatarPicker: UserAvatarPicker? = null
+    private var coverPicker: UserCoverPicker? = null
 
     companion object {
         fun newInstance() = UserCreateFragment()
@@ -57,9 +61,9 @@ class UserCreateFragment : BaseFragment() {
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
         initToolbar()
-        initDatePicker()
         initObservers()
         initView()
+        initPickers()
     }
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
@@ -82,6 +86,18 @@ class UserCreateFragment : BaseFragment() {
         }
     }
 
+    fun showDatePicker() {
+        datePicker?.show()
+    }
+
+    fun showAvatarPicker() {
+        avatarPicker?.show(childFragmentManager)
+    }
+
+    fun showCoverPicker() {
+        coverPicker?.show(childFragmentManager)
+    }
+
     private fun initToolbar() {
         (activity as AppCompatActivity).setSupportActionBar(toolbar as Toolbar)
         (activity as AppCompatActivity).supportActionBar?.setDisplayShowTitleEnabled(false)
@@ -90,18 +106,6 @@ class UserCreateFragment : BaseFragment() {
         toolbar.navigationIcon = ContextCompat.getDrawable(context!!, R.drawable.ic_arrow_back_white_24dp)
         toolbar.title = "Add Staff"
         toolbar.setNavigationOnClickListener { (activity as AppCompatActivity).onBackPressed() }
-    }
-
-    private fun initDatePicker() {
-        val now = Calendar.getInstance()
-        datePicker = DatePickerDialog(context!!,
-                DatePickerDialog.OnDateSetListener { _, y, m, d ->
-                    viewModel.setDateOfBirth(d, m, y)
-                }, now.get(Calendar.YEAR), now.get(Calendar.MONTH), now.get(Calendar.DAY_OF_MONTH))
-        now.add(Calendar.YEAR, -5)
-        datePicker.datePicker.maxDate = now.timeInMillis
-        now.add(Calendar.YEAR, -50)
-        datePicker.datePicker.minDate = now.timeInMillis
     }
 
     private fun initObservers() {
@@ -114,12 +118,12 @@ class UserCreateFragment : BaseFragment() {
             }
         })
 
-        viewModel.formValidator.observe(viewLifecycleOwner, Observer { validator ->
-            validator?.let { exception ->
-                edtFirstName.validateWith(exception.list) { view, error ->
+        viewModel.formValidator.observe(viewLifecycleOwner, Observer { exception ->
+            exception?.let {
+                edtFirstName.validateWith(it.errors) { view, error ->
                     view.setError(error.getAlertMessage(context))
                 }
-                edtLastName.validateWith(exception.list) { view, error ->
+                edtLastName.validateWith(it.errors) { view, error ->
                     view.setError(error.getAlertMessage(context))
                 }
             }
@@ -131,7 +135,45 @@ class UserCreateFragment : BaseFragment() {
         spStatus.getSpinner().adapter = ArrayAdapter<UserStatus>(context!!, R.layout.item_dropdown_custom_field_spinner, UserStatus.values())
     }
 
-    fun showDatePicker() {
-        datePicker.show()
+    private fun initPickers() {
+        initDatePicker()
+        initAvatarPicker()
+        initCoverPicker()
+    }
+
+    private fun initDatePicker() {
+        val now = Calendar.getInstance()
+        datePicker = DatePickerDialog(context!!,
+                DatePickerDialog.OnDateSetListener { _, y, m, d ->
+                    viewModel.setDateOfBirth(d, m, y)
+                }, now.get(Calendar.YEAR), now.get(Calendar.MONTH), now.get(Calendar.DAY_OF_MONTH))
+        now.add(Calendar.YEAR, -5)
+        datePicker?.datePicker?.maxDate = now.timeInMillis
+        now.add(Calendar.YEAR, -50)
+        datePicker?.datePicker?.minDate = now.timeInMillis
+    }
+
+    private fun initAvatarPicker() {
+        avatarPicker = UserAvatarPicker.newInstance(
+                randomEvent = {
+                    viewModel.selectAvatar()
+                    dismiss()
+                },
+                chooseCategoryEvent = {
+                    dismiss()
+                }
+        )
+    }
+
+    private fun initCoverPicker() {
+        coverPicker = UserCoverPicker.newInstance(
+                randomEvent = {
+                    viewModel.selectCover()
+                    dismiss()
+                },
+                chooseCategoryEvent = {
+                    dismiss()
+                }
+        )
     }
 }

@@ -41,6 +41,7 @@
     <attr name="field_longClickable" format="boolean" />
     <attr name="field_error" format="reference" />
     <attr name="field_validator" format="reference" />
+    <attr name="field_clearable" format="boolean" />
 
     <declare-styleable name="CustomFieldEditText">
         <attr name="field_icon" />
@@ -74,6 +75,7 @@
         <attr name="field_longClickable" />
         <attr name="field_error" />
         <attr name="field_validator" />
+        <attr name="field_clearable" />
     </declare-styleable>
 
     <declare-styleable name="CustomFieldSpinner">

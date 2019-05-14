@@ -66,10 +66,6 @@ class UserEditViewModel @Inject constructor(
         userCoverService?.dispose()
     }
 
-    fun selectAvatar() {
-        randomAvatar()
-    }
-
     fun initUser(userId: Int?) {
         userId?.let {
             bgScope.launch {
@@ -79,8 +75,15 @@ class UserEditViewModel @Inject constructor(
         }
     }
 
+
+    fun selectAvatar() {
+        if (userAvatarLoadingStatus.value != LoadingStatus.PROCESSING) {
+            randomAvatar()
+        }
+    }
+
     fun selectCover() {
-        if (cover.value.isNullOrEmpty() && userCoverLoadingStatus.value != LoadingStatus.PROCESSING) {
+        if (userCoverLoadingStatus.value != LoadingStatus.PROCESSING) {
             randomCover()
         }
     }
@@ -108,14 +111,6 @@ class UserEditViewModel @Inject constructor(
 
     fun clearCover() {
         cover.value = ""
-    }
-
-    fun clearDateOfBirth() {
-        dateOfBirth.value = ""
-    }
-
-    fun clearDescription() {
-        description.value = ""
     }
 
     fun updateUser() {
@@ -170,7 +165,7 @@ class UserEditViewModel @Inject constructor(
 
     private fun validateUser(user: User?) = UserValidation.validateUser(user,
             success = {
-                userRepository.addUser(it)
+                userRepository.updateUser(it)
                 _isProfileChangeCompleted.postValue(true)
             },
             fail = {

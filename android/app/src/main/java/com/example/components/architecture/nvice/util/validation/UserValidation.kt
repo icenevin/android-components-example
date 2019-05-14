@@ -10,7 +10,7 @@ class UserValidation {
 
     companion object {
 
-        fun validateUser(user: User?, success: (User?) -> Unit, fail: (ValidatorException?) -> Unit) {
+        inline fun validateUser(user: User?, success: (User?) -> Unit, fail: (ValidatorException?) -> Unit) {
             try {
                 validateUser(user).run(success)
             } catch (exception: ValidatorException) {
@@ -19,7 +19,8 @@ class UserValidation {
             }
         }
 
-        private fun validateUser(user: User?): User? {
+        @PublishedApi
+        internal fun validateUser(user: User?): User? {
             val exceptions = hashMapOf<Validator, ErrorException>()
             user?.let {
                 if (it.firstName.isNullOrEmpty()) {

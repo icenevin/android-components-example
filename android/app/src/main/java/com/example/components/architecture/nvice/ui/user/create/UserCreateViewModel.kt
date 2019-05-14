@@ -65,6 +65,18 @@ class UserCreateViewModel @Inject constructor(
         userCoverService?.dispose()
     }
 
+    fun selectAvatar() {
+        if (userAvatarLoadingStatus.value != LoadingStatus.PROCESSING) {
+            randomAvatar()
+        }
+    }
+
+    fun selectCover() {
+        if (userCoverLoadingStatus.value != LoadingStatus.PROCESSING) {
+            randomCover()
+        }
+    }
+
     // use custom callback
     fun randomUser() {
         userDataLoadingStatus.postValue(LoadingStatus.PROCESSING)
@@ -87,11 +99,6 @@ class UserCreateViewModel @Inject constructor(
         })
     }
 
-    fun selectAvatar() {
-        // select function in the future
-        randomAvatar()
-    }
-
     // use kotlin coroutines
     fun randomAvatar() {
         userAvatarLoadingStatus.value = LoadingStatus.PROCESSING
@@ -105,12 +112,6 @@ class UserCreateViewModel @Inject constructor(
                 Timber.e("Exception $e")
             }
             userAvatarLoadingStatus.postValue(LoadingStatus.FINISHED)
-        }
-    }
-
-    fun selectCover() {
-        if (cover.value.isNullOrEmpty() && userCoverLoadingStatus.value != LoadingStatus.PROCESSING) {
-            randomCover()
         }
     }
 
@@ -137,14 +138,6 @@ class UserCreateViewModel @Inject constructor(
 
     fun clearCover() {
         cover.value = ""
-    }
-
-    fun clearDateOfBirth() {
-        dateOfBirth.value = ""
-    }
-
-    fun clearDescription() {
-        description.value = ""
     }
 
     fun addUser() {

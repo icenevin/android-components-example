@@ -20,6 +20,8 @@ import com.example.components.architecture.nvice.databinding.FragmentUserEditBin
 import com.example.components.architecture.nvice.model.UserPosition
 import com.example.components.architecture.nvice.model.UserStatus
 import com.example.components.architecture.nvice.util.extension.validateWith
+import com.example.components.architecture.nvice.widget.modal.UserAvatarPicker
+import com.example.components.architecture.nvice.widget.modal.UserCoverPicker
 import kotlinx.android.synthetic.main.fragment_user_edit.*
 import org.threeten.bp.LocalDate
 import org.threeten.bp.format.DateTimeFormatter
@@ -42,7 +44,10 @@ class UserEditFragment : BaseFragment() {
     @Inject
     lateinit var viewModelFactory: ViewModelProvider.Factory
     private lateinit var viewModel: UserEditViewModel
-    private lateinit var datePicker: DatePickerDialog
+
+    private var datePicker: DatePickerDialog? = null
+    private var avatarPicker: UserAvatarPicker? = null
+    private var coverPicker: UserCoverPicker? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -64,13 +69,21 @@ class UserEditFragment : BaseFragment() {
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
         initToolbar()
-        initDatePicker()
         initObservers()
         initView()
+        initPickers()
     }
 
     fun showDatePicker() {
-        datePicker.show()
+        datePicker?.show()
+    }
+
+    fun showAvatarPicker() {
+        avatarPicker?.show(childFragmentManager)
+    }
+
+    fun showCoverPicker() {
+        coverPicker?.show(childFragmentManager)
     }
 
     private fun initToolbar() {
@@ -81,18 +94,6 @@ class UserEditFragment : BaseFragment() {
         toolbar.navigationIcon = ContextCompat.getDrawable(context!!, R.drawable.ic_arrow_back_white_24dp)
         toolbar.title = "Edit Staff"
         toolbar.setNavigationOnClickListener { (activity as AppCompatActivity).onBackPressed() }
-    }
-
-    private fun initDatePicker() {
-        val now = Calendar.getInstance()
-        datePicker = DatePickerDialog(context!!,
-                DatePickerDialog.OnDateSetListener { _, y, m, d ->
-                    viewModel.setDateOfBirth(d, m, y)
-                }, now.get(Calendar.YEAR), now.get(Calendar.MONTH), now.get(Calendar.DAY_OF_MONTH))
-        now.add(Calendar.YEAR, -5)
-        datePicker.datePicker.maxDate = now.timeInMillis
-        now.add(Calendar.YEAR, -50)
-        datePicker.datePicker.minDate = now.timeInMillis
     }
 
     private fun initObservers() {
@@ -110,17 +111,17 @@ class UserEditFragment : BaseFragment() {
             value?.let { date ->
                 if (date.isNotEmpty()) {
                     val dateOfBirth = LocalDate.parse(date, DateTimeFormatter.ofPattern("d MMM yyyy"))
-                    datePicker.updateDate(dateOfBirth.year, dateOfBirth.monthValue - 1, dateOfBirth.dayOfMonth)
+                    datePicker?.updateDate(dateOfBirth.year, dateOfBirth.monthValue - 1, dateOfBirth.dayOfMonth)
                 }
             }
         })
 
-        viewModel.formValidator.observe(viewLifecycleOwner, Observer { validator ->
-            validator?.let { exception ->
-                edtFirstName.validateWith(exception.list) { view, error ->
+        viewModel.formValidator.observe(viewLifecycleOwner, Observer { exception ->
+            exception?.let {
+                edtFirstName.validateWith(it.errors) { view, error ->
                     view.setError(error.getAlertMessage(context))
                 }
-                edtLastName.validateWith(exception.list) { view, error ->
+                edtLastName.validateWith(it.errors) { view, error ->
                     view.setError(error.getAlertMessage(context))
                 }
             }
@@ -130,5 +131,47 @@ class UserEditFragment : BaseFragment() {
     private fun initView() {
         spPosition.getSpinner().adapter = ArrayAdapter<UserPosition>(context!!, R.layout.item_dropdown_custom_field_spinner, UserPosition.values())
         spStatus.getSpinner().adapter = ArrayAdapter<UserStatus>(context!!, R.layout.item_dropdown_custom_field_spinner, UserStatus.values())
+    }
+
+    private fun initPickers() {
+        initDatePicker()
+        initAvatarPicker()
+        initCoverPicker()
+    }
+
+    private fun initDatePicker() {
+        val now = Calendar.getInstance()
+        datePicker = DatePickerDialog(context!!,
+                DatePickerDialog.OnDateSetListener { _, y, m, d ->
+                    viewModel.setDateOfBirth(d, m, y)
+                }, now.get(Calendar.YEAR), now.get(Calendar.MONTH), now.get(Calendar.DAY_OF_MONTH))
+        now.add(Calendar.YEAR, -5)
+        datePicker?.datePicker?.maxDate = now.timeInMillis
+        now.add(Calendar.YEAR, -50)
+        datePicker?.datePicker?.minDate = now.timeInMillis
+    }
+
+    private fun initAvatarPicker() {
+        avatarPicker = UserAvatarPicker.newInstance(
+                randomEvent = {
+                    viewModel.selectAvatar()
+                    dismiss()
+                },
+                chooseCategoryEvent = {
+                    dismiss()
+                }
+        )
+    }
+
+    private fun initCoverPicker() {
+        coverPicker = UserCoverPicker.newInstance(
+                randomEvent = {
+                    viewModel.selectCover()
+                    dismiss()
+                },
+                chooseCategoryEvent = {
+                    dismiss()
+                }
+        )
     }
 }
