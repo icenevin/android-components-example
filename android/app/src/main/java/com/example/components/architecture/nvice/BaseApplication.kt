@@ -3,6 +3,7 @@ package com.example.components.architecture.nvice
 import android.annotation.SuppressLint
 import android.content.Context
 import com.example.components.architecture.nvice.di.DaggerAppComponent
+import com.example.components.architecture.nvice.util.LocaleHelper
 import com.google.firebase.FirebaseApp
 import com.jakewharton.threetenabp.AndroidThreeTen
 import dagger.android.AndroidInjector

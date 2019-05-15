@@ -82,5 +82,6 @@
     <dimen name="text_overline">@dimen/sp_10</dimen>
 
     <!--layout size-->
+    <dimen name="btn_corner_radius">@dimen/dp_4</dimen>
     <dimen name="item_user_list_avatar_height">@dimen/dp_52</dimen>
 </resources>

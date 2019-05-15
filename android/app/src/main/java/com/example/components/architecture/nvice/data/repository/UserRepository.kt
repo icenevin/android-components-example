@@ -7,7 +7,7 @@ import com.example.components.architecture.nvice.dao.UserDao
 import com.example.components.architecture.nvice.data.datasource.DataSourceFactory
 import com.example.components.architecture.nvice.data.preference.AppSettingsPreference
 import com.example.components.architecture.nvice.model.User
-import com.example.components.architecture.nvice.scheduler.DefaultScheduler
+import com.example.components.architecture.nvice.util.scheduler.DefaultScheduler
 import com.example.components.architecture.nvice.ui.user.UserDataSourceFactory
 import timber.log.Timber
 import javax.inject.Inject

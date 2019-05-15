@@ -10,7 +10,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.components.architecture.nvice.model.User
 import com.example.components.architecture.nvice.model.UserStatus
-import com.example.components.architecture.nvice.scheduler.DefaultScheduler
+import com.example.components.architecture.nvice.util.scheduler.DefaultScheduler
 import kotlinx.android.synthetic.main.fragment_user_list.*
 import javax.inject.Inject
 import androidx.paging.PagedList
@@ -24,8 +24,8 @@ import android.view.ViewGroup
 import com.example.components.architecture.nvice.BaseFragment
 import com.example.components.architecture.nvice.ui.user.create.UserCreateActivity
 import com.example.components.architecture.nvice.ui.user.details.UserDetailsActivity
+import com.example.components.architecture.nvice.widget.alert.CustomAlertDialog
 import kotlinx.android.synthetic.main.item_user.view.*
-import org.parceler.Parcels
 
 
 class UserFragment : BaseFragment() {
@@ -142,8 +142,7 @@ class UserFragment : BaseFragment() {
         }
 
         btnAddUser.setOnClickListener {
-            startActivity(Intent(context, UserCreateActivity::class.java))
-//            viewModel.addUserForTest()
+            navToCreateUser()
         }
     }
 
@@ -159,7 +158,16 @@ class UserFragment : BaseFragment() {
         }
 
         userPagedListAdapter.setOnItemSwipeListener { user ->
-            viewModel.deleteUser(user)
+            CustomAlertDialog.with(context)
+                    ?.setTitleText("Delete this Staff?")
+                    ?.setSupportingText("${user.lastName} will be removed from the system")
+                    ?.setPositiveButton(getString(R.string.action_delete)) {
+                        viewModel.deleteUser(user)
+                    }
+                    ?.setNegativeButton {
+                        userPagedListAdapter.notifyDataSetChanged()
+                    }
+                    ?.show()
         }
     }
 
@@ -176,10 +184,11 @@ class UserFragment : BaseFragment() {
     }
 
     private fun handleFilter(isChecked: Boolean, status: UserStatus) {
-        if (isChecked)
+        if (isChecked) {
             viewModel.addStatusFilter(status)
-        else
+        } else {
             viewModel.removeStatusFilter(status)
+        }
     }
 
     private fun handleListStatus(list: PagedList<User>) {
@@ -192,5 +201,9 @@ class UserFragment : BaseFragment() {
         val options = ActivityOptions
                 .makeSceneTransitionAnimation(activity, view, "transitionUserAvatar")
         activity?.startActivity(intent, options.toBundle())
+    }
+
+    private fun navToCreateUser(){
+        startActivity(Intent(context, UserCreateActivity::class.java))
     }
 }

@@ -49,4 +49,7 @@
 
     <string name="error_invalid_user_first_name">First name is invalid.</string>
     <string name="error_invalid_user_last_name">Last name is invalid.</string>
+    <string name="action_cancel">Cancel</string>
+    <string name="action_okay">Okay</string>
+    <string name="action_delete">Delete</string>
 </resources>

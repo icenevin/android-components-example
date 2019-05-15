@@ -8,7 +8,7 @@ import com.example.components.architecture.nvice.data.repository.UserRepository
 import com.example.components.architecture.nvice.model.User
 import com.example.components.architecture.nvice.model.UserPosition
 import com.example.components.architecture.nvice.model.UserStatus
-import com.example.components.architecture.nvice.scheduler.DefaultScheduler
+import com.example.components.architecture.nvice.util.scheduler.DefaultScheduler
 import com.example.components.architecture.nvice.data.repository.GenerateUserCallback
 import com.example.components.architecture.nvice.data.repository.UserGeneratorRepository
 import com.example.components.architecture.nvice.ui.LoadingStatus

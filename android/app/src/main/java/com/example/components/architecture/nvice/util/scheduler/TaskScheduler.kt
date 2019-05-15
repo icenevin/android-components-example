@@ -1,4 +1,4 @@
-package com.example.components.architecture.nvice.scheduler
+package com.example.components.architecture.nvice.util.scheduler
 
 import android.os.Handler
 import android.os.Looper

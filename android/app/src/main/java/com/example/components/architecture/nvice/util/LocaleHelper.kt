@@ -1,4 +1,4 @@
-package com.example.components.architecture.nvice
+package com.example.components.architecture.nvice.util
 
 import android.annotation.TargetApi
 import android.content.Context

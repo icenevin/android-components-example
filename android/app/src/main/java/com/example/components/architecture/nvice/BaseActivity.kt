@@ -5,6 +5,7 @@ import android.content.Context
 import android.os.Bundle
 import android.os.PersistableBundle
 import androidx.fragment.app.Fragment
+import com.example.components.architecture.nvice.util.LocaleHelper
 import dagger.android.AndroidInjector
 import dagger.android.DispatchingAndroidInjector
 import dagger.android.support.DaggerAppCompatActivity
