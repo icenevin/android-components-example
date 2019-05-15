@@ -6,7 +6,6 @@ import android.view.View
 import android.view.Window
 import androidx.annotation.ColorRes
 import androidx.annotation.DrawableRes
-import androidx.annotation.StringRes
 import androidx.core.content.ContextCompat
 import com.example.components.architecture.nvice.R
 import kotlinx.android.synthetic.main.alert_dialog_default.*

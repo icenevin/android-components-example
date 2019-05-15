@@ -10,16 +10,16 @@ import com.example.components.architecture.nvice.R
 import com.example.components.architecture.nvice.databinding.BottomSheetUserCoverPickerBinding
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 
-class UserCoverPicker constructor(
-        private var randomEvent: (UserCoverPicker.() -> Unit)? = null,
-        private var categoryEvent: (UserCoverPicker.() -> Unit)? = null
+class UserCoverMenuModal constructor(
+        private var randomEvent: (UserCoverMenuModal.() -> Unit)? = null,
+        private var categoryEvent: (UserCoverMenuModal.() -> Unit)? = null
 ) : BottomSheetDialogFragment() {
 
     companion object {
         fun newInstance(
-                randomEvent: (UserCoverPicker.() -> Unit)?,
-                chooseCategoryEvent: (UserCoverPicker.() -> Unit)?
-        ) = UserCoverPicker(randomEvent, chooseCategoryEvent)
+                randomEvent: (UserCoverMenuModal.() -> Unit)?,
+                chooseCategoryEvent: (UserCoverMenuModal.() -> Unit)?
+        ) = UserCoverMenuModal(randomEvent, chooseCategoryEvent)
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {

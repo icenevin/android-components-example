@@ -70,7 +70,7 @@
                                 android:layout_width="@dimen/dp_92"
                                 android:layout_height="@dimen/dp_92"
                                 android:background="@drawable/ic_user_avatar_add"
-                                android:onClick="@{()-> fragment.showAvatarPicker()}"
+                                android:onClick="@{()-> fragment.showAvatarMenuModal()}"
                                 app:layout_constraintEnd_toEndOf="parent"
                                 app:layout_constraintStart_toStartOf="parent"
                                 app:layout_constraintTop_toTopOf="parent"
@@ -198,7 +198,7 @@
                                 <com.example.components.architecture.nvice.widget.fields.CustomFieldEditText
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
-                                    android:onClick="@{()-> fragment.showCoverPicker()}"
+                                    android:onClick="@{()-> fragment.showCoverMenuModal()}"
                                     app:field_editable="false"
                                     app:field_hint="@string/hint_user_profile_cover"
                                     app:field_icon="@drawable/ic_photo_black_24dp"

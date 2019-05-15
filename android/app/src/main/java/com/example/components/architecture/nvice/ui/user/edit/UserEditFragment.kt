@@ -20,8 +20,8 @@ import com.example.components.architecture.nvice.databinding.FragmentUserEditBin
 import com.example.components.architecture.nvice.model.UserPosition
 import com.example.components.architecture.nvice.model.UserStatus
 import com.example.components.architecture.nvice.util.extension.validateWith
-import com.example.components.architecture.nvice.widget.modal.UserAvatarPicker
-import com.example.components.architecture.nvice.widget.modal.UserCoverPicker
+import com.example.components.architecture.nvice.widget.modal.UserAvatarMenuModal
+import com.example.components.architecture.nvice.widget.modal.UserCoverMenuModal
 import kotlinx.android.synthetic.main.fragment_user_edit.*
 import org.threeten.bp.LocalDate
 import org.threeten.bp.format.DateTimeFormatter
@@ -46,8 +46,8 @@ class UserEditFragment : BaseFragment() {
     private lateinit var viewModel: UserEditViewModel
 
     private var datePicker: DatePickerDialog? = null
-    private var avatarPicker: UserAvatarPicker? = null
-    private var coverPicker: UserCoverPicker? = null
+    private var avatarMenuModal: UserAvatarMenuModal? = null
+    private var coverMenuModal: UserCoverMenuModal? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -78,12 +78,12 @@ class UserEditFragment : BaseFragment() {
         datePicker?.show()
     }
 
-    fun showAvatarPicker() {
-        avatarPicker?.show(childFragmentManager)
+    fun showAvatarMenuModal() {
+        avatarMenuModal?.show(childFragmentManager)
     }
 
-    fun showCoverPicker() {
-        coverPicker?.show(childFragmentManager)
+    fun showCoverMenuModal() {
+        coverMenuModal?.show(childFragmentManager)
     }
 
     private fun initToolbar() {
@@ -152,7 +152,7 @@ class UserEditFragment : BaseFragment() {
     }
 
     private fun initAvatarPicker() {
-        avatarPicker = UserAvatarPicker.newInstance(
+        avatarMenuModal = UserAvatarMenuModal.newInstance(
                 randomEvent = {
                     viewModel.selectAvatar()
                     dismiss()
@@ -164,7 +164,7 @@ class UserEditFragment : BaseFragment() {
     }
 
     private fun initCoverPicker() {
-        coverPicker = UserCoverPicker.newInstance(
+        coverMenuModal = UserCoverMenuModal.newInstance(
                 randomEvent = {
                     viewModel.selectCover()
                     dismiss()
