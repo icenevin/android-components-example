@@ -27,8 +27,6 @@ import com.example.components.architecture.nvice.BaseFragment
 
 import com.example.components.architecture.nvice.R
 import com.example.components.architecture.nvice.databinding.FragmentUserDetailsBinding
-import com.example.components.architecture.nvice.ui.user.profile.UserExperienceListAdapter
-import com.example.components.architecture.nvice.ui.user.profile.UserSkillListAdapter
 import com.example.components.architecture.nvice.ui.user.profile.edit.UserEditActivity
 import com.example.components.architecture.nvice.util.DimensUtils
 

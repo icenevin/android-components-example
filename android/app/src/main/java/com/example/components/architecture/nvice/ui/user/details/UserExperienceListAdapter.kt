@@ -1,4 +1,4 @@
-package com.example.components.architecture.nvice.ui.user.profile
+package com.example.components.architecture.nvice.ui.user.details
 
 import androidx.recyclerview.widget.RecyclerView
 import android.view.ViewGroup
