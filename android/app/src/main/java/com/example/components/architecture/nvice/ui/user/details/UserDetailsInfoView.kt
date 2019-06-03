@@ -7,6 +7,7 @@ import androidx.core.content.ContextCompat
 import androidx.core.graphics.drawable.DrawableCompat
 import android.util.AttributeSet
 import android.view.LayoutInflater
+import android.view.View
 import android.widget.LinearLayout
 import com.example.components.architecture.nvice.R
 import kotlinx.android.synthetic.main.view_user_details_info.view.*
@@ -24,17 +25,20 @@ class UserDetailsInfoView @JvmOverloads constructor(
         attrs?.let {
             val attributes = context.obtainStyledAttributes(it, R.styleable.UserDetailsInfoView, 0, 0)
             val iconPadding = attributes.getLayoutDimension(R.styleable.UserDetailsInfoView_info_iconPadding, 0)
+            val text = attributes.getString(R.styleable.UserDetailsInfoView_info_label)
             ivIcon.setImageResource(attributes.getResourceId(R.styleable.UserDetailsInfoView_info_icon, 0))
             ivIcon.setPadding(iconPadding, iconPadding, iconPadding, iconPadding)
             ivIcon.layoutParams.height = attributes.getLayoutDimension(R.styleable.UserDetailsInfoView_info_iconHeight, resources.getDimension(R.dimen.dp_24).toInt())
             ivIcon.layoutParams.width = attributes.getLayoutDimension(R.styleable.UserDetailsInfoView_info_iconWidth, resources.getDimension(R.dimen.dp_24).toInt())
-            tvLabel.text = attributes.getString(R.styleable.UserDetailsInfoView_info_label)
+            tvLabel.text = text
+            setVisibility(text)
             attributes.recycle()
         }
     }
 
     fun setLabel(label: String) {
         tvLabel.text = label
+        setVisibility(label)
     }
 
     fun setIconTint(@ColorRes color: Int) {
@@ -43,5 +47,9 @@ class UserDetailsInfoView @JvmOverloads constructor(
         } catch (e: Resources.NotFoundException) {
 
         }
+    }
+
+    private fun setVisibility(text: String?) {
+        visibility = if (text?.isNotEmpty() == true) View.VISIBLE else View.GONE
     }
 }

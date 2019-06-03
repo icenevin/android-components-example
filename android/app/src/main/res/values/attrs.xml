@@ -42,6 +42,12 @@
     <attr name="field_error" format="reference" />
     <attr name="field_validator" format="reference" />
     <attr name="field_clearable" format="boolean" />
+    <attr name="field_onClear" format="string" />
+    <attr name="field_iconVisibility" format="reference" />
+
+    <declare-styleable name="CustomFieldLayout">
+        <attr name="icon" />
+    </declare-styleable>
 
     <declare-styleable name="CustomFieldEditText">
         <attr name="field_icon" />
@@ -76,6 +82,8 @@
         <attr name="field_error" />
         <attr name="field_validator" />
         <attr name="field_clearable" />
+        <attr name="field_iconVisibility" />
+        <attr name="field_onClear" />
     </declare-styleable>
 
     <declare-styleable name="CustomFieldSpinner">
@@ -103,5 +111,13 @@
         <attr name="field_enable" />
         <attr name="field_fullWidth" />
         <attr name="field_validator" />
+        <attr name="field_iconVisibility" />
+    </declare-styleable>
+
+    <declare-styleable name="CustomFieldDatePicker">
+        <attr name="field_maxDate" format="reference" />
+        <attr name="field_minDate" format="reference" />
+        <attr name="field_additionalMaxYear" format="integer" />
+        <attr name="field_additionalMinYear" format="integer" />
     </declare-styleable>
 </resources>

@@ -1,4 +1,4 @@
-package com.example.components.architecture.nvice.ui.user.create
+package com.example.components.architecture.nvice.ui.user.profile.create
 
 import android.os.Bundle
 import com.example.components.architecture.nvice.BaseActivity

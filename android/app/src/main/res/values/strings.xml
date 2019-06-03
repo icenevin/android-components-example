@@ -52,4 +52,7 @@
     <string name="action_cancel">Cancel</string>
     <string name="action_okay">Okay</string>
     <string name="action_delete">Delete</string>
+
+    <string name="alert_title_delete_staff">Delete this Staff?</string>
+    <string name="alert_support_text_delete_staff">%1$s will be removed from the staff members</string>
 </resources>

@@ -128,7 +128,6 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:animateLayoutChanges="true"
-                        android:minHeight="@dimen/dp_128"
                         android:orientation="vertical">
 
                         <com.example.components.architecture.nvice.ui.user.details.UserDetailsInfoView
@@ -183,6 +182,62 @@
                             android:text="@{viewModel.description}" />
 
                         <include layout="@layout/view_separator_default" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/dp_8"
+                        android:orientation="vertical"
+                        android:visibility="@{viewModel.skills.isEmpty ? View.GONE : View.VISIBLE}">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Skills"
+                            android:textSize="@dimen/text_body2"
+                            android:textStyle="bold" />
+
+                        <androidx.recyclerview.widget.RecyclerView
+                            android:id="@+id/rvSkills"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:nestedScrollingEnabled="false"
+                            tools:itemCount="2"
+                            tools:listitem="@layout/item_user_skill">
+
+                        </androidx.recyclerview.widget.RecyclerView>
+
+                        <include layout="@layout/view_separator_default" />
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/dp_8"
+                        android:orientation="vertical"
+                        android:visibility="@{viewModel.experiences.isEmpty ? View.GONE : View.VISIBLE}">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Work Experience"
+                            android:textSize="@dimen/text_body2"
+                            android:textStyle="bold" />
+
+                        <androidx.recyclerview.widget.RecyclerView
+                            android:id="@+id/rvExperiences"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:nestedScrollingEnabled="false"
+                            tools:itemCount="2"
+                            tools:listitem="@layout/item_user_experience">
+
+                        </androidx.recyclerview.widget.RecyclerView>
+
+                        <include layout="@layout/view_separator_default" />
+
                     </LinearLayout>
 
                     <LinearLayout

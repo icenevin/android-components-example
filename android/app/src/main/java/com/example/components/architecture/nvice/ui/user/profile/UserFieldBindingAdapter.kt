@@ -1,4 +1,4 @@
-package com.example.components.architecture.nvice.ui.user
+package com.example.components.architecture.nvice.ui.user.profile
 
 import androidx.databinding.BindingAdapter
 import android.widget.ImageView
@@ -12,8 +12,8 @@ import android.view.View
 import androidx.databinding.InverseBindingAdapter
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.bumptech.glide.load.engine.DiskCacheStrategy
-import com.example.components.architecture.nvice.model.UserPosition
-import com.example.components.architecture.nvice.model.UserStatus
+import com.example.components.architecture.nvice.model.user.UserPosition
+import com.example.components.architecture.nvice.model.user.UserStatus
 import com.bumptech.glide.load.resource.bitmap.CenterCrop
 import com.example.components.architecture.nvice.ui.LoadingStatus
 
@@ -41,6 +41,8 @@ fun setCover(view: ImageView, value: String?) {
             .into(view)
 }
 
+
+// InverseBinding: Deconstructed style
 @Suppress("unused")
 @BindingAdapter("bind:selectedUserPosition")
 fun setSelectedUserPosition(view: CustomFieldSpinner, value: UserPosition?) {
@@ -71,10 +73,14 @@ fun setOnUserPositionChangeListener(
     }
 }
 
+// InverseBinding: Constructed style
 @Suppress("unused")
 @BindingAdapter(value = ["bind:selectedUserStatus", "bind:selectedUserStatusAttrChanged"], requireAll = false)
-fun setSelectedUserStatus(view: CustomFieldSpinner, value: UserStatus?, attrChange: InverseBindingListener) {
-
+fun setSelectedUserStatus(
+        view: CustomFieldSpinner,
+        value: UserStatus?,
+        attrChange: InverseBindingListener
+) {
     view.getSpinner().onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
         override fun onNothingSelected(parent: AdapterView<*>?) {
         }
@@ -85,7 +91,7 @@ fun setSelectedUserStatus(view: CustomFieldSpinner, value: UserStatus?, attrChan
     }
 
     value?.let {
-        view.getSpinner().setSelection(it.ordinal)
+        view.setSelection(it.ordinal)
     }
 }
 

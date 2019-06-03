@@ -1,9 +1,9 @@
 package com.example.components.architecture.nvice.ui.user
 
 import com.example.components.architecture.nvice.BaseViewModel
-import com.example.components.architecture.nvice.model.User
+import com.example.components.architecture.nvice.model.user.User
 import com.example.components.architecture.nvice.data.repository.UserRepository
-import com.example.components.architecture.nvice.model.UserStatus
+import com.example.components.architecture.nvice.model.user.UserStatus
 import timber.log.Timber
 import javax.inject.Inject
 

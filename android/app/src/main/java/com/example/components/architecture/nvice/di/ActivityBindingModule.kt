@@ -5,12 +5,12 @@ import com.example.components.architecture.nvice.di.scope.java.ActivityScope
 import com.example.components.architecture.nvice.ui.camera.CameraActivity
 import com.example.components.architecture.nvice.ui.camera.CameraModule
 import com.example.components.architecture.nvice.ui.user.UserModule
-import com.example.components.architecture.nvice.ui.user.create.UserCreateActivity
-import com.example.components.architecture.nvice.ui.user.create.UserCreateModule
+import com.example.components.architecture.nvice.ui.user.profile.create.UserCreateActivity
+import com.example.components.architecture.nvice.ui.user.profile.create.UserCreateModule
 import com.example.components.architecture.nvice.ui.user.details.UserDetailsActivity
 import com.example.components.architecture.nvice.ui.user.details.UserDetailsModule
-import com.example.components.architecture.nvice.ui.user.edit.UserEditActivity
-import com.example.components.architecture.nvice.ui.user.edit.UserEditModule
+import com.example.components.architecture.nvice.ui.user.profile.edit.UserEditActivity
+import com.example.components.architecture.nvice.ui.user.profile.edit.UserEditModule
 import dagger.Module
 import dagger.android.ContributesAndroidInjector
 

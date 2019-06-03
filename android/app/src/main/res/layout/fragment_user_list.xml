@@ -43,13 +43,17 @@
                     android:id="@+id/rvUserStatusFilters"
                     android:layout_width="0dp"
                     android:layout_height="@dimen/sp_36"
-                    android:layout_marginStart="8dp"
-                    android:layout_marginEnd="8dp"
+                    android:layout_marginStart="@dimen/dp_8"
+                    android:layout_marginEnd="@dimen/dp_8"
                     android:orientation="horizontal"
                     android:overScrollMode="never"
                     android:requiresFadingEdge="horizontal"
                     app:layout_constraintEnd_toStartOf="@+id/btnFilter"
-                    app:layout_constraintStart_toStartOf="parent" />
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    tools:itemCount="3"
+                    tools:listitem="@layout/item_user_status_filter"
+                    tools:orientation="horizontal" />
 
             </androidx.constraintlayout.widget.ConstraintLayout>
         </com.google.android.material.appbar.AppBarLayout>
@@ -88,6 +92,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:clipToPadding="false"
+                tools:listitem="@layout/item_user"
+                tools:itemCount="5"
                 android:paddingTop="@dimen/dp_4"
                 android:paddingBottom="@dimen/dp_48" />
         </FrameLayout>

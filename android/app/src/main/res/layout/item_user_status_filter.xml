@@ -6,7 +6,7 @@
 
         <variable
             name="userStatus"
-            type="com.example.components.architecture.nvice.model.UserStatus" />
+            type="com.example.components.architecture.nvice.model.user.UserStatus" />
     </data>
 
     <com.google.android.material.chip.Chip

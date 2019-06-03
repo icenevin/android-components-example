@@ -19,6 +19,7 @@ import androidx.palette.graphics.Palette
 import androidx.appcompat.widget.Toolbar
 import android.view.*
 import androidx.lifecycle.Observer
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.target.SimpleTarget
 import com.bumptech.glide.request.transition.Transition
@@ -26,10 +27,13 @@ import com.example.components.architecture.nvice.BaseFragment
 
 import com.example.components.architecture.nvice.R
 import com.example.components.architecture.nvice.databinding.FragmentUserDetailsBinding
-import com.example.components.architecture.nvice.ui.user.edit.UserEditActivity
+import com.example.components.architecture.nvice.ui.user.profile.UserExperienceListAdapter
+import com.example.components.architecture.nvice.ui.user.profile.UserSkillListAdapter
+import com.example.components.architecture.nvice.ui.user.profile.edit.UserEditActivity
 import com.example.components.architecture.nvice.util.DimensUtils
 
 import kotlinx.android.synthetic.main.fragment_user_details.*
+import org.parceler.Parcels
 import timber.log.Timber
 import javax.inject.Inject
 
@@ -41,6 +45,9 @@ class UserDetailsFragment : BaseFragment() {
     @Inject
     lateinit var viewModelFactory: ViewModelProvider.Factory
     private lateinit var viewModel: UserDetailsViewModel
+
+    private lateinit var skillsAdapter: UserSkillListAdapter
+    private lateinit var experiencesAdapter: UserExperienceListAdapter
 
     private var isAppBarBgShowing: Boolean = false
 
@@ -61,6 +68,9 @@ class UserDetailsFragment : BaseFragment() {
                 .get(UserDetailsViewModel::class.java)
         val userId = arguments?.getInt("userId", 0)
         viewModel.initUser(userId)
+
+        skillsAdapter = UserSkillListAdapter()
+        experiencesAdapter = UserExperienceListAdapter()
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
@@ -75,7 +85,16 @@ class UserDetailsFragment : BaseFragment() {
         super.onActivityCreated(savedInstanceState)
         initToolbar()
         initObserver()
+        initView()
         initEvent()
+    }
+
+    private fun initView() {
+        rvSkills.layoutManager = LinearLayoutManager(context)
+        rvSkills.adapter = skillsAdapter
+
+        rvExperiences.layoutManager = LinearLayoutManager(context)
+        rvExperiences.adapter = experiencesAdapter
     }
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
@@ -88,7 +107,7 @@ class UserDetailsFragment : BaseFragment() {
         val mEditUser = menu.findItem(R.id.action_edit)
         mEditUser?.setOnMenuItemClickListener {
             val intent = Intent(activity, UserEditActivity::class.java)
-            intent.putExtra("userId", viewModel.getUserId())
+            intent.putExtra("user", Parcels.wrap(viewModel.getUser()))
             startActivityForResult(intent, EDIT_USER_REQUEST)
             true
         }
@@ -100,7 +119,7 @@ class UserDetailsFragment : BaseFragment() {
         if (requestCode == EDIT_USER_REQUEST) {
             when (resultCode) {
                 Activity.RESULT_OK -> {
-                    viewModel.updateUserDetails()
+                    viewModel.refreshDetails()
                 }
             }
         }
@@ -118,6 +137,14 @@ class UserDetailsFragment : BaseFragment() {
     private fun initObserver() {
         viewModel.avatar.observe(viewLifecycleOwner, Observer {
             initBackground(it)
+        })
+
+        viewModel.skills.observe(viewLifecycleOwner, Observer {
+            skillsAdapter.submitList(it)
+        })
+
+        viewModel.experiences.observe(viewLifecycleOwner, Observer {
+            experiencesAdapter.submitList(it)
         })
     }
 

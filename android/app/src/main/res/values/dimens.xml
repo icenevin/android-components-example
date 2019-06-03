@@ -83,5 +83,8 @@
 
     <!--layout size-->
     <dimen name="btn_corner_radius">@dimen/dp_4</dimen>
+
     <dimen name="item_user_list_avatar_height">@dimen/dp_52</dimen>
+
+    <dimen name="custom_field_min_height">@dimen/dp_56</dimen>
 </resources>

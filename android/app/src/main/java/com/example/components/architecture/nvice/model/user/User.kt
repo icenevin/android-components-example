@@ -1,4 +1,4 @@
-package com.example.components.architecture.nvice.model
+package com.example.components.architecture.nvice.model.user
 
 import androidx.room.ColumnInfo
 import androidx.room.Entity
@@ -25,11 +25,11 @@ data class User(
         public var lastName: String? = "",
 
         @field:SerializedName("birthday")
-        @ColumnInfo(name= "birthday")
+        @ColumnInfo(name = "birthday")
         public var birthday: String? = "",
 
         @field:SerializedName("description")
-        @ColumnInfo(name= "description")
+        @ColumnInfo(name = "description")
         public var description: String? = "",
 
         @field:SerializedName("avatarProfileUrl")
@@ -45,19 +45,17 @@ data class User(
         public var status: UserStatus? = UserStatus.UNDEFINED,
 
         @field:SerializedName("position")
-        @ColumnInfo(name= "position")
-        public var position: UserPosition? = UserPosition.UNDEFINED
-        ) {
+        @ColumnInfo(name = "position")
+        public var position: UserPosition? = UserPosition.UNDEFINED,
 
-    companion object {
-        var DIFF_CALLBACK: DiffUtil.ItemCallback<User> = object : DiffUtil.ItemCallback<User>() {
-            override fun areItemsTheSame(oldItem: User, newItem: User): Boolean {
-                return oldItem.id == newItem.id
-            }
+        @field:SerializedName("skills")
+        @ColumnInfo(name = "skills")
+        public var skills: MutableList<UserSkill?>? = mutableListOf(),
 
-            override fun areContentsTheSame(oldItem: User, newItem: User): Boolean {
-                return oldItem == newItem
-            }
-        }
-    }
+        @field:SerializedName("experiences")
+        @ColumnInfo(name = "experiences")
+        public var experiences: MutableList<UserExperience?>? = mutableListOf()
+) {
+
+    fun getFullName() = "${this.firstName} ${this.lastName}".trimEnd()
 }

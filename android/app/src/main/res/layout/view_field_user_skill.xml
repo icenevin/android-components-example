@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+
+        <import type="android.view.View" />
+
+        <variable
+            name="skill"
+            type="com.example.components.architecture.nvice.model.user.UserSkill" />
+
+        <variable
+            name="viewModel"
+            type="com.example.components.architecture.nvice.ui.user.profile.UserProfileViewModel" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <com.example.components.architecture.nvice.widget.fields.CustomFieldEditText
+            android:id="@+id/edtSkill"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:field_hint="Skill"
+            app:field_singleLines="true"
+            app:field_clearable="true"
+            app:field_text="@={skill.name}"
+            app:field_onClear="@{() -> viewModel.excludeSkill(skill)}"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/tvScoreLabel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Score"
+            android:layout_marginStart="@dimen/dp_4"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/edtSkill" />
+
+        <TextView
+            android:id="@+id/tvScoreValue"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="end"
+            android:layout_marginEnd="@dimen/dp_16"
+            android:text="@{Integer.toString(skill.score)}"
+            app:layout_constraintBottom_toTopOf="@+id/sbScoreBar"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/edtSkill" />
+
+        <androidx.appcompat.widget.AppCompatSeekBar
+            android:id="@+id/sbScoreBar"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/dp_32"
+            android:max="100"
+            android:progress="@{skill.score}"
+            android:thumbTint="@color/primary"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tvScoreLabel" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

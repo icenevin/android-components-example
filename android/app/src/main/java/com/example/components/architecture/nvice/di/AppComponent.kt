@@ -1,6 +1,7 @@
 package com.example.components.architecture.nvice.di
 
 import com.example.components.architecture.nvice.BaseApplication
+import com.example.components.architecture.nvice.db.DatabaseModule
 import com.example.components.architecture.nvice.di.module.*
 import dagger.Component
 import dagger.android.AndroidInjector
@@ -17,6 +18,7 @@ import javax.inject.Singleton
             OkHttpClientModule::class,
             UserGeneratorModule::class,
             ActivityBindingModule::class,
+            DatabaseModule::class,
 //            DataSourceFactoryModule::class,
 //            PreferenceModule::class,
             ViewModelModule::class

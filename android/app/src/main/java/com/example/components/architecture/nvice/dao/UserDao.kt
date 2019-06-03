@@ -4,9 +4,8 @@ import androidx.lifecycle.LiveData
 import androidx.paging.DataSource
 import androidx.sqlite.db.SupportSQLiteQuery
 import androidx.room.*
-import com.example.components.architecture.nvice.model.User
-import com.example.components.architecture.nvice.model.UserStatus
-import kotlinx.coroutines.Deferred
+import com.example.components.architecture.nvice.model.user.User
+import com.example.components.architecture.nvice.model.user.UserStatus
 
 @Dao
 interface UserDao {

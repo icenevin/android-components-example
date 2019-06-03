@@ -5,8 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:gravity="center_vertical"
-    android:orientation="horizontal"
-    android:padding="@dimen/dp_4">
+    android:orientation="horizontal">
 
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/centerGuideline"
@@ -37,6 +36,7 @@
         android:src="@drawable/ic_person_black_24dp"
         android:tint="@color/black_600"
         app:layout_constraintStart_toStartOf="parent"
+        android:visibility="gone"
         app:layout_constraintTop_toTopOf="parent" />
 
     <androidx.appcompat.widget.AppCompatSpinner
@@ -44,7 +44,6 @@
         style="@style/Widget.AppCompat.Spinner.Underlined"
         android:layout_width="0dp"
         android:layout_height="@dimen/dp_56"
-        android:layout_marginStart="@dimen/dp_8"
         android:backgroundTint="@color/white_600"
         android:textColor="@color/black_500"
         android:textColorHint="@color/white_500"

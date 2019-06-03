@@ -6,9 +6,9 @@ import com.example.components.architecture.nvice.api.response.UnsplashPhotosResp
 import com.example.components.architecture.nvice.api.service.UiFacesService
 import com.example.components.architecture.nvice.api.service.UiNamesService
 import com.example.components.architecture.nvice.api.service.UnsplashService
-import com.example.components.architecture.nvice.model.User
-import com.example.components.architecture.nvice.model.UserPosition
-import com.example.components.architecture.nvice.model.UserStatus
+import com.example.components.architecture.nvice.model.user.User
+import com.example.components.architecture.nvice.model.user.UserPosition
+import com.example.components.architecture.nvice.model.user.UserStatus
 import io.reactivex.Flowable
 import kotlinx.coroutines.Deferred
 import retrofit2.Call

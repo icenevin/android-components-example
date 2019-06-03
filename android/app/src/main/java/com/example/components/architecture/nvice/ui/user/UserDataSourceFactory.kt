@@ -4,7 +4,7 @@ import androidx.paging.DataSource
 import androidx.sqlite.db.SimpleSQLiteQuery
 import com.example.components.architecture.nvice.dao.UserDao
 import com.example.components.architecture.nvice.data.datasource.DataSourceFactory
-import com.example.components.architecture.nvice.model.User
+import com.example.components.architecture.nvice.model.user.User
 import com.example.components.architecture.nvice.util.regex.RegexUtil
 import javax.inject.Inject
 import kotlin.collections.HashMap

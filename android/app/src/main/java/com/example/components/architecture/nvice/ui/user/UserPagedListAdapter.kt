@@ -1,7 +1,6 @@
 package com.example.components.architecture.nvice.ui.user
 
 import androidx.paging.PagedListAdapter
-import android.content.Context
 import androidx.databinding.DataBindingUtil
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
@@ -10,17 +9,17 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
+import androidx.recyclerview.widget.DiffUtil
 import com.example.components.architecture.nvice.R
 import com.example.components.architecture.nvice.databinding.ItemUserBinding
-import com.example.components.architecture.nvice.model.User
-import com.example.components.architecture.nvice.model.UserStatus
+import com.example.components.architecture.nvice.model.user.User
+import com.example.components.architecture.nvice.model.user.UserStatus
 import kotlinx.android.synthetic.main.item_user.view.*
 
-class UserPagedListAdapter(private val context: Context) : PagedListAdapter<User, UserPagedListAdapter.UserViewHolder>(User.DIFF_CALLBACK), UserItemTouchHelperCallback.OnItemTouchListener {
+class UserPagedListAdapter : PagedListAdapter<User, UserPagedListAdapter.UserViewHolder>(DiffCallback), UserItemTouchHelperCallback.OnItemTouchListener {
 
     private lateinit var onClick: (View, User) -> Unit
     private lateinit var onDelete: (User) -> Unit
-    private lateinit var onItemSwipe: (User) -> Unit
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): UserViewHolder {
         val layoutInflater = LayoutInflater.from(parent.context)
@@ -45,16 +44,28 @@ class UserPagedListAdapter(private val context: Context) : PagedListAdapter<User
         this.onClick = onClick
     }
 
-    fun setOnDeleteUserListener(onClick: (User) -> Unit) {
-        this.onDelete = onClick
-    }
-
-    fun setOnItemSwipeListener(onItemSwipe: (User) -> Unit) {
-        this.onItemSwipe = onItemSwipe
+    fun setOnDeleteListener(onDelete: (User) -> Unit) {
+        this.onDelete = onDelete
     }
 
     override fun onSwiped(holder: RecyclerView.ViewHolder) {
-        this.onItemSwipe((holder as UserViewHolder).user)
+        this.onDelete((holder as UserViewHolder).user)
+    }
+
+    override fun onSwipedLeft(holder: RecyclerView.ViewHolder) {
+    }
+
+    override fun onSwipedRight(holder: RecyclerView.ViewHolder) {
+    }
+
+    object DiffCallback : DiffUtil.ItemCallback<User>() {
+        override fun areItemsTheSame(oldItem: User, newItem: User): Boolean {
+            return oldItem.id == newItem.id
+        }
+
+        override fun areContentsTheSame(oldItem: User, newItem: User): Boolean {
+            return oldItem == newItem
+        }
     }
 }
 

@@ -40,6 +40,14 @@ fun setOnClick(view: CustomField, listener: View.OnClickListener?) {
 }
 
 @Suppress("unused")
+@BindingAdapter("field_onClear")
+fun setOnClear(view: CustomFieldEditText, event: (() -> Unit)?) {
+    event?.let {
+        view.setOnClear(it)
+    }
+}
+
+@Suppress("unused")
 @BindingAdapter("field_onDrawableEndClick")
 fun setOnDrawableEndClick(view: CustomField, listener: View.OnClickListener?) {
     listener?.let {
@@ -57,8 +65,8 @@ fun setOnInputDrawableEndClick(view: CustomFieldEditText, listener: View.OnClick
 
 @Suppress("unused")
 @BindingAdapter("field_showInputDrawableEnd")
-fun setShowInputDrawableEnd(view: CustomFieldEditText, requestShow: Boolean?) {
-    requestShow?.let {
+fun setShowInputDrawableEnd(view: CustomFieldEditText, value: Boolean?) {
+    value?.let {
         view.setShowInputDrawableEnd(it)
     }
 }
@@ -117,7 +125,7 @@ fun setSelectedItem(view: CustomFieldSpinner, value: Any?) {
 @BindingAdapter("field_error")
 fun setError(view: CustomFieldEditText, value: String?) {
     value?.let {
-            view.setError(it)
+        view.setError(it)
     }
 }
 
@@ -134,5 +142,37 @@ fun setError(view: CustomFieldEditText, value: CustomFieldError?) {
 fun setValidator(view: CustomFieldEditText, value: Validator?) {
     value?.let {
         view.validator = it
+    }
+}
+
+@Suppress("unused")
+@BindingAdapter("field_showIcon")
+fun setShowIcon(view: CustomFieldEditText, value: Boolean?) {
+    value?.let {
+        view.setShowIcon(it)
+    }
+}
+
+@Suppress("unused")
+@BindingAdapter("field_iconVisibility")
+fun setIconVisibility(view: CustomFieldEditText, value: Int?) {
+    value?.let {
+        view.setIconVisibility(it)
+    }
+}
+
+@Suppress("unused")
+@BindingAdapter("field_maxDate")
+fun setMaxDate(view: CustomFieldDatePicker, value: String?) {
+    value?.let {
+        view.setMaxDate(it)
+    }
+}
+
+@Suppress("unused")
+@BindingAdapter("field_minDate")
+fun setMinDate(view: CustomFieldDatePicker, value: String?) {
+    value?.let {
+        view.setMinDate(it)
     }
 }

@@ -1,7 +1,7 @@
 package com.example.components.architecture.nvice.data.converter
 
 import androidx.room.TypeConverter
-import com.example.components.architecture.nvice.model.UserStatus
+import com.example.components.architecture.nvice.model.user.UserStatus
 
 class UserStatusConverter {
     @TypeConverter

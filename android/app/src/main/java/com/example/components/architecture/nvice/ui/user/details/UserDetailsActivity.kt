@@ -9,8 +9,6 @@ import android.transition.TransitionSet
 import android.view.Gravity
 import com.example.components.architecture.nvice.BaseActivity
 import com.example.components.architecture.nvice.R
-import com.example.components.architecture.nvice.model.User
-import org.parceler.Parcels
 
 
 class UserDetailsActivity : BaseActivity() {

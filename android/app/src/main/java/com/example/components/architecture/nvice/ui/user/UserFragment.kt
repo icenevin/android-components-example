@@ -8,8 +8,8 @@ import android.os.Bundle
 import com.example.components.architecture.nvice.R
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.example.components.architecture.nvice.model.User
-import com.example.components.architecture.nvice.model.UserStatus
+import com.example.components.architecture.nvice.model.user.User
+import com.example.components.architecture.nvice.model.user.UserStatus
 import com.example.components.architecture.nvice.util.scheduler.DefaultScheduler
 import kotlinx.android.synthetic.main.fragment_user_list.*
 import javax.inject.Inject
@@ -22,7 +22,7 @@ import android.view.*
 import androidx.appcompat.widget.SearchView
 import android.view.ViewGroup
 import com.example.components.architecture.nvice.BaseFragment
-import com.example.components.architecture.nvice.ui.user.create.UserCreateActivity
+import com.example.components.architecture.nvice.ui.user.profile.create.UserCreateActivity
 import com.example.components.architecture.nvice.ui.user.details.UserDetailsActivity
 import com.example.components.architecture.nvice.widget.alert.CustomAlertDialog
 import kotlinx.android.synthetic.main.item_user.view.*
@@ -46,7 +46,7 @@ class UserFragment : BaseFragment() {
         viewModel = ViewModelProviders.of(this, viewModelFactory)
                 .get(UserViewModel::class.java)
 
-        userPagedListAdapter = UserPagedListAdapter(context!!)
+        userPagedListAdapter = UserPagedListAdapter()
         userStatusListAdapter = UserStatusListAdapter()
     }
 
@@ -153,19 +153,17 @@ class UserFragment : BaseFragment() {
             navToUserDetails(v.ivUserAvatar, user)
         }
 
-        userPagedListAdapter.setOnDeleteUserListener { user ->
-            viewModel.deleteUser(user)
-        }
-
-        userPagedListAdapter.setOnItemSwipeListener { user ->
+        userPagedListAdapter.setOnDeleteListener { user ->
             CustomAlertDialog.with(context)
-                    ?.setTitleText("Delete this Staff?")
-                    ?.setSupportingText("${user.lastName} will be removed from the system")
+                    ?.setTitleText(getString(R.string.alert_title_delete_staff))
+                    ?.setSupportingText(getString(R.string.alert_support_text_delete_staff, user.getFullName()))
                     ?.setPositiveButton(getString(R.string.action_delete)) {
                         viewModel.deleteUser(user)
                     }
                     ?.setNegativeButton {
-                        userPagedListAdapter.notifyDataSetChanged()
+                        user.id?.let {
+                            userPagedListAdapter.notifyItemChanged(it - 1)
+                        }
                     }
                     ?.show()
         }
@@ -203,7 +201,7 @@ class UserFragment : BaseFragment() {
         activity?.startActivity(intent, options.toBundle())
     }
 
-    private fun navToCreateUser(){
+    private fun navToCreateUser() {
         startActivity(Intent(context, UserCreateActivity::class.java))
     }
 }

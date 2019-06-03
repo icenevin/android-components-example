@@ -1,7 +1,6 @@
-package com.example.components.architecture.nvice.ui.user.create
+package com.example.components.architecture.nvice.ui.user.profile.create
 
 
-import android.app.DatePickerDialog
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.ViewModelProviders
@@ -12,19 +11,22 @@ import androidx.core.content.ContextCompat
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import android.view.*
-import android.widget.ArrayAdapter
 import com.example.components.architecture.nvice.BaseFragment
 
 import com.example.components.architecture.nvice.R
 import com.example.components.architecture.nvice.databinding.FragmentUserCreateBinding
-import com.example.components.architecture.nvice.model.UserPosition
-import com.example.components.architecture.nvice.model.UserStatus
+import com.example.components.architecture.nvice.model.user.UserExperienceOperator
+import com.example.components.architecture.nvice.model.user.UserSkillOperator
+import com.example.components.architecture.nvice.model.user.UserPosition
+import com.example.components.architecture.nvice.model.user.UserStatus
 import com.example.components.architecture.nvice.ui.camera.CameraActivity
+import com.example.components.architecture.nvice.ui.user.profile.UserExperienceField
+import com.example.components.architecture.nvice.ui.user.profile.UserSkillField
 import com.example.components.architecture.nvice.widget.modal.UserAvatarMenuModal
 import com.example.components.architecture.nvice.util.extension.validateWith
+import com.example.components.architecture.nvice.widget.fields.CustomFieldSpinnerAdapter
 import com.example.components.architecture.nvice.widget.modal.UserCoverMenuModal
 import kotlinx.android.synthetic.main.fragment_user_create.*
-import java.util.*
 import javax.inject.Inject
 
 
@@ -34,7 +36,6 @@ class UserCreateFragment : BaseFragment() {
     lateinit var viewModelFactory: ViewModelProvider.Factory
     private lateinit var viewModel: UserCreateViewModel
 
-    private var datePicker: DatePickerDialog? = null
     private var avatarMenuModal: UserAvatarMenuModal? = null
     private var coverMenuModal: UserCoverMenuModal? = null
 
@@ -63,7 +64,7 @@ class UserCreateFragment : BaseFragment() {
         initToolbar()
         initObservers()
         initView()
-        initPickers()
+        initModal()
     }
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
@@ -84,10 +85,6 @@ class UserCreateFragment : BaseFragment() {
             activity?.startActivity(Intent(context, CameraActivity::class.java))
             true
         }
-    }
-
-    fun showDatePicker() {
-        datePicker?.show()
     }
 
     fun showAvatarMenuModal() {
@@ -128,32 +125,45 @@ class UserCreateFragment : BaseFragment() {
                 }
             }
         })
+
+        viewModel.skillManager.observe(viewLifecycleOwner, Observer { operation ->
+            when (operation.first) {
+                UserSkillOperator.INCLUDE -> {
+                    val field = UserSkillField(context!!)
+                    field.bind(viewModel, operation.second)
+                    vSkillFields.addView(field)
+                }
+                UserSkillOperator.EXCLUDE -> {
+                    vSkillFields.removeViewAt(operation.second)
+                }
+            }
+        })
+
+        viewModel.experienceManager.observe(viewLifecycleOwner, Observer { operation ->
+            when (operation.first) {
+                UserExperienceOperator.INCLUDE -> {
+                    val field = UserExperienceField(context!!)
+                    field.bind(viewModel, operation.second)
+                    vExperienceFields.addView(field)
+                }
+                UserExperienceOperator.EXCLUDE -> {
+                    vExperienceFields.removeViewAt(operation.second)
+                }
+            }
+        })
     }
 
     private fun initView() {
-        spPosition.getSpinner().adapter = ArrayAdapter<UserPosition>(context!!, R.layout.item_dropdown_custom_field_spinner, UserPosition.values())
-        spStatus.getSpinner().adapter = ArrayAdapter<UserStatus>(context!!, R.layout.item_dropdown_custom_field_spinner, UserStatus.values())
+        spPosition.setAdapter(CustomFieldSpinnerAdapter(context!!, UserPosition.values()))
+        spStatus.setAdapter(CustomFieldSpinnerAdapter(context!!, UserStatus.values()))
     }
 
-    private fun initPickers() {
-        initDatePicker()
-        initAvatarPicker()
-        initCoverPicker()
+    private fun initModal() {
+        initAvatarModal()
+        initCoverModal()
     }
 
-    private fun initDatePicker() {
-        val now = Calendar.getInstance()
-        datePicker = DatePickerDialog(context!!,
-                DatePickerDialog.OnDateSetListener { _, y, m, d ->
-                    viewModel.setDateOfBirth(d, m, y)
-                }, now.get(Calendar.YEAR), now.get(Calendar.MONTH), now.get(Calendar.DAY_OF_MONTH))
-        now.add(Calendar.YEAR, -5)
-        datePicker?.datePicker?.maxDate = now.timeInMillis
-        now.add(Calendar.YEAR, -50)
-        datePicker?.datePicker?.minDate = now.timeInMillis
-    }
-
-    private fun initAvatarPicker() {
+    private fun initAvatarModal() {
         avatarMenuModal = UserAvatarMenuModal.newInstance(
                 randomEvent = {
                     viewModel.selectAvatar()
@@ -165,7 +175,7 @@ class UserCreateFragment : BaseFragment() {
         )
     }
 
-    private fun initCoverPicker() {
+    private fun initCoverModal() {
         coverMenuModal = UserCoverMenuModal.newInstance(
                 randomEvent = {
                     viewModel.selectCover()

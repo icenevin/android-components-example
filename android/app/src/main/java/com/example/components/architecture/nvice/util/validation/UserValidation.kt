@@ -4,7 +4,7 @@ import com.example.components.architecture.nvice.data.exception.InvalidUserExcep
 import com.example.components.architecture.nvice.data.error.UserError
 import com.example.components.architecture.nvice.data.exception.ErrorException
 import com.example.components.architecture.nvice.data.exception.ValidatorException
-import com.example.components.architecture.nvice.model.User
+import com.example.components.architecture.nvice.model.user.User
 
 class UserValidation {
 

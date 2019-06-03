@@ -13,3 +13,5 @@ fun AppCompatImageView.load(url: String){
 }
 
 fun <T : Any?> MutableLiveData<T>.init(value: T?) = apply { setValue(value) }
+
+fun <T : Any?> MutableLiveData<T>.updateSelf() = apply { setValue(this.value) }

@@ -1,4 +1,4 @@
-package com.example.components.architecture.nvice.model
+package com.example.components.architecture.nvice.model.user
 
 import com.example.components.architecture.nvice.R
 import com.example.components.architecture.nvice.util.extension.random

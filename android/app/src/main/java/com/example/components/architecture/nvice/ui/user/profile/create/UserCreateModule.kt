@@ -1,4 +1,4 @@
-package com.example.components.architecture.nvice.ui.user.edit
+package com.example.components.architecture.nvice.ui.user.profile.create
 
 import androidx.lifecycle.ViewModel
 import com.example.components.architecture.nvice.di.ViewModelKey
@@ -9,14 +9,14 @@ import dagger.android.ContributesAndroidInjector
 import dagger.multibindings.IntoMap
 
 @Module
-internal abstract class UserEditModule {
+internal abstract class UserCreateModule {
 
     @FragmentScope
     @ContributesAndroidInjector
-    internal abstract fun contributeUserEditFragment(): UserEditFragment
+    internal abstract fun contributeUserCreateFragment(): UserCreateFragment
 
     @Binds
     @IntoMap
-    @ViewModelKey(UserEditViewModel::class)
-    internal abstract fun bindUserEditViewModel(viewModel: UserEditViewModel): ViewModel
+    @ViewModelKey(UserCreateViewModel::class)
+    internal abstract fun bindUserCreateViewModel(viewModel: UserCreateViewModel): ViewModel
 }

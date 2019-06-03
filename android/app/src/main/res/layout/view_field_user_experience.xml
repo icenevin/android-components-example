@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+
+        <import type="android.view.View" />
+
+        <variable
+            name="experience"
+            type="com.example.components.architecture.nvice.model.user.UserExperience" />
+
+        <variable
+            name="viewModel"
+            type="com.example.components.architecture.nvice.ui.user.profile.UserProfileViewModel" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingBottom="@dimen/dp_16">
+
+        <com.example.components.architecture.nvice.widget.fields.CustomFieldEditText
+            android:id="@+id/edtExperience"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:field_text="@{experience.work}"
+            app:field_clearable="true"
+            app:field_hint="Experience"
+            app:field_onClear="@{() -> viewModel.excludeExperience(experience)}"
+            app:field_singleLines="true"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <com.example.components.architecture.nvice.widget.fields.CustomFieldDatePicker
+            android:id="@+id/customFieldDatePicker"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            app:field_hint="Begin"
+            app:field_text="@={experience.beginDate}"
+            app:layout_constraintEnd_toStartOf="@+id/tvTo"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/edtExperience" />
+
+        <TextView
+            android:id="@+id/tvTo"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingStart="@dimen/dp_16"
+            android:paddingEnd="@dimen/dp_16"
+            android:text="to"
+            app:layout_constraintBottom_toBottomOf="@id/customFieldDatePicker"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/edtExperience" />
+
+        <com.example.components.architecture.nvice.widget.fields.CustomFieldDatePicker
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            app:field_hint="End"
+            app:field_text="@={experience.endDate}"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@id/tvTo"
+            app:layout_constraintTop_toBottomOf="@+id/edtExperience" />
+
+        <com.example.components.architecture.nvice.widget.fields.CustomFieldEditText
+            android:id="@+id/edtDescription"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:field_clearable="true"
+            app:field_hint="Description"
+            app:field_text="@={experience.description}"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/customFieldDatePicker" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>
