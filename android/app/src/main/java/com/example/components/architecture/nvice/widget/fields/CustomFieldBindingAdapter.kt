@@ -7,7 +7,6 @@ import android.text.Editable
 import android.text.TextWatcher
 import android.view.View
 import android.widget.ArrayAdapter
-import com.example.components.architecture.nvice.util.validation.Validator
 
 
 @Suppress("unused")
@@ -139,7 +138,7 @@ fun setError(view: CustomFieldEditText, value: CustomFieldError?) {
 
 @Suppress("unused")
 @BindingAdapter("field_validator")
-fun setValidator(view: CustomFieldEditText, value: Validator?) {
+fun setValidator(view: CustomFieldEditText, value: String?) {
     value?.let {
         view.validator = it
     }

@@ -96,7 +96,7 @@ class UserEditFragment : BaseFragment() {
         (activity as AppCompatActivity).supportActionBar?.setDisplayHomeAsUpEnabled(true)
         (activity as AppCompatActivity).supportActionBar?.setDisplayShowHomeEnabled(true)
         toolbar.navigationIcon = ContextCompat.getDrawable(context!!, R.drawable.ic_arrow_back_white_24dp)
-        toolbar.title = "Edit Staff"
+        toolbar.title = getString(R.string.title_staff_edit)
         toolbar.setNavigationOnClickListener { (activity as AppCompatActivity).onBackPressed() }
     }
 

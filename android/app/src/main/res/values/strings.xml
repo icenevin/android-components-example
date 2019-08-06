@@ -55,4 +55,8 @@
 
     <string name="alert_title_delete_staff">Delete this Staff?</string>
     <string name="alert_support_text_delete_staff">%1$s will be removed from the staff members</string>
+
+    <string name="title_staff_add">Add Staff</string>
+    <string name="title_staff_edit">Edit Staff</string>
+
 </resources>

@@ -101,7 +101,7 @@ class UserCreateFragment : BaseFragment() {
         (activity as AppCompatActivity).supportActionBar?.setDisplayHomeAsUpEnabled(true)
         (activity as AppCompatActivity).supportActionBar?.setDisplayShowHomeEnabled(true)
         toolbar.navigationIcon = ContextCompat.getDrawable(context!!, R.drawable.ic_arrow_back_white_24dp)
-        toolbar.title = "Add Staff"
+        toolbar.title = getString(R.string.title_staff_add)
         toolbar.setNavigationOnClickListener { (activity as AppCompatActivity).onBackPressed() }
     }
 

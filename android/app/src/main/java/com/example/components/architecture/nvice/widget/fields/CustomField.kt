@@ -4,7 +4,6 @@ import android.content.Context
 import androidx.annotation.ColorRes
 import androidx.constraintlayout.widget.ConstraintLayout
 import android.util.AttributeSet
-import com.example.components.architecture.nvice.util.validation.Validator
 
 abstract class CustomField @JvmOverloads constructor(
         context: Context,
@@ -12,7 +11,7 @@ abstract class CustomField @JvmOverloads constructor(
         defStyle: Int = 0
 ) : ConstraintLayout(context, attrs, defStyle) {
 
-    var validator: Validator? = null
+    var validator: String? = null
 
     abstract fun setIconTint(@ColorRes color: Int)
     abstract fun setDrawableEndTint(@ColorRes color: Int)

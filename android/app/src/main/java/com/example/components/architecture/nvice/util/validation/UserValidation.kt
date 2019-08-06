@@ -10,24 +10,24 @@ class UserValidation {
 
     companion object {
 
-        inline fun validateUser(user: User?, success: (User?) -> Unit, fail: (ValidatorException?) -> Unit) {
+        inline fun validateUser(user: User?, success: (User?) -> Unit, failure: (ValidatorException?) -> Unit) {
             try {
                 validateUser(user).run(success)
             } catch (exception: ValidatorException) {
                 exception.printStackTrace()
-                fail(exception)
+                failure(exception)
             }
         }
 
         @PublishedApi
         internal fun validateUser(user: User?): User? {
-            val exceptions = hashMapOf<Validator, ErrorException>()
+            val exceptions = hashMapOf<String, ErrorException>()
             user?.let {
                 if (it.firstName.isNullOrEmpty()) {
-                    exceptions[Validator.USER_FIRST_NAME] = InvalidUserException(UserError.EMPTY_FIRST_NAME)
+                    exceptions["userFirstName"] = InvalidUserException(UserError.EMPTY_FIRST_NAME)
                 }
                 if (it.lastName.isNullOrEmpty()) {
-                    exceptions[Validator.USER_LAST_NAME] = InvalidUserException(UserError.EMPTY_LAST_NAME)
+                    exceptions["userLastName"] = InvalidUserException(UserError.EMPTY_LAST_NAME)
                 }
                 if (exceptions.isNotEmpty()) {
                     throw ValidatorException(exceptions)

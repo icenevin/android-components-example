@@ -7,7 +7,6 @@ import com.example.components.architecture.nvice.data.repository.UserGeneratorRe
 import com.example.components.architecture.nvice.data.repository.UserRepository
 import com.example.components.architecture.nvice.model.user.User
 import com.example.components.architecture.nvice.ui.user.profile.UserProfileViewModel
-import com.example.components.architecture.nvice.util.benchmark.TimeCapture
 import com.example.components.architecture.nvice.util.extension.init
 import com.example.components.architecture.nvice.util.validation.UserValidation
 import kotlinx.coroutines.launch
@@ -39,16 +38,16 @@ class UserEditViewModel @Inject constructor(
     }
 
     fun updateUser() {
-        val that = this@UserEditViewModel
+        val vm = this@UserEditViewModel
         user.apply {
-            avatar = that.avatar.value
-            cover = that.cover.value
-            firstName = that.firstName.value
-            lastName = that.lastName.value
-            description = that.description.value
-            birthday = that.dateOfBirth.value
-            status = that.status.value
-            position = that.position.value
+            avatar = vm.avatar.value
+            cover = vm.cover.value
+            firstName = vm.firstName.value
+            lastName = vm.lastName.value
+            description = vm.description.value
+            birthday = vm.dateOfBirth.value
+            status = vm.status.value
+            position = vm.position.value
             validateSkills()?.apply {
                 skills?.clear()
                 skills?.addAll(this)
@@ -86,7 +85,7 @@ class UserEditViewModel @Inject constructor(
                 userRepository.updateUser(it)
                 _isProfileChangeCompleted.postValue(true)
             },
-            fail = {
+            failure = {
                 _formValidator.postValue(it)
             })
 }

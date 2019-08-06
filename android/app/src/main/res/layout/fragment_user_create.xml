@@ -10,8 +10,6 @@
 
         <import type="android.view.View" />
 
-        <import type="com.example.components.architecture.nvice.util.validation.Validator" />
-
         <import type="com.example.components.architecture.nvice.model.user.UserPosition" />
 
         <import type="com.example.components.architecture.nvice.ui.LoadingStatus" />
@@ -122,7 +120,7 @@
                                 app:field_maxLines="1"
                                 app:field_singleLines="true"
                                 app:field_text="@={viewModel.firstName}"
-                                app:field_validator="@{Validator.USER_FIRST_NAME}"
+                                app:field_validatorName="userFirstName"
                                 app:layout_constraintEnd_toEndOf="parent"
                                 app:layout_constraintTop_toTopOf="parent" />
 
@@ -134,7 +132,7 @@
                                 app:field_maxLines="1"
                                 app:field_singleLines="true"
                                 app:field_text="@={viewModel.lastName}"
-                                app:field_validator="@{Validator.USER_LAST_NAME}"
+                                app:field_validatorName="userLastName"
                                 app:layout_constraintEnd_toEndOf="parent"
                                 app:layout_constraintTop_toBottomOf="@id/edtFirstName" />
                         </com.example.components.architecture.nvice.widget.layout.CustomFieldLayout>

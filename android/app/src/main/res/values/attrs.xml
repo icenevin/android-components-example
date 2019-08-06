@@ -40,7 +40,7 @@
     <attr name="field_editable" format="boolean" />
     <attr name="field_longClickable" format="boolean" />
     <attr name="field_error" format="reference" />
-    <attr name="field_validator" format="reference" />
+    <attr name="field_validatorName" format="string" />
     <attr name="field_clearable" format="boolean" />
     <attr name="field_onClear" format="string" />
     <attr name="field_iconVisibility" format="reference" />
@@ -80,7 +80,7 @@
         <attr name="field_editable" />
         <attr name="field_longClickable" />
         <attr name="field_error" />
-        <attr name="field_validator" />
+        <attr name="field_validatorName" />
         <attr name="field_clearable" />
         <attr name="field_iconVisibility" />
         <attr name="field_onClear" />
@@ -110,7 +110,7 @@
         <attr name="field_onDrawableEndClick" />
         <attr name="field_enable" />
         <attr name="field_fullWidth" />
-        <attr name="field_validator" />
+        <attr name="field_validatorName" />
         <attr name="field_iconVisibility" />
     </declare-styleable>
 

@@ -16,7 +16,6 @@ import org.threeten.bp.LocalDateTime
 import org.threeten.bp.format.DateTimeFormatter
 import javax.inject.Inject
 
-
 class UserCreateViewModel @Inject constructor(
         userRepository: UserRepository,
         userGeneratorRepository: UserGeneratorRepository
@@ -58,16 +57,16 @@ class UserCreateViewModel @Inject constructor(
     }
 
     fun addUser() {
-        val that = this@UserCreateViewModel
+        val vm = this@UserCreateViewModel
         User().apply {
-            firstName = that.firstName.value
-            lastName = that.lastName.value
-            birthday = that.dateOfBirth.value
-            description = that.description.value
-            avatar = that.avatar.value
-            cover = that.cover.value
-            status = that.status.value
-            position = that.position.value
+            firstName = vm.firstName.value
+            lastName = vm.lastName.value
+            birthday = vm.dateOfBirth.value
+            description = vm.description.value
+            avatar = vm.avatar.value
+            cover = vm.cover.value
+            status = vm.status.value
+            position = vm.position.value
             validateSkills()?.apply {
                 skills?.addAll(this)
             }
@@ -87,7 +86,7 @@ class UserCreateViewModel @Inject constructor(
                 userRepository.addUser(it)
                 _isUserCreated.postValue(true)
             },
-            fail = {
+            failure = {
                 _formValidator.postValue(it)
             })
 }
