@@ -22,9 +22,9 @@ import com.example.components.architecture.nvice.model.user.User
         UserPositionConverter::class,
         UserExperienceConverter::class
 )
-abstract class UserDatabase : RoomDatabase() {
+abstract class AppDatabase : RoomDatabase() {
     companion object{
-        const val NAME = "user.db"
+        const val NAME = "app.db"
     }
     abstract fun userDao(): UserDao
 }

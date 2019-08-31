@@ -1,13 +1,10 @@
 package com.example.components.architecture.nvice.di
 
-import androidx.room.Room
 import android.content.Context
 import android.net.wifi.WifiManager
 import com.example.components.architecture.nvice.BaseApplication
-import com.example.components.architecture.nvice.db.UserDatabase
 import dagger.Module
 import dagger.Provides
-import javax.inject.Singleton
 
 @Module
 class AppModule {

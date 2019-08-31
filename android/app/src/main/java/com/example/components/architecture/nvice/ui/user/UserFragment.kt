@@ -102,7 +102,7 @@ class UserFragment : BaseFragment() {
 
     private fun initObserver() {
 
-        viewModel.getUserList().observe(viewLifecycleOwner, Observer { list ->
+        viewModel.userPagedList.observe(viewLifecycleOwner, Observer { list ->
             list?.let {
                 userPagedListAdapter.submitList(it)
                 handleListStatus(list)

@@ -20,35 +20,12 @@ class UserRepository @Inject constructor(
         private val appSettingsPreference: AppSettingsPreference
 ) {
 
-    companion object {
-        private const val PREFETCH_DISTANCE = 10
-        private const val DATABASE_PAGE_SIZE = 20
-    }
-
-    var result = MutableLiveData<PagedList<User>>()
-
-    private val pagedListConfig = PagedList.Config.Builder()
-            .setPageSize(DATABASE_PAGE_SIZE)
-            .setPrefetchDistance(PREFETCH_DISTANCE)
-            .setEnablePlaceholders(true)
-            .build()
-
-    init {
-        getUserList().observeForever {
-            result.postValue(it)
-        }
-        Timber.i(getPreferenceStatus().toString())
-    }
-
-    private fun getPreferenceStatus() = appSettingsPreference.has()
-
-    private fun getUserList() = LivePagedListBuilder(userDataSourceFactory, pagedListConfig).build()
+    fun getUserList() = userDataSourceFactory
 
     fun getUserStatusList() = userDao.selectAllUserStatus()
 
     fun getUserPagedListByStatus(statusList: List<Int>) {
         userDataSourceFactory.searchByStatus(statusList)
-        result.value?.dataSource?.invalidate()
     }
 
     suspend fun getUserById(id: Int) = userDao.findByIdAsync(id)
@@ -63,11 +40,9 @@ class UserRepository @Inject constructor(
 
     fun toggleSort() {
         userDataSourceFactory.setDescendingOrder(userDataSourceFactory.queryOrderSortType == DataSourceFactory.SortType.ASC)
-        result.value?.dataSource?.invalidate()
     }
 
     fun searchUser(queue: String) {
         userDataSourceFactory.searchByREGEX(queue)
-        result.value?.dataSource?.invalidate()
     }
 }

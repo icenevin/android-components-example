@@ -6,34 +6,24 @@ import com.example.components.architecture.nvice.data.exception.ErrorException
 import com.example.components.architecture.nvice.data.exception.ValidatorException
 import com.example.components.architecture.nvice.model.user.User
 
-class UserValidation {
+object UserValidation {
 
-    companion object {
-
-        inline fun validateUser(user: User?, success: (User?) -> Unit, failure: (ValidatorException?) -> Unit) {
-            try {
-                validateUser(user).run(success)
-            } catch (exception: ValidatorException) {
-                exception.printStackTrace()
-                failure(exception)
-            }
-        }
-
-        @PublishedApi
-        internal fun validateUser(user: User?): User? {
-            val exceptions = hashMapOf<String, ErrorException>()
-            user?.let {
-                if (it.firstName.isNullOrEmpty()) {
-                    exceptions["userFirstName"] = InvalidUserException(UserError.EMPTY_FIRST_NAME)
-                }
-                if (it.lastName.isNullOrEmpty()) {
-                    exceptions["userLastName"] = InvalidUserException(UserError.EMPTY_LAST_NAME)
-                }
-                if (exceptions.isNotEmpty()) {
-                    throw ValidatorException(exceptions)
-                }
-            }
-            return user
-        }
+    inline fun validateUser(user: User?, success: (User?) -> Unit, failure: (ValidatorException?) -> Unit) {
+        Validator.operate(
+                operation = {
+                    user?.let {
+                        if (it.firstName.isNullOrEmpty()) {
+                            this["userFirstName"] = InvalidUserException(UserError.EMPTY_FIRST_NAME)
+                        }
+                        if (it.lastName.isNullOrEmpty()) {
+                            this["userLastName"] = InvalidUserException(UserError.EMPTY_LAST_NAME)
+                        }
+                    }
+                },
+                success = {
+                    success(user)
+                },
+                failure = failure
+        )
     }
 }
