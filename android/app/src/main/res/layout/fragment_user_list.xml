@@ -48,7 +48,7 @@
                     android:orientation="horizontal"
                     android:overScrollMode="never"
                     android:requiresFadingEdge="horizontal"
-                    app:layout_constraintEnd_toStartOf="@+id/btnFilter"
+                    app:layout_constraintEnd_toStartOf="@id/btnFilter"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
                     tools:itemCount="3"

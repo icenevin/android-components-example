@@ -8,10 +8,13 @@ import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
 import com.bumptech.glide.request.RequestOptions
 import com.example.components.architecture.nvice.R
+import timber.log.Timber
 
 @Suppress("unused")
 @BindingAdapter(value = ["bind:item_avatar", "bind:item_avatarErrorColor"], requireAll = false)
 fun setAvatar(view: ImageView, avatar: String?, @ColorRes color: Int?) {
+
+    Timber.i(avatar)
 
     Glide.with(view.context)
             .load(avatar)
